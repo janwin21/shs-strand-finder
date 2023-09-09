@@ -11992,6 +11992,15 @@ body .auto-overflow {
   border: 1px solid rgb(250, 217, 97);
 }
 
+.shs-textarea {
+  height: 14rem;
+  font-size: 1.25em;
+  border: 1px solid rgb(247, 107, 28);
+}
+.shs-textarea.register-input {
+  border: 1px solid rgb(250, 217, 97);
+}
+
 nav::after {
   content: "";
   position: absolute;
