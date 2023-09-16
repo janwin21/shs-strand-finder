@@ -1,14 +1,25 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   indexRoute,
   registerRoute,
   dashboardRoute,
   dashboardBurgerRoute,
   personalEngagementRoute,
+  assessmentRoute,
+  assessmentBurgerRoute,
 } from "./route/routes";
+import { action } from "./redux/action";
 import Nav from "./feature/nav/Nav.jsx";
+import SimpleModal from "./feature/modal/SimpleModal";
 
-function App() {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch({ type: action.LOGOUT_USER }),
+  };
+};
+
+function App({ logoutUser }) {
   return (
     <Router>
       <Nav />
@@ -24,9 +35,15 @@ function App() {
           path={personalEngagementRoute.path}
           element={personalEngagementRoute.element}
         />
+        <Route path={assessmentRoute.path} element={assessmentRoute.element} />
+        <Route
+          path={assessmentBurgerRoute.path}
+          element={assessmentBurgerRoute.element}
+        />
       </Routes>
+      <SimpleModal id="logout" path={indexRoute.path} cb={() => logoutUser()} />
     </Router>
   );
 }
 
-export default App;
+export default connect(null, mapDispatchToProps)(App);

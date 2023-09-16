@@ -1,5 +1,6 @@
 import { action } from "../../redux/action";
 import { connect } from "react-redux";
+import SidebarButton from "./component/SidebarButton";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -24,6 +25,7 @@ function DashboardSidebar({ viewSidebar }) {
               viewSidebar(false);
             }}
             className="nav-link"
+            style={{ cursor: "pointer" }}
           >
             <i className="fa-solid fa-xmark text-light fs-3 position-absolute top-0 end-0 m-2"></i>
           </a>
@@ -45,13 +47,11 @@ function DashboardSidebar({ viewSidebar }) {
             tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
-        <h6 className="roboto w-100 position-relative text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-regular fa-note-sticky me-3"></i>Personal
-            Engagement
-            <i className="fa-solid fa-angle-left text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
+        <SidebarButton
+          label="Personal Engagement"
+          icon1="fa-regular fa-note-sticky"
+          icon2="fa-solid fa-angle-left"
+        />
         <h6 className="roboto text-light border-bottom border-light px-4 py-3">
           <i className="fa-solid fa-clipboard-question me-3"></i>Assessments
         </h6>
@@ -113,55 +113,50 @@ function DashboardSidebar({ viewSidebar }) {
             </div>
           </div>
         </section>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-brands fa-firstdraft me-3"></i>New Strand Type
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-person-booth me-3"></i>New Strand
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-book me-3"></i>New Subject Type
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-note-sticky me-3"></i>New Subject
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-id-badge me-3"></i>New Personal Engagement
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-circle-question me-3"></i>New Assessment
-            Question
-            <i className="fa-solid fa-computer-mouse text-secondary fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light border-bottom border-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-gamepad me-3"></i>Authorize Access
-            <i className="fa-solid fa-computer-mouse text-danger fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
-        <h6 className="roboto text-light px-4 py-3">
-          <a className="nav-link d-inline" href="#">
-            <i className="fa-solid fa-right-from-bracket me-3"></i>Logout
-            <i className="fa-solid fa-computer-mouse text-danger fs-5 position-absolute end-0 me-4"></i>
-          </a>
-        </h6>
+        <SidebarButton
+          label="New Strand Type"
+          icon1="fa-brands fa-firstdraft"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="New Strand"
+          icon1="fa-solid fa-person-booth"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="New Subject Type"
+          icon1="fa-solid fa-book"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="New Subject"
+          icon1="fa-solid fa-note-sticky"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="New Personal Engagement"
+          icon1="fa-solid fa-id-badge"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="New Assessment Question"
+          icon1="fa-solid fa-circle-question"
+          icon2="fa-solid fa-computer-mouse"
+        />
+        <SidebarButton
+          label="Authorize Access"
+          icon1="fa-solid fa-gamepad"
+          icon2="fa-solid fa-computer-mouse"
+          color="text-danger"
+        />
+        <SidebarButton
+          label="Logout"
+          icon1="fa-solid fa-right-from-bracket"
+          icon2="fa-solid fa-computer-mouse"
+          color="text-danger"
+          toggle={true}
+          target="logout"
+        />
       </section>
     </>
   );

@@ -1,6 +1,6 @@
-import PEAnswered from "./PEAnswered";
-import PEUnanswer from "./PEUnanswer";
-import DashboardSidebar from "../dashboard/DashboardSidebar";
+import AssessmentUnanswer from "./AssessmentUnanswer";
+import AssessmentAnswered from "./AsessmentAnswered";
+import AssessmentSidebar from "./AssessmentSidebar";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
@@ -9,10 +9,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-function PersonalEngagement({ viewableSidebar }) {
+function Assessment({ viewableSidebar }) {
   return (
     <>
-      {/*-- MAIN - NO FLEX --*/}
+      {/*-- MAIN --*/}
       <main
         className={`login container-fluid ${
           !viewableSidebar ? "auto-overflow" : "position-relative"
@@ -25,18 +25,18 @@ function PersonalEngagement({ viewableSidebar }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  {/*-- STRAND TYPE CONTAINER --*/}
+                  {/*-- SUBJECT CONTAINER --*/}
                   <section className="strand-type-container mt-5">
                     <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-                      PERSONAL ENGAGEMENT
+                      SUBJECT NAME ASSESSMENT
                     </h5>
                     <section className="row" style={{ gap: "0.75rem" }}>
-                      <PEUnanswer />
-                      <PEAnswered />
+                      <AssessmentUnanswer />
+                      <AssessmentAnswered />
                     </section>
                   </section>
                 </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section>  --*/}
+                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
             </div>
           </>
@@ -48,15 +48,15 @@ function PersonalEngagement({ viewableSidebar }) {
                 {/*-- STRAND TYPE CONTAINER --*/}
                 <section className="strand-type-container mt-5">
                   <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-                    PERSONAL ENGAGEMENT
+                    SUBJECT NAME ASSESSMENT
                   </h5>
                   <section className="row" style={{ gap: "0.75rem" }}>
-                    <PEUnanswer />
-                    <PEAnswered />
+                    <AssessmentUnanswer />
+                    <AssessmentAnswered />
                   </section>
                 </section>
               </section>
-              <DashboardSidebar />
+              <AssessmentSidebar />
             </div>
           </>
         )}
@@ -65,4 +65,4 @@ function PersonalEngagement({ viewableSidebar }) {
   );
 }
 
-export default connect(mapStateToProps, null)(PersonalEngagement);
+export default connect(mapStateToProps, null)(Assessment);

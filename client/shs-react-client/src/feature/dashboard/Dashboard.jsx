@@ -14,7 +14,9 @@ function Dashboard({ viewableSidebar }) {
     <>
       {/*-- MAIN --*/}
       <main
-        className="login container-fluid auto-overflow"
+        className={`login container-fluid ${
+          !viewableSidebar ? "auto-overflow" : "position-relative"
+        }`}
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (

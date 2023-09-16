@@ -89,7 +89,10 @@ function Nav({ test, user, viewableSidebar, viewSidebar, setTest }) {
                     }}
                     className="nav-link roboto text-uppercase text-light fw-semibold fs-6"
                   >
-                    <i className="fa-solid fa-bars"></i>
+                    <i
+                      className="fa-solid fa-bars"
+                      style={{ cursor: "pointer" }}
+                    ></i>
                   </a>
                 </>
               )}

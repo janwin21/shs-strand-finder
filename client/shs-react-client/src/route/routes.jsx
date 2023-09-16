@@ -5,7 +5,9 @@ import Index from "../feature/index/Index";
 import Register from "../feature/register/Register";
 import Dashboard from "../feature/dashboard/Dashboard";
 import DashboardBurger from "../feature/dashboard/DashboardBurger";
-import PersonalEngement from "../feature/personal-engagement/PersonalEngagement";
+import PersonalEngagement from "../feature/personal-engagement/PersonalEngagement";
+import Assessment from "../feature/assessment/Assessment";
+import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 
 const indexRoute = new RouteLink("/", <Index />);
 const registerRoute = new RouteLink("/register", <Register />);
@@ -16,7 +18,12 @@ const dashboardBurgerRoute = new RouteLink(
 );
 const personalEngagementRoute = new RouteLink(
   "/personal-engagement",
-  <PersonalEngement />
+  <PersonalEngagement />
+);
+const assessmentRoute = new RouteLink("/assessment", <Assessment />);
+const assessmentBurgerRoute = new RouteLink(
+  "/assessment-burger",
+  <AssessmentBurger />
 );
 
 export {
@@ -25,4 +32,6 @@ export {
   dashboardRoute,
   dashboardBurgerRoute,
   personalEngagementRoute,
+  assessmentRoute,
+  assessmentBurgerRoute,
 };

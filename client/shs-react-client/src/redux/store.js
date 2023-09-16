@@ -8,10 +8,10 @@ const reducer = (state = dataStructure, { type, user, viewableSidebar }) => {
       return { ...state, user: user };
     case action.LOGOUT_USER:
       return { ...state, user: null };
-    case action.LOGOUT_USER:
-      return { ...state, user: null };
     case action.VIEW_SIDEBAR:
       return { ...state, viewableSidebar };
+    case action.TEST:
+      return { ...state, test: !state.test };
     default:
       return state;
   }

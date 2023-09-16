@@ -1,11 +1,20 @@
 import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { action } from "../../redux/action";
 
-function RegisterForm() {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function RegisterForm({ loginUser }) {
   const navigate = useNavigate();
 
   const submit = (event) => {
     event.preventDefault();
+    loginUser({ name: "username1" });
     navigate(dashboardRoute.path);
   };
 
@@ -81,4 +90,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default connect(null, mapDispatchToProps)(RegisterForm);
