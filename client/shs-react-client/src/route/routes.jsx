@@ -8,6 +8,7 @@ import DashboardBurger from "../feature/dashboard/DashboardBurger";
 import PersonalEngagement from "../feature/personal-engagement/PersonalEngagement";
 import Assessment from "../feature/assessment/Assessment";
 import AssessmentBurger from "../feature/assessment/AssessmentBurger";
+import Subject from "../feature/subject/Subject";
 
 const indexRoute = new RouteLink("/", <Index />);
 const registerRoute = new RouteLink("/register", <Register />);
@@ -25,6 +26,7 @@ const assessmentBurgerRoute = new RouteLink(
   "/assessment-burger",
   <AssessmentBurger />
 );
+const subjectRoute = new RouteLink("/subject", <Subject />);
 
 export {
   indexRoute,
@@ -34,4 +36,5 @@ export {
   personalEngagementRoute,
   assessmentRoute,
   assessmentBurgerRoute,
+  subjectRoute,
 };

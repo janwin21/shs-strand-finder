@@ -2,7 +2,7 @@ import $ from "jquery";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function SimpleModal({ id, path, cb }) {
+function SimpleModal({ id, path, title, body, yes, no, cb = () => {} }) {
   const navigate = useNavigate();
   const [closeBtn, setCloseBtn] = useState(null);
 
@@ -34,7 +34,7 @@ function SimpleModal({ id, path, cb }) {
                 className="modal-title w-100 fs-5 text-center"
                 id={`${id}Label`}
               >
-                Modal title
+                {title}
               </h1>
               <button
                 type="button"
@@ -44,7 +44,7 @@ function SimpleModal({ id, path, cb }) {
               ></button>
             </div>
             <div className="modal-body">
-              <p className="roboto fs-5">This is a question text?</p>
+              <p className="roboto fs-5">{body}</p>
             </div>
             <div className="modal-footer w-100">
               <div className="row w-100">
@@ -58,7 +58,7 @@ function SimpleModal({ id, path, cb }) {
                     className="roboto fw-semibold btn btn-dark w-100"
                     data-bs-dismiss="modal"
                   >
-                    YES
+                    {yes}
                   </button>
                 </div>
                 <div className="col-6 p-2">
@@ -67,7 +67,7 @@ function SimpleModal({ id, path, cb }) {
                     onClick={() => closeBtn.click()}
                     className="roboto fw-semibold btn btn-dark w-100"
                   >
-                    CANCEL
+                    {no}
                   </button>
                 </div>
               </div>

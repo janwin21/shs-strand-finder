@@ -2,47 +2,46 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
-import DashboardStrand from "./DashboardStrand";
+import SubjectC from "./SubjectC";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteStrandType: (strandType) =>
+    deleteSubjectType: (subjectType) =>
       dispatch({
-        type: action.DELETE_STRAND_TYPE,
-        strandTypeForDeletion: strandType,
+        type: action.DELETE_SUBJECT_TYPE,
+        subjectTypeForDeletion: subjectType,
       }),
   };
 };
 
-function DashboardStrandType({ deleteStrandType }) {
-  const [strandType] = useState({ name: "ACADEMIC" });
+function SubjectType({ deleteSubjectType }) {
+  const [subjectType] = useState({ name: "COMMUNICATION" });
 
   return (
     <>
-      {/*-- STRAND TYPE CONTAINER --*/}
-      <section className="strand-type-container position-relative mt-5">
+      {/*-- SUBJECT TYPE CONTAINER --*/}
+      <section className="subject-type-container position-relative mt-5">
         <a
           onClick={(event) => {
             event.preventDefault();
-            deleteStrandType(strandType);
+            deleteSubjectType(subjectType);
           }}
           data-bs-toggle="modal"
-          data-bs-target={"#" + modalType.STRAND_TYPE_DELETION}
+          data-bs-target={"#" + modalType.SUBJECT_TYPE_DELETION}
           className="nav-link"
         >
           <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0"></i>
         </a>
         <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-          STRAND TYPE NAME
+          SUBJECT TYPE NAME
         </h5>
         <section className="row">
-          <DashboardStrand />
-          <DashboardStrand />
-          <DashboardStrand />
+          <SubjectC />
+          <SubjectC />
         </section>
       </section>
     </>
   );
 }
 
-export default connect(null, mapDispatchToProps)(DashboardStrandType);
+export default connect(null, mapDispatchToProps)(SubjectType);

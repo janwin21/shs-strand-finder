@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { personalEngagementRoute, assessmentRoute } from "../../route/routes";
+import { personalEngagementRoute, subjectRoute } from "../../route/routes";
 
 function DashboardHeader() {
   return (
@@ -21,11 +21,7 @@ function DashboardHeader() {
               PERSONAL ENGAGEMENT
             </button>
           </Link>
-          <Link
-            to={assessmentRoute.path}
-            className="nav-link d-inline"
-            href="#"
-          >
+          <Link to={subjectRoute.path} className="nav-link d-inline">
             <button className="btn btn-primary text-light roboto px-4 ms-3 fs-6 fw-semibold">
               TAKE ASSESSMENT
             </button>

@@ -1,4 +1,21 @@
-function PEUnanswered() {
+import { connect } from "react-redux";
+import { useState } from "react";
+import { action } from "../../redux/action";
+import { modalType } from "../modal/modalType";
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deletePEQuestion: (peQuestion) =>
+      dispatch({
+        type: action.DELETE_PE_QUESTION,
+        peQuestionForDeletion: peQuestion,
+      }),
+  };
+};
+
+function PEUnanswered({ deletePEQuestion }) {
+  const [peQuestion] = useState({ id: "objectId1234" });
+
   return (
     <>
       {/*-- UNANSWER --*/}
@@ -7,7 +24,15 @@ function PEUnanswered() {
         style={{ height: "500px" }}
       >
         <div className="card-body position-relative">
-          <a className="nav-link" href="#">
+          <a
+            onClick={(event) => {
+              event.preventDefault();
+              deletePEQuestion(peQuestion);
+            }}
+            data-bs-toggle="modal"
+            data-bs-target={"#" + modalType.PE_QUESTION_DELETION}
+            className="nav-link"
+          >
             <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
           </a>
           <h6 className="card-subtitle poppins mb-3 text-light">
@@ -40,4 +65,4 @@ function PEUnanswered() {
   );
 }
 
-export default PEUnanswered;
+export default connect(null, mapDispatchToProps)(PEUnanswered);

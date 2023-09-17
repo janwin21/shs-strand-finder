@@ -1,5 +1,6 @@
 import { action } from "../../redux/action";
 import { connect } from "react-redux";
+import { modalType } from "../modal/modalType";
 import SidebarButton from "./component/SidebarButton";
 
 const mapDispatchToProps = (dispatch) => {
@@ -155,7 +156,7 @@ function DashboardSidebar({ viewSidebar }) {
           icon2="fa-solid fa-computer-mouse"
           color="text-danger"
           toggle={true}
-          target="logout"
+          target={modalType.LOGOUT}
         />
       </section>
     </>

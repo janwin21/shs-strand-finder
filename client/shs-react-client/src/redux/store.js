@@ -1,21 +1,5 @@
 import { createStore, combineReducers } from "redux";
-import { dataStructure } from "./structure";
-import { action } from "./action";
-
-const reducer = (state = dataStructure, { type, user, viewableSidebar }) => {
-  switch (type) {
-    case action.LOGIN_USER:
-      return { ...state, user: user };
-    case action.LOGOUT_USER:
-      return { ...state, user: null };
-    case action.VIEW_SIDEBAR:
-      return { ...state, viewableSidebar };
-    case action.TEST:
-      return { ...state, test: !state.test };
-    default:
-      return state;
-  }
-};
+import { reducer } from "./reducer";
 
 const rootReducer = combineReducers({
   store: reducer,
