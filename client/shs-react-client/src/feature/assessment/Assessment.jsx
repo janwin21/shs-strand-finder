@@ -2,6 +2,8 @@ import AssessmentUnanswer from "./AssessmentUnanswer";
 import AssessmentAnswered from "./AsessmentAnswered";
 import AssessmentSidebar from "./AssessmentSidebar";
 import { connect } from "react-redux";
+import { useState } from "react";
+import { assessmentData } from "../../js/json-structure/assessment";
 
 const mapStateToProps = (state) => {
   return {
@@ -10,6 +12,9 @@ const mapStateToProps = (state) => {
 };
 
 function Assessment({ viewableSidebar }) {
+  // FETCH
+  const [data, fetchData] = useState(assessmentData);
+
   return (
     <>
       {/*-- MAIN --*/}

@@ -2,6 +2,8 @@ import PEAnswered from "./PEAnswered";
 import PEUnanswer from "./PEUnanswer";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
+import { useState } from "react";
+import { personalEngagementData } from "../../js/json-structure/personal-engagement";
 
 const mapStateToProps = (state) => {
   return {
@@ -10,6 +12,9 @@ const mapStateToProps = (state) => {
 };
 
 function PersonalEngagement({ viewableSidebar }) {
+  // FETCH
+  const [data, fetchData] = useState(personalEngagementData);
+
   return (
     <>
       {/*-- MAIN - NO FLEX --*/}

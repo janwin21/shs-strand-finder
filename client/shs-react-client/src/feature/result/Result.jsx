@@ -1,8 +1,8 @@
-import SubjectType from "./SubjectType";
-import DashboardSidebar from "../dashboard/DashboardSidebar";
+import ResultAssessment from "./ResultAssessment";
+import ResultPE from "./ResultPE";
+import ResultHeader from "./ResultHeader";
+import ResultSidebar from "./ResultSidebar";
 import { connect } from "react-redux";
-import { useState } from "react";
-import { subjectData } from "../../js/json-structure/subject";
 
 const mapStateToProps = (state) => {
   return {
@@ -10,10 +10,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Subject({ viewableSidebar }) {
-  // FETCH
-  const [data, fetchData] = useState(subjectData);
-
+function Result({ viewableSidebar }) {
   return (
     <>
       {/*-- MAIN --*/}
@@ -29,8 +26,9 @@ function Subject({ viewableSidebar }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <SubjectType />
-                  <SubjectType />
+                  <ResultHeader />
+                  <ResultAssessment />
+                  <ResultPE />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -41,10 +39,16 @@ function Subject({ viewableSidebar }) {
             {/*-- W/ SIDEBAR --*/}
             <div className="row h-100">
               <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <SubjectType />
-                <SubjectType />
+                <ResultHeader />
+                <ResultAssessment />
+                <ResultPE />
               </section>
-              <DashboardSidebar />
+              <section
+                className="col-3 auto-overflow position-sticky top-0 end-0 justify-content-end bg-dark m-0 p-0"
+                style={{ height: "94vh" }}
+              >
+                <ResultSidebar />
+              </section>
             </div>
           </>
         )}
@@ -53,4 +57,4 @@ function Subject({ viewableSidebar }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Subject);
+export default connect(mapStateToProps, null)(Result);

@@ -10,6 +10,7 @@ import Assessment from "../feature/assessment/Assessment";
 import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 import Subject from "../feature/subject/Subject";
 import Access from "../feature/access/Access";
+import Result from "../feature/result/Result";
 
 /* FORM */
 import FormStrandType from "../feature/form/form-strand-type/FormStrandType";
@@ -36,6 +37,7 @@ const assessmentBurgerRoute = new RouteLink(
   <AssessmentBurger />
 );
 const subjectRoute = new RouteLink("/subject", <Subject />);
+const resultRoute = new RouteLink("/result", <Result />);
 
 /* FORM */
 const formStrandTypeRoute = new RouteLink(
@@ -68,6 +70,7 @@ export {
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,
+  resultRoute,
 
   /* FORM */
   formStrandTypeRoute,

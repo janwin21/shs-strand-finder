@@ -10,6 +10,7 @@ import {
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,
+  resultRoute,
 
   /* FORM */
   formStrandTypeRoute,
@@ -75,6 +76,7 @@ function App({
         />
         <Route path={subjectRoute.path} element={subjectRoute.element} />
         <Route exact path={accessRoute.path} element={accessRoute.element} />
+        <Route exact path={resultRoute.path} element={resultRoute.element} />
 
         {/*-- FORM --*/}
         <Route

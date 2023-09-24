@@ -1,3 +1,5 @@
+import subject1 from "../../asset/subject/subject1.jpg";
+
 const assessmentData = {
   // access token
   accessToken: "access-token",
