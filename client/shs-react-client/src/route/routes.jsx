@@ -9,6 +9,15 @@ import PersonalEngagement from "../feature/personal-engagement/PersonalEngagemen
 import Assessment from "../feature/assessment/Assessment";
 import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 import Subject from "../feature/subject/Subject";
+import Access from "../feature/access/Access";
+
+/* FORM */
+import FormStrandType from "../feature/form/form-strand-type/FormStrandType";
+import FormStrand from "../feature/form/form-strand/FormStrand";
+import FormSubjectType from "../feature/form/form-subject-type/FormSubjectType";
+import FormSubject from "../feature/form/form-subject/FormSubject";
+import FormPersonalEngagement from "../feature/form/form-personal-engagement/FormPersonalEngagement";
+import FormAssessment from "../feature/form/form-assessment/FormAssessment";
 
 const indexRoute = new RouteLink("/", <Index />);
 const registerRoute = new RouteLink("/register", <Register />);
@@ -28,6 +37,27 @@ const assessmentBurgerRoute = new RouteLink(
 );
 const subjectRoute = new RouteLink("/subject", <Subject />);
 
+/* FORM */
+const formStrandTypeRoute = new RouteLink(
+  "/form/strand-type",
+  <FormStrandType />
+);
+const formStrandRoute = new RouteLink("/form/strand", <FormStrand />);
+const formSubjectTypeRoute = new RouteLink(
+  "/form/subject-type",
+  <FormSubjectType />
+);
+const formSubjectRoute = new RouteLink("/form/subject", <FormSubject />);
+const formPersonalEngagementRoute = new RouteLink(
+  "/form/personal-engagement",
+  <FormPersonalEngagement />
+);
+const formAssessmentRoute = new RouteLink(
+  "/form/assessment",
+  <FormAssessment />
+);
+const accessRoute = new RouteLink("/admin/access", <Access />);
+
 export {
   indexRoute,
   registerRoute,
@@ -37,4 +67,13 @@ export {
   assessmentRoute,
   assessmentBurgerRoute,
   subjectRoute,
+  accessRoute,
+
+  /* FORM */
+  formStrandTypeRoute,
+  formStrandRoute,
+  formSubjectTypeRoute,
+  formSubjectRoute,
+  formPersonalEngagementRoute,
+  formAssessmentRoute,
 };

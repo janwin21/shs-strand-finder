@@ -1,6 +1,11 @@
 import RegisterForm from "./RegisterForm";
+import { useState } from "react";
+import { registerData } from "../../js/json-structure/register";
 
 function Register() {
+  // FETCH
+  const [data, fetchData] = useState(registerData);
+
   return (
     <>
       {/*-- MAIN --*/}

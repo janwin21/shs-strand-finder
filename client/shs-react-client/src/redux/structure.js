@@ -8,6 +8,7 @@ const dataStructure = {
   subjectForDeletion: null,
   peQuestionForDeletion: null,
   assessmentQuestionForDeletion: null,
+  subjectForPreparation: null,
 };
 
 export { dataStructure };

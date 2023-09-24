@@ -9,6 +9,15 @@ import {
   assessmentRoute,
   assessmentBurgerRoute,
   subjectRoute,
+  accessRoute,
+
+  /* FORM */
+  formStrandTypeRoute,
+  formStrandRoute,
+  formSubjectTypeRoute,
+  formSubjectRoute,
+  formPersonalEngagementRoute,
+  formAssessmentRoute,
 } from "./route/routes";
 import { action } from "./redux/action";
 import { modalType } from "./feature/modal/modalType";
@@ -24,6 +33,7 @@ const mapStateToProps = (state) => {
     subjectForDeletion: state.store.subjectForDeletion,
     peQuestionForDeletion: state.store.peQuestionForDeletion,
     assessmentQuestionForDeletion: state.store.assessmentQuestionForDeletion,
+    subjectForPreparation: state.store.subjectForPreparation,
   };
 };
 
@@ -40,6 +50,7 @@ function App({
   subjectForDeletion,
   peQuestionForDeletion,
   assessmentQuestionForDeletion,
+  subjectForPreparation,
   logoutUser,
 }) {
   return (
@@ -63,17 +74,31 @@ function App({
           element={assessmentBurgerRoute.element}
         />
         <Route path={subjectRoute.path} element={subjectRoute.element} />
-      </Routes>
+        <Route exact path={accessRoute.path} element={accessRoute.element} />
 
-      {/* LOGOUT */}
-      <SimpleModal
-        id={modalType.ASSESSMENT_PREPARATION}
-        path={indexRoute.path}
-        title="Logout Account"
-        body="Do you want to logout your account?"
-        yes="YES"
-        no="CANCEL"
-      />
+        {/*-- FORM --*/}
+        <Route
+          path={formStrandTypeRoute.path}
+          element={formStrandTypeRoute.element}
+        />
+        <Route path={formStrandRoute.path} element={formStrandRoute.element} />
+        <Route
+          path={formSubjectTypeRoute.path}
+          element={formSubjectTypeRoute.element}
+        />
+        <Route
+          path={formSubjectRoute.path}
+          element={formSubjectRoute.element}
+        />
+        <Route
+          path={formPersonalEngagementRoute.path}
+          element={formPersonalEngagementRoute.element}
+        />
+        <Route
+          path={formAssessmentRoute.path}
+          element={formAssessmentRoute.element}
+        />
+      </Routes>
 
       {/* LOGOUT */}
       <SimpleModal
@@ -189,7 +214,14 @@ function App({
       />
 
       {/* ASSESSMENT QUESTION DELETION */}
-      <AssessmentModal id="" path="" subjectName="" cb="" />
+      <AssessmentModal
+        id={modalType.ASSESSMENT_PREPARATION}
+        path={assessmentRoute.path}
+        subjectName={
+          subjectForPreparation ? subjectForPreparation.name : "UNKNOWN"
+        }
+        cb={() => {}}
+      />
     </Router>
   );
 }

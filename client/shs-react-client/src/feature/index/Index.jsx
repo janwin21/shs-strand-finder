@@ -1,8 +1,13 @@
 import LoginForm from "./LoginForm";
 import login1 from "../../asset/login/login1.png";
 import login2 from "../../asset/login/login2.png";
+import { useState } from "react";
+import { loginData } from "../../js/json-structure/login";
 
 function Index() {
+  // FETCH
+  const [data, fetchData] = useState(loginData);
+
   return (
     <>
       {/*-- MAIN --*/}

@@ -1,9 +1,7 @@
-import DashboardHeader from "./DashboardHeader";
-import DashboardSidebar from "./DashboardSidebar";
-import DashboardStrandType from "./DashboardStrandType";
+import AccessHeader from "./AccessHeader";
+import AccessTable from "./AccessTable";
+import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
-import { useState } from "react";
-import { dashboardData } from "../../js/json-structure/dashboard";
 
 const mapStateToProps = (state) => {
   return {
@@ -11,10 +9,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Dashboard({ viewableSidebar }) {
-  // FETCH
-  const [data, fetchData] = useState(dashboardData);
-
+function Access({ viewableSidebar }) {
   return (
     <>
       {/*-- MAIN --*/}
@@ -30,11 +25,8 @@ function Dashboard({ viewableSidebar }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <DashboardHeader />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
+                  <AccessHeader />
+                  <AccessTable />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -45,8 +37,8 @@ function Dashboard({ viewableSidebar }) {
             {/*-- W/ SIDEBAR --*/}
             <div className="row h-100">
               <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <DashboardHeader />
-                <DashboardStrandType />
+                <AccessHeader />
+                <AccessTable />
               </section>
               <DashboardSidebar />
             </div>
@@ -57,4 +49,4 @@ function Dashboard({ viewableSidebar }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Dashboard);
+export default connect(mapStateToProps, null)(Access);

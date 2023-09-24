@@ -35,9 +35,13 @@ function Nav({ test, user, viewableSidebar, viewSidebar, setTest }) {
         style={{ height: "6vh" }}
       >
         <div className="container">
-          <a className="navbar-brand poppins text-light fs-5" href="#">
+          <Link
+            to={dashboardRoute.path}
+            className="navbar-brand poppins text-light fs-5"
+            href="#"
+          >
             SHS Strand Finder
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"

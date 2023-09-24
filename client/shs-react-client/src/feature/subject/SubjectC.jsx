@@ -2,8 +2,6 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
-import { assessmentRoute } from "../../route/routes";
-import { useNavigate } from "react-router-dom";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -16,14 +14,14 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function SubjectC({ deleteSubject }) {
-  const navigate = useNavigate();
   const [subject] = useState({ name: "ONLINE COMMUNICATION" });
 
   return (
     <>
       {/*-- SUBJECT CONTAINER --*/}
       <div
-        onClick={() => navigate(assessmentRoute.path)}
+        data-bs-toggle="modal"
+        data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
         className="card col-2 position-relative text-bg-dark p-0 m-3"
         style={{ height: "350px", cursor: "pointer" }}
       >
