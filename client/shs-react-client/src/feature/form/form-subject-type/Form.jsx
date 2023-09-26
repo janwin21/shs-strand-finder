@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 function Form() {
+  // UML
+  const [subjectType, setSubjectType] = useState({
+    name: "Subject Name 1",
+  });
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}

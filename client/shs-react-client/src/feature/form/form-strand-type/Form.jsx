@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 function Form() {
+  // UML
+  const [strandtType, setStrandType] = useState({
+    name: "Strand Name 1",
+  });
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}

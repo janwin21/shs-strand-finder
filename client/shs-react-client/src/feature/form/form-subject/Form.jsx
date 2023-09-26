@@ -1,4 +1,15 @@
+import { useState } from "react";
+
 function Form() {
+  // UML
+  const [subject, setSubject] = useState({
+    strandTypeID: ["strandTypeID123", "strandTypeID456"],
+    name: "Subject Name",
+    description: "This is subject description",
+    image: null,
+    // (server) subjectID: string
+  });
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}

@@ -1,4 +1,4 @@
-class DonutChartAssessment {
+/*class DonutChartAssessment {
   display(elementID, index) {
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawDonutChart);
@@ -23,4 +23,24 @@ class DonutChartAssessment {
       chart.draw(data, options);
     }
   }
+}*/
+class DonutChartAssessment {
+  data() {
+    return [
+      ["Task", "Hours per Day"],
+      ["Correct", 11],
+      ["Wrong", 2],
+    ];
+  }
+
+  option() {
+    return {
+      width: "100%",
+      height: "100%",
+      pieHole: 0.4,
+      legend: { position: "none" },
+    };
+  }
 }
+
+export default DonutChartAssessment;

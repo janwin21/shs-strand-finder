@@ -2,6 +2,7 @@ import AccessHeader from "./AccessHeader";
 import AccessTable from "./AccessTable";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
+import { useState } from "react";
 
 const mapStateToProps = (state) => {
   return {
@@ -10,6 +11,15 @@ const mapStateToProps = (state) => {
 };
 
 function Access({ viewableSidebar }) {
+  // UML
+  const { otherUser, setOtherUser } = useState({
+    userID: "user456",
+    isAdmin: true,
+  });
+  const { targetUser, setTargetUser } = useState({
+    email: "user@email.com",
+  });
+
   return (
     <>
       {/*-- MAIN --*/}

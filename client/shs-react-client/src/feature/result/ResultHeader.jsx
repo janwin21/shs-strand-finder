@@ -1,4 +1,13 @@
+import { Chart } from "react-google-charts";
+import { useState } from "react";
+import { chartEvents } from "../../js/chart/chart-event";
+import BarChartSubject from "../../js/chart/BarChartSubject";
+import BarChartStrand from "../../js/chart/BarChartStrand";
+
 function ResultHeader() {
+  const [barChartSubject] = useState(new BarChartSubject());
+  const [barChartStrand] = useState(new BarChartStrand());
+
   return (
     <>
       {/*-- PANEL DISPLAY --*/}
@@ -20,21 +29,31 @@ function ResultHeader() {
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Subject
               </h6>
-              <div
-                className="w-100"
-                id="barChartSubject"
-                style={{ height: "400px" }}
-              ></div>
+              <Chart
+                chartType="ColumnChart"
+                data={barChartSubject.data()}
+                options={barChartSubject.option()}
+                graph_id="UNIQUEID123"
+                width={"100%"}
+                height={"400px"}
+                chartEvents={chartEvents(barChartSubject)}
+                legend_toggle
+              />
             </section>
             <section className="col-6">
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Strand
               </h6>
-              <div
-                className="w-100"
-                id="barChartStrand"
-                style={{ height: "400px" }}
-              ></div>
+              <Chart
+                chartType="ColumnChart"
+                data={barChartStrand.data()}
+                options={barChartStrand.option()}
+                graph_id="UNIQUEID456"
+                width={"100%"}
+                height={"400px"}
+                chartEvents={chartEvents(barChartStrand)}
+                legend_toggle
+              />
             </section>
           </section>
         </div>

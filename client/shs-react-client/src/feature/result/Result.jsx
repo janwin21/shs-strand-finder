@@ -3,6 +3,9 @@ import ResultPE from "./ResultPE";
 import ResultHeader from "./ResultHeader";
 import ResultSidebar from "./ResultSidebar";
 import { connect } from "react-redux";
+import { useState } from "react";
+import { resultData } from "../../js/json-structure/result/";
+import "../../js/result";
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +14,9 @@ const mapStateToProps = (state) => {
 };
 
 function Result({ viewableSidebar }) {
+  // FETCH
+  const [data, fetchData] = useState(resultData);
+
   return (
     <>
       {/*-- MAIN --*/}
@@ -43,12 +49,7 @@ function Result({ viewableSidebar }) {
                 <ResultAssessment />
                 <ResultPE />
               </section>
-              <section
-                className="col-3 auto-overflow position-sticky top-0 end-0 justify-content-end bg-dark m-0 p-0"
-                style={{ height: "94vh" }}
-              >
-                <ResultSidebar />
-              </section>
+              <ResultSidebar />
             </div>
           </>
         )}

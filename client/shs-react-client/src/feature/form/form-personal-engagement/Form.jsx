@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 function Form() {
+  const { personalEngagement, setPersonalEngagement } = useState({
+    strandID: "strand123",
+    question: "This is a question",
+  });
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}

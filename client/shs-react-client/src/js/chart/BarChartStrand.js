@@ -1,4 +1,4 @@
-class BarChartStrand {
+/*class BarChartStrand {
   display(elementID) {
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
@@ -37,4 +37,26 @@ class BarChartStrand {
       chart.draw(view, options);
     }
   }
+}*/
+class BarChartStrand {
+  data() {
+    return [
+      ["Element", "Density", { role: "style" }],
+      ["Copper", 8.94, "#b87333"],
+      ["Silver", 10.49, "silver"],
+      ["Gold", 19.3, "gold"],
+      ["Platinum", 21.45, "color: #e5e4e2"],
+    ];
+  }
+
+  option() {
+    return {
+      width: "100%",
+      height: "100%",
+      bar: { groupWidth: "95%" },
+      legend: { position: "none" },
+    };
+  }
 }
+
+export default BarChartStrand;

@@ -15,6 +15,13 @@ function Assessment({ viewableSidebar }) {
   // FETCH
   const [data, fetchData] = useState(assessmentData);
 
+  // UML
+  const [answer, setAnswer] = useState({
+    userID: "user123",
+    questionID: "ques123",
+    correct: true,
+  });
+
   return (
     <>
       {/*-- MAIN --*/}

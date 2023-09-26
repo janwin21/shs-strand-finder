@@ -2,6 +2,7 @@ import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
+import { useState } from "react";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -11,6 +12,12 @@ const mapDispatchToProps = (dispatch) => {
 
 function LoginForm({ loginUser }) {
   const navigate = useNavigate();
+
+  // UML
+  const [validateUser, setValidateUser] = useState({
+    email: "user@email.com",
+    password: "password",
+  });
 
   const submit = (event) => {
     event.preventDefault();

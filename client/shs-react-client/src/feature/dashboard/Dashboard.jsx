@@ -15,6 +15,17 @@ function Dashboard({ viewableSidebar }) {
   // FETCH
   const [data, fetchData] = useState(dashboardData);
 
+  // UML
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    strandID: "strand123",
+    accessToken: "access-token",
+  });
+
+  const [logoutUser, setLogoutUser] = useState({
+    accessToken: "access-token",
+  });
+
   return (
     <>
       {/*-- MAIN --*/}

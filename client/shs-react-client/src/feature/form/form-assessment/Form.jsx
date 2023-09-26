@@ -1,4 +1,33 @@
+import { useState } from "react";
+
 function Form() {
+  // UML
+  const [question, setQuestion] = useState({
+    subjectID: "subject123",
+    question: "This is a question?",
+    questionImage: null,
+    answerKeys: [
+      {
+        value: "This is answer A",
+        image: null,
+        correct: true,
+        // (server) questionID: string
+      },
+      {
+        value: "This is answer B",
+        image: null,
+        correct: false,
+        // (server) questionID: string
+      },
+      {
+        value: "This is answer C",
+        image: false,
+        correct: true,
+        // (server) questionID: string
+      },
+    ],
+  });
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}

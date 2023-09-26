@@ -15,6 +15,13 @@ function PersonalEngagement({ viewableSidebar }) {
   // FETCH
   const [data, fetchData] = useState(personalEngagementData);
 
+  // UML
+  const [personalEngagement, setPersonalEngagement] = useState({
+    userID: "user123",
+    personalEngagementID: "PE123",
+    yes: true,
+  });
+
   return (
     <>
       {/*-- MAIN - NO FLEX --*/}

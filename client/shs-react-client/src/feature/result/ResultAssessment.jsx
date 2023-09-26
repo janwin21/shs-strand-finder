@@ -1,18 +1,11 @@
-import { action } from "../../redux/action";
-import { connect } from "react-redux";
-import { modalType } from "../modal/modalType";
-import {
-  accessRoute,
-  formStrandTypeRoute,
-  formStrandRoute,
-  formSubjectTypeRoute,
-  formSubjectRoute,
-  formPersonalEngagementRoute,
-  formAssessmentRoute,
-} from "../../route/routes";
-import SidebarButton from "./component/SidebarButton";
+import { Chart } from "react-google-charts";
+import { useState } from "react";
+import { chartEvents } from "../../js/chart/chart-event";
+import DonutChartAssessment from "../../js/chart/DonutChartAssessment";
 
 function ResultAssessment() {
+  const [donutChartAssessment1] = useState(new DonutChartAssessment());
+
   return (
     <>
       {/*-- ASSESSMENT SCORE CONTAINER --*/}
@@ -24,9 +17,19 @@ function ResultAssessment() {
           {/*-- USE MODULUS FOR ORGANIZATION --*/}
           {/*-- COL-1 --*/}
           <section className="col-2 g-2">
-            {/*-- SUBJECT CARD  --*/}
+            {/*-- ASSESSMENT RESULT CARD  --*/}
             <div className="card bg-light p-2 mt-2">
-              <div className="w-100" id="donutChartAssessment1"></div>
+              {/*-- CHART DISPLAY --*/}
+              <Chart
+                chartType="PieChart"
+                data={donutChartAssessment1.data()}
+                options={donutChartAssessment1.option()}
+                graph_id="UNIQIEID789"
+                width={"100%"}
+                height={"300px"}
+                chartEvents={chartEvents(donutChartAssessment1)}
+                legend_toggle
+              />
               <div className="card-body text-center">
                 <h6 className="card-title poppins text-uppercase mb-3">
                   Subject Name

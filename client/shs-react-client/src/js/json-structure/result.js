@@ -11,27 +11,29 @@ const resultData = {
   },
 
   // subjects
-  subjects: {
-    id: "subjectId123",
-    name: "Subject 1",
-    description: "This is subject description.",
-    imagePath: subject1,
-    correctScore: 75,
-    wrongScore: 25,
-    noOfUnvisit: 3,
-    totalItems: correctScore + wrongScore,
-    duration: 800,
-    associatedStrands: [
-      {
-        id: "strandId123",
-        name: "Strand Name 1",
-      },
-      {
-        id: "strandId456",
-        name: "Strand Name 2",
-      },
-    ],
-  },
+  subjects: [
+    {
+      id: "subjectId123",
+      name: "Subject 1",
+      description: "This is subject description.",
+      imagePath: subject1,
+      correctScore: 75,
+      wrongScore: 25,
+      noOfUnvisit: 3,
+      totalItems: 75 + 25,
+      duration: 800,
+      associatedStrands: [
+        {
+          id: "strandId123",
+          name: "Strand Name 1",
+        },
+        {
+          id: "strandId456",
+          name: "Strand Name 2",
+        },
+      ],
+    },
+  ],
 
   // personal engagements
   personalEngagements: [
