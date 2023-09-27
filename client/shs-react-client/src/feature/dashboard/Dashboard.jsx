@@ -42,10 +42,12 @@ function Dashboard({ viewableSidebar }) {
               <div className="row">
                 <section className="col-12 pb-4">
                   <DashboardHeader />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
-                  <DashboardStrandType />
+                  {data.strandTypes.map((strandType) => (
+                    <DashboardStrandType
+                      key={strandType.id}
+                      strandType={strandType}
+                    />
+                  ))}
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -57,7 +59,12 @@ function Dashboard({ viewableSidebar }) {
             <div className="row h-100">
               <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
                 <DashboardHeader />
-                <DashboardStrandType />
+                {data.strandTypes.map((strandType) => (
+                  <DashboardStrandType
+                    key={strandType.id}
+                    strandType={strandType}
+                  />
+                ))}
               </section>
               <DashboardSidebar />
             </div>

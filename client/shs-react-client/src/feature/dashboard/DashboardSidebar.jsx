@@ -1,5 +1,7 @@
 import { action } from "../../redux/action";
 import { connect } from "react-redux";
+import { resetRoute } from "../../route/routes";
+import { Link } from "react-router-dom";
 import SidebarButton from "./component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
 
@@ -19,7 +21,13 @@ function DashboardSidebar({ viewSidebar }) {
         style={{ height: "94vh" }}
       >
         <h6 className="roboto text-light position-relative border-bottom border-light px-4 py-3">
-          <i className="fa-solid fa-user me-3"></i>email@email.com
+          <Link
+            to={resetRoute.path}
+            className="nav-link"
+            style={{ cursor: "pointer" }}
+          >
+            <i className="fa-solid fa-user me-3"></i>email@email.com
+          </Link>
           <a
             onClick={(event) => {
               event.preventDefault();

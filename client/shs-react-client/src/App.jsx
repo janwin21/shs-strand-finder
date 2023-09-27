@@ -11,6 +11,8 @@ import {
   subjectRoute,
   accessRoute,
   resultRoute,
+  forgotRoute,
+  resetRoute,
 
   /* FORM */
   formStrandTypeRoute,
@@ -77,6 +79,8 @@ function App({
         <Route path={subjectRoute.path} element={subjectRoute.element} />
         <Route exact path={accessRoute.path} element={accessRoute.element} />
         <Route exact path={resultRoute.path} element={resultRoute.element} />
+        <Route exact path={forgotRoute.path} element={forgotRoute.element} />
+        <Route exact path={resetRoute.path} element={resetRoute.element} />
 
         {/*-- FORM --*/}
         <Route

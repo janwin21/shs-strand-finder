@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
 import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
 import { useState } from "react";
+import { forgotRoute } from "../../route/routes";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -50,7 +52,7 @@ function LoginForm({ loginUser }) {
         </div>
 
         {/*-- PASSWORD --*/}
-        <div className="mb-5 w-100">
+        <div className="mb-2 w-100">
           <label
             htmlFor="password"
             className="form-label mb-3 roboto fs-4 text-info"
@@ -64,6 +66,14 @@ function LoginForm({ loginUser }) {
             autoComplete="off"
           />
         </div>
+
+        <Link
+          to={forgotRoute.path}
+          className="nav-link roboto mb-4"
+          style={{ cursor: "pointer" }}
+        >
+          Forgot password? click here.
+        </Link>
         <button
           type="submit"
           className="btn btn-primary fs-6 px-4 text-uppercase text-light fw-semibold fs-6"

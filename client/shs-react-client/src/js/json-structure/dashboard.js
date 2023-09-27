@@ -25,8 +25,6 @@ const dashboardData = {
           description: "This is a strand description.",
           imagePath: strand1,
         },
-      ],
-      strands: [
         {
           id: "strandId456",
           name: "Strand Name 2",

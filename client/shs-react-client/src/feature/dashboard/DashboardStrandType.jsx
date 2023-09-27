@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
 import DashboardStrand from "./DashboardStrand";
@@ -14,9 +13,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function DashboardStrandType({ deleteStrandType }) {
-  const [strandType] = useState({ name: "ACADEMIC" });
-
+function DashboardStrandType({ deleteStrandType, strandType }) {
   return (
     <>
       {/*-- STRAND TYPE CONTAINER --*/}
@@ -36,9 +33,9 @@ function DashboardStrandType({ deleteStrandType }) {
           STRAND TYPE NAME
         </h5>
         <section className="row">
-          <DashboardStrand />
-          <DashboardStrand />
-          <DashboardStrand />
+          {strandType.strands.map((strand) => (
+            <DashboardStrand key={strand.id} strand={strand} />
+          ))}
         </section>
       </section>
     </>

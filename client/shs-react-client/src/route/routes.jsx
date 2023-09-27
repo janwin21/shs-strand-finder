@@ -11,6 +11,8 @@ import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 import Subject from "../feature/subject/Subject";
 import Access from "../feature/access/Access";
 import Result from "../feature/result/Result";
+import Forgot from "../feature/forgot/Forgot";
+import Reset from "../feature/reset/Reset";
 
 /* FORM */
 import FormStrandType from "../feature/form/form-strand-type/FormStrandType";
@@ -38,6 +40,8 @@ const assessmentBurgerRoute = new RouteLink(
 );
 const subjectRoute = new RouteLink("/subject", <Subject />);
 const resultRoute = new RouteLink("/result", <Result />);
+const forgotRoute = new RouteLink("/forgot", <Forgot />);
+const resetRoute = new RouteLink("/reset", <Reset />);
 
 /* FORM */
 const formStrandTypeRoute = new RouteLink(
@@ -71,6 +75,8 @@ export {
   subjectRoute,
   accessRoute,
   resultRoute,
+  forgotRoute,
+  resetRoute,
 
   /* FORM */
   formStrandTypeRoute,
