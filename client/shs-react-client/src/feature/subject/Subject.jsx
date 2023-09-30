@@ -29,8 +29,14 @@ function Subject({ viewableSidebar }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <SubjectType />
-                  <SubjectType />
+                  {data.subjectTypes.map((subjectType) => {
+                    return (
+                      <SubjectType
+                        key={subjectType.id}
+                        subjectType={subjectType}
+                      />
+                    );
+                  })}
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -41,10 +47,21 @@ function Subject({ viewableSidebar }) {
             {/*-- W/ SIDEBAR --*/}
             <div className="row h-100">
               <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <SubjectType />
-                <SubjectType />
+                {data.subjectTypes.map((subjectType) => {
+                  return (
+                    <SubjectType
+                      key={subjectType.id}
+                      subjectType={subjectType}
+                    />
+                  );
+                })}
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                selectedStrand={data.selectedStrand}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}

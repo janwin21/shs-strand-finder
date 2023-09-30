@@ -10,12 +10,15 @@ const mapDispatchToProps = (dispatch) => {
         type: action.DELETE_SUBJECT,
         subjectForDeletion: subject,
       }),
+    prepareSubject: (preparedSubject) =>
+      dispatch({
+        type: action.PREPARE_SUBJECT,
+        subjectForPreparation: preparedSubject,
+      }),
   };
 };
 
-function SubjectC({ deleteSubject }) {
-  const [subject] = useState({ name: "ONLINE COMMUNICATION" });
-
+function SubjectC({ deleteSubject, prepareSubject, subject }) {
   return (
     <>
       {/*-- SUBJECT CONTAINER --*/}
@@ -24,9 +27,13 @@ function SubjectC({ deleteSubject }) {
         data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
         className="card col-2 position-relative text-bg-dark p-0 m-3"
         style={{ height: "350px", cursor: "pointer" }}
+        onClick={(event) => {
+          event.preventDefault();
+          prepareSubject(subject);
+        }}
       >
         <img
-          src="../asset/subject/subject1.jpg"
+          src={subject.imagePath}
           className="card-img h-100"
           alt="subject img"
         />
@@ -43,7 +50,7 @@ function SubjectC({ deleteSubject }) {
           <i className="fa-solid fa-rectangle-xmark text-light fs-3 position-absolute top-0 end-0 m-2"></i>
         </a>
         <div className="bg-dark position-absolute p-2 bottom-0 w-100">
-          <h5 className="card-title roboto">Subject Name</h5>
+          <h6 className="card-title roboto">{subject.name}</h6>
         </div>
       </div>
     </>

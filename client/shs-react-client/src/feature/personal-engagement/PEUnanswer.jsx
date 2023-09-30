@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
 
@@ -13,9 +12,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function PEUnanswered({ deletePEQuestion }) {
-  const [peQuestion] = useState({ id: "objectId1234" });
-
+function PEUnanswered({ deletePEQuestion, questionNo, peQuestion, answerCb }) {
   return (
     <>
       {/*-- UNANSWER --*/}
@@ -36,19 +33,24 @@ function PEUnanswered({ deletePEQuestion }) {
             <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
           </a>
           <h6 className="card-subtitle poppins mb-3 text-light">
-            Question No. 1
+            Question No. {questionNo}
           </h6>
           <p
             className="card-text roboto text-light"
             style={{ height: "200px", overflowY: "auto" }}
           >
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content?
+            {peQuestion.question}
           </p>
-          <button className="btn btn-success roboto w-100 mb-2 px-4 fs-6 fw-semibold">
+          <button
+            onClick={() => answerCb(true)}
+            className="btn btn-success roboto w-100 mb-2 px-4 fs-6 fw-semibold"
+          >
             YES
           </button>
-          <button className="btn btn-danger roboto w-100 px-4 fs-6 fw-semibold">
+          <button
+            onClick={() => answerCb(false)}
+            className="btn btn-danger roboto w-100 px-4 fs-6 fw-semibold"
+          >
             NO
           </button>
           <div className="position-absolute bottom-0 start-0 w-100 p-3">

@@ -23,6 +23,7 @@ const reducer = (
     assessmentQuestionForDeletion,
 
     // PREPARE SUBJECT
+    subjectForPreparation,
   }
 ) => {
   switch (type) {
@@ -52,12 +53,14 @@ const reducer = (
       return { ...state, peQuestionForDeletion };
     case action.DELETE_ASSESSMENT_QUESTION:
       return { ...state, assessmentQuestionForDeletion };
-    case action.TEST:
-      return { ...state, test: !test };
 
     // PREPARE SUBJECT
     case action.PREPARE_SUBJECT:
-      return { ...state, test: subjectForPreparation };
+      return { ...state, subjectForPreparation };
+
+    // TEST
+    case action.TEST:
+      return { ...state, test: !test };
 
     default:
       return state;

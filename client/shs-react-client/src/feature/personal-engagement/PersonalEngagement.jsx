@@ -2,8 +2,10 @@ import PEAnswered from "./PEAnswered";
 import PEUnanswer from "./PEUnanswer";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { modalType } from "../modal/modalType";
 import { personalEngagementData } from "../../js/json-structure/personal-engagement";
+import $ from "jquery";
 
 const mapStateToProps = (state) => {
   return {
@@ -16,11 +18,64 @@ function PersonalEngagement({ viewableSidebar }) {
   const [data, fetchData] = useState(personalEngagementData);
 
   // UML
-  const [personalEngagement, setPersonalEngagement] = useState({
+  const [currentPE, setCurrentPE] = useState({
     userID: "user123",
-    personalEngagementID: "PE123",
-    yes: true,
+    peID: "PE123",
+    yes: null,
   });
+
+  const [simpleCloseBtn, setSimpleCloseBtn] = useState(null);
+  const [isAnswers, setAnswers] = useState([]);
+
+  useEffect(() => {
+    const tempArr = [];
+    data.peQuestions.forEach(() => {
+      tempArr.push(false);
+    });
+    setAnswers(tempArr);
+
+    $(() => {
+      setSimpleCloseBtn($("#simple-close-btn"));
+    });
+  }, []);
+
+  // ELEMENTS
+  const getPEUnanswer = (key, quesNo, peQues, cb) => {
+    return (
+      <PEUnanswer
+        key={key}
+        questionNo={quesNo}
+        peQuestion={peQues}
+        answerCb={cb}
+      />
+    );
+  };
+
+  const getPEAnswered = (key, i, cb) => {
+    return <PEAnswered key={key} questionNo={i} submitCb={cb} />;
+  };
+
+  // FUNCTION
+  const answerCb = (id, b, i) => {
+    if (currentPE.yes == null) {
+      const tempArr = [...isAnswers];
+      tempArr[i] = true;
+      setCurrentPE({ userID: data.user.id, peID: id, yes: b });
+      setAnswers(tempArr);
+    } else {
+      simpleCloseBtn.click();
+    }
+  };
+
+  // SAVE
+  const submit = (quesNo) => {
+    $(() => {
+      $(`#question${quesNo}`)
+        .removeClass("card grd-pri-sec_ position-relative col-3 p-2 g-3")
+        .hide();
+      setCurrentPE({ ...currentPE, yes: null });
+    });
+  };
 
   return (
     <>
@@ -31,6 +86,12 @@ function PersonalEngagement({ viewableSidebar }) {
         }`}
         style={{ height: "94vh" }}
       >
+        <button
+          className="d-none"
+          id="simple-close-btn"
+          data-bs-toggle="modal"
+          data-bs-target={`#${modalType.QUESTION_NOT_SUBMIT_YET}`}
+        ></button>
         {!viewableSidebar ? (
           <>
             {/*-- NO SIDEBAR --*/}
@@ -43,8 +104,18 @@ function PersonalEngagement({ viewableSidebar }) {
                       PERSONAL ENGAGEMENT
                     </h5>
                     <section className="row" style={{ gap: "0.75rem" }}>
-                      <PEUnanswer />
-                      <PEAnswered />
+                      {isAnswers.map((bool, i) => {
+                        const peQuestion = data.peQuestions[i];
+                        const uniqueKey = peQuestion.id;
+
+                        return !bool
+                          ? getPEUnanswer(uniqueKey, i + 1, peQuestion, (b) =>
+                              answerCb(peQuestion.id, b, i)
+                            )
+                          : getPEAnswered(uniqueKey, i + 1, () =>
+                              submit(i + 1)
+                            );
+                      })}
                     </section>
                   </section>
                 </section>
@@ -63,12 +134,25 @@ function PersonalEngagement({ viewableSidebar }) {
                     PERSONAL ENGAGEMENT
                   </h5>
                   <section className="row" style={{ gap: "0.75rem" }}>
-                    <PEUnanswer />
-                    <PEAnswered />
+                    {isAnswers.map((bool, i) => {
+                      const peQuestion = data.peQuestions[i];
+                      const uniqueKey = peQuestion.id;
+
+                      return !bool
+                        ? getPEUnanswer(uniqueKey, i + 1, peQuestion, (b) =>
+                            answerCb(peQuestion.id, b, i)
+                          )
+                        : getPEAnswered(uniqueKey, () => submit());
+                    })}
                   </section>
                 </section>
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                selectedStrand={data.selectedStrand}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}

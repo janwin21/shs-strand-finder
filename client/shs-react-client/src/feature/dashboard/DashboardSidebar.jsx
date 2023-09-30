@@ -4,6 +4,8 @@ import { resetRoute } from "../../route/routes";
 import { Link } from "react-router-dom";
 import SidebarButton from "./component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
+import SidebarSubject from "./component/SidebarSubject";
+import SidebarPendingSubject from "./component/SidebarPendingSubject";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -12,7 +14,14 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function DashboardSidebar({ viewSidebar }) {
+function DashboardSidebar({
+  viewSidebar,
+  user,
+  selectedStrand,
+  personalEngagements,
+  subjects,
+  pendingSubjects,
+}) {
   return (
     <>
       {/*-- SIDEBAR --*/}
@@ -26,7 +35,8 @@ function DashboardSidebar({ viewSidebar }) {
             className="nav-link"
             style={{ cursor: "pointer" }}
           >
-            <i className="fa-solid fa-user me-3"></i>email@email.com
+            <i className="fa-solid fa-user me-3"></i>
+            {user?.email}
           </Link>
           <a
             onClick={(event) => {
@@ -43,18 +53,32 @@ function DashboardSidebar({ viewSidebar }) {
           Preferred Strand (Selected)
         </h6>
         <div className="w-100 border-bottom border-light d-flex flex-column align-items-center justify-content-center py-3">
-          <img
-            src="../asset/strand/strand1.jpg"
-            alt="strand image display"
-            style={{ height: "175px" }}
-          />
-          <h6 className="roboto text-light my-3 px-4 py-3">Strand Name</h6>
-          <p className="roboto text-light px-4">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-            ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+          {selectedStrand ? (
+            <>
+              <img
+                src={selectedStrand.imagePath}
+                alt="strand image display"
+                style={{ height: "175px" }}
+              />
+              <h6 className="roboto text-light my-3 px-4 py-3">
+                {selectedStrand.name}
+              </h6>
+              <p className="roboto text-light px-4">
+                {selectedStrand.description}
+              </p>
+            </>
+          ) : (
+            <>
+              <h6 className="roboto text-light my-3 px-4 py-3">
+                No Selected Strand
+              </h6>
+              <p className="roboto text-light px-4">
+                To complete the assessment, one of the requirements should
+                select ONE (1) Strand that you like. Just CLICK any strand at
+                the DASHBOARD PAGE.
+              </p>
+            </>
+          )}
         </div>
         <SidebarButton
           label="Personal Engagement"
@@ -66,60 +90,19 @@ function DashboardSidebar({ viewSidebar }) {
         </h6>
         {/*-- SUBJECT SECTION --*/}
         <section>
-          {/*-- SUBJECT CARD --*/}
-          <div
-            className="card bg-dark rounded-0 border-bottom border-light border-top-0 border-start-0 border-end-0 p-4"
-            style={{ maxWidth: "540px" }}
-          >
-            <div className="row g-0">
-              <div className="col-md-4">
-                <img
-                  src="../asset/subject/subject1.jpg"
-                  className="img-fluid rounded-0"
-                  alt="subject image"
-                />
-              </div>
-              <div className="col-md-8">
-                <div className="card-body">
-                  <h6 className="card-title poppins text-light text-uppercase mb-3">
-                    Subject Name
-                  </h6>
-                  <p className="card-text text-light mb-0">
-                    score: <strong>100</strong> / 100
-                  </p>
-                  <p className="card-text text-light mb-0">duration: 1 hr</p>
-                  <p className="card-text text-light mb-0">leave count: 3</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/*-- SUBJECT CARD --*/}
-          <div
-            className="card bg-dark rounded-0 border-bottom border-light border-top-0 border-start-0 border-end-0 p-4"
-            style={{ maxWidth: "540px" }}
-          >
-            <div className="row g-0">
-              <div className="col-md-4">
-                <img
-                  src="../asset/subject/subject1.jpg"
-                  className="img-fluid rounded-0"
-                  alt="subject image"
-                />
-              </div>
-              <div className="col-md-8">
-                <div className="card-body">
-                  <h6 className="card-title poppins text-light text-uppercase mb-3">
-                    Subject Name
-                  </h6>
-                  <a className="nav-link d-inline" href="#">
-                    <button className="btn btn-secondary roboto px-4 fs-6">
-                      TAKE ASSESSMENT
-                    </button>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/*-- ASSESSED SUBJECT --*/}
+          {subjects?.map((subject) => {
+            return <SidebarSubject key={subject.id} subject={subject} />;
+          })}
+          {/*-- PENDING SUBJECT --*/}
+          {pendingSubjects?.map((pendingSubject) => {
+            return (
+              <SidebarPendingSubject
+                key={pendingSubject.id}
+                pendingSubject={pendingSubject}
+              />
+            );
+          })}
         </section>
         <SidebarGroup />
       </section>

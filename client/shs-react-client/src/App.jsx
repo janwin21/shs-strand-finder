@@ -27,6 +27,7 @@ import { modalType } from "./feature/modal/modalType";
 import Nav from "./feature/nav/Nav.jsx";
 import SimpleModal from "./feature/modal/SimpleModal";
 import AssessmentModal from "./feature/modal/AssessmentModal";
+import NotifModal from "./feature/modal/NotifModal";
 
 const mapStateToProps = (state) => {
   return {
@@ -223,10 +224,16 @@ function App({
       <AssessmentModal
         id={modalType.ASSESSMENT_PREPARATION}
         path={assessmentRoute.path}
-        subjectName={
-          subjectForPreparation ? subjectForPreparation.name : "UNKNOWN"
-        }
+        subject={subjectForPreparation}
         cb={() => {}}
+      />
+
+      {/* NOTIFICATION */}
+      {/* QUESTION NOT YET SUBMIT */}
+      <NotifModal
+        id={modalType.QUESTION_NOT_SUBMIT_YET}
+        title="Question not Submit Yet"
+        body="The current QUESTION has not yet submitted. Please submit the current answered question FIRST before answering the other one."
       />
     </Router>
   );

@@ -1,9 +1,10 @@
-function PEAnswered() {
+function PEAnswered({ questionNo, submitCb }) {
   return (
     <>
       {/*-- ANSWERED --*/}
       <div
         className="card grd-pri-sec_ position-relative col-3 p-2 g-3"
+        id={`question${questionNo}`}
         style={{ height: "500px" }}
       >
         <span className="shs-glass grd-none-inf_"></span>
@@ -28,7 +29,10 @@ function PEAnswered() {
             NO
           </button>
           <div className="position-absolute bottom-0 start-0 w-100 p-3">
-            <button className="btn btn-dark roboto w-100 p-4 fs-6 fw-semibold">
+            <button
+              onClick={() => submitCb()}
+              className="btn btn-dark roboto w-100 p-4 fs-6 fw-semibold"
+            >
               SUBMIT
             </button>
           </div>

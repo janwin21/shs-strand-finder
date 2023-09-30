@@ -7,6 +7,7 @@ const modalType = {
   SUBJECT_DELETION: "subjectDeletion",
   PE_QUESTION_DELETION: "peQuestionDeletion",
   ASSESSMENT_QUESTION_DELETION: "assessmentQuestionDeletion",
+  QUESTION_NOT_SUBMIT_YET: "quesNotSubmitYet",
 };
 
 export { modalType };

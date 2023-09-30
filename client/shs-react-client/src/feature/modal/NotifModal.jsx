@@ -1,9 +1,7 @@
-import $ from "jquery";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import $ from "jquery";
 
-function SimpleModal({ id, path, title, body, yes, no, cb = () => {} }) {
-  const navigate = useNavigate();
+function NotifModal({ id, title, body }) {
   const [closeBtn, setCloseBtn] = useState(null);
 
   useEffect(() => {
@@ -48,27 +46,14 @@ function SimpleModal({ id, path, title, body, yes, no, cb = () => {} }) {
               <p className="roboto fs-5">{body}</p>
             </div>
             <div className="modal-footer w-100">
-              <div className="row w-100">
-                <div className="col-6 p-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      cb();
-                      navigate(path);
-                    }}
-                    className="roboto fw-semibold btn btn-dark w-100"
-                    data-bs-dismiss="modal"
-                  >
-                    {yes}
-                  </button>
-                </div>
+              <div className="row w-100 justify-content-center align-items-center">
                 <div className="col-6 p-2">
                   <button
                     type="button"
                     onClick={() => closeBtn.click()}
                     className="roboto fw-semibold btn btn-dark w-100"
                   >
-                    {no}
+                    OK
                   </button>
                 </div>
               </div>
@@ -80,4 +65,4 @@ function SimpleModal({ id, path, title, body, yes, no, cb = () => {} }) {
   );
 }
 
-export default SimpleModal;
+export default NotifModal;

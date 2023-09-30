@@ -14,9 +14,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function SubjectType({ deleteSubjectType }) {
-  const [subjectType] = useState({ name: "COMMUNICATION" });
-
+function SubjectType({ deleteSubjectType, subjectType }) {
   return (
     <>
       {/*-- SUBJECT TYPE CONTAINER --*/}
@@ -33,11 +31,12 @@ function SubjectType({ deleteSubjectType }) {
           <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0"></i>
         </a>
         <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-          SUBJECT TYPE NAME
+          {subjectType.name}
         </h5>
         <section className="row">
-          <SubjectC />
-          <SubjectC />
+          {subjectType.subjects.map((subject) => {
+            return <SubjectC key={subject.id} subject={subject} />;
+          })}
         </section>
       </section>
     </>

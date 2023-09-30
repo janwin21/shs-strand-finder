@@ -2,7 +2,7 @@ import $ from "jquery";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function AssessmentModal({ id, path, subjectName, cb = () => {} }) {
+function AssessmentModal({ id, path, subject = null, cb = () => {} }) {
   const navigate = useNavigate();
   const [closeBtn, setCloseBtn] = useState(null);
 
@@ -34,7 +34,7 @@ function AssessmentModal({ id, path, subjectName, cb = () => {} }) {
                 className="modal-title w-100 fs-5 text-center"
                 id={`${id}Label`}
               >
-                Take {subjectName} Assessment
+                Take {subject ? subject.name : "UNKNOWN"} Assessment
               </h1>
               <button
                 type="button"
@@ -48,7 +48,7 @@ function AssessmentModal({ id, path, subjectName, cb = () => {} }) {
               <div className="row g-0">
                 <div className="col-md-4">
                   <img
-                    src="../../asset/subject/subject1.jpg"
+                    src={subject ? subject.imagePath : "UNKNOWN"}
                     className="img-fluid rounded-0"
                     alt="subject image"
                   />
@@ -56,7 +56,7 @@ function AssessmentModal({ id, path, subjectName, cb = () => {} }) {
                 <div className="col-md-8">
                   <div className="card-body ps-3">
                     <h6 className="card-title poppins fw-bold text-uppercase mb-3">
-                      {subjectName}
+                      {subject ? subject.name : "UNKNOWN"}
                     </h6>
                     <p className="card-text mb-3">
                       Before taking an assessment, you should read first all the

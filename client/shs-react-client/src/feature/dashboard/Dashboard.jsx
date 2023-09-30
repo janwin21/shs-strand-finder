@@ -66,7 +66,12 @@ function Dashboard({ viewableSidebar }) {
                   />
                 ))}
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                selectedStrand={data.selectedStrand}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}

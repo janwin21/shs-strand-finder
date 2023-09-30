@@ -2,6 +2,8 @@ import FormHeader from "../component/FormHeader";
 import Form from "./Form";
 import DashboardSidebar from "../../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
+import { useState } from "react";
+import { formData } from "../../../js/json-structure/form";
 
 const mapStateToProps = (state) => {
   return {
@@ -10,6 +12,9 @@ const mapStateToProps = (state) => {
 };
 
 function FormSubject({ viewableSidebar }) {
+  // FETCH
+  const [data, fetchData] = useState(formData);
+
   return (
     <>
       {/*-- MAIN --*/}
@@ -56,7 +61,12 @@ function FormSubject({ viewableSidebar }) {
                 />
                 <Form />
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                selectedStrand={data.selectedStrand}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}

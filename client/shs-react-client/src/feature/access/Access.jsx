@@ -3,6 +3,7 @@ import AccessTable from "./AccessTable";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
 import { useState } from "react";
+import { formData } from "../../js/json-structure/form";
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +12,9 @@ const mapStateToProps = (state) => {
 };
 
 function Access({ viewableSidebar }) {
+  // FETCH
+  const [data, fetchData] = useState(formData);
+
   // UML
   const { otherUser, setOtherUser } = useState({
     userID: "user456",
@@ -50,7 +54,11 @@ function Access({ viewableSidebar }) {
                 <AccessHeader />
                 <AccessTable />
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}
