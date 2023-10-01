@@ -79,7 +79,7 @@ function PersonalEngagement({ viewableSidebar }) {
 
   return (
     <>
-      {/*-- MAIN - NO FLEX --*/}
+      {/*-- MAIN --*/}
       <main
         className={`login container-fluid ${
           !viewableSidebar ? "auto-overflow" : "position-relative"

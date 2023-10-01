@@ -24,6 +24,9 @@ const reducer = (
 
     // PREPARE SUBJECT
     subjectForPreparation,
+
+    // CURRENT ANSWER KEY
+    currentQuestion,
   }
 ) => {
   switch (type) {
@@ -57,6 +60,10 @@ const reducer = (
     // PREPARE SUBJECT
     case action.PREPARE_SUBJECT:
       return { ...state, subjectForPreparation };
+
+    // CURRENT QUESTION
+    case action.SET_CURRENT_QUESTION:
+      return { ...state, currentQuestion };
 
     // TEST
     case action.TEST:

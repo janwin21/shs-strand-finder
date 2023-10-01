@@ -4,6 +4,7 @@ import DashboardSidebar from "../dashboard/DashboardSidebar";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { formData } from "../../js/json-structure/form";
+import { accessData } from "../../js/json-structure/access";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => {
 function Access({ viewableSidebar }) {
   // FETCH
   const [data, fetchData] = useState(formData);
+  const [access, fetchAccess] = useState(accessData);
 
   // UML
   const { otherUser, setOtherUser } = useState({
@@ -23,6 +25,11 @@ function Access({ viewableSidebar }) {
   const { targetUser, setTargetUser } = useState({
     email: "user@email.com",
   });
+
+  const allow = (i) => {
+    access.users[i].isAdmin = !access.users[i].isAdmin;
+    fetchAccess({ ...access });
+  };
 
   return (
     <>
@@ -40,7 +47,7 @@ function Access({ viewableSidebar }) {
               <div className="row">
                 <section className="col-12 pb-4">
                   <AccessHeader />
-                  <AccessTable />
+                  <AccessTable accessData={accessData} cb={(i) => allow(i)} />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>

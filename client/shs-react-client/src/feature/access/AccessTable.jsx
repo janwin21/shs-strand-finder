@@ -1,4 +1,4 @@
-function AccessTable() {
+function AccessTable({ accessData, cb }) {
   return (
     <>
       {/*-- FORM CONTAINER --*/}
@@ -18,36 +18,32 @@ function AccessTable() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td className="text-end">
-                <button className="btn btn-dark roboto px-4 m-0 fs-6">
-                  ALLOW
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td className="text-end">
-                <button className="btn btn-danger roboto px-4 m-0 fs-6">
-                  NOT ALLOW
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry the Bird</td>
-              <td>@twitter</td>
-              <td className="text-end">
-                <button className="btn btn-dark roboto px-4 m-0 fs-6">
-                  ALLOW
-                </button>
-              </td>
-            </tr>
+            {accessData.users.map((user, i) => {
+              return (
+                <tr key={user.id}>
+                  <th scope="row">{user.id}</th>
+                  <td>{user.email}</td>
+                  <td>{user.isAdmin ? "ACCESS" : "PROHIBITED"}</td>
+                  <td className="text-end">
+                    {user.isAdmin ? (
+                      <button
+                        onClick={() => cb(i)}
+                        className="btn btn-dark roboto px-4 m-0 fs-6"
+                      >
+                        ALLOW
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => cb(i)}
+                        className="btn btn-danger roboto px-4 m-0 fs-6"
+                      >
+                        NOT ALLOW
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </section>

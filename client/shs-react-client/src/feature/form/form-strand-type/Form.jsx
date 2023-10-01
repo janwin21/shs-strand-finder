@@ -2,9 +2,14 @@ import { useState } from "react";
 
 function Form() {
   // UML
-  const [strandtType, setStrandType] = useState({
+  const [strandtype, setStrandType] = useState({
     name: "Strand Name 1",
   });
+
+  const submit = (ev) => {
+    ev.preventDefault();
+    console.log("ADD NEW STRAND TYPE : ", strandType);
+  };
 
   return (
     <>
@@ -14,7 +19,7 @@ function Form() {
           FILL IN THE BLANKS
         </h5>
         {/*-- STRAND TYPE FORM --*/}
-        <form className="w-100">
+        <form onSubmit={submit} className="w-100">
           {/*-- NAME --*/}
           <div className="mb-4 w-100">
             <input
@@ -23,6 +28,9 @@ function Form() {
               id="text"
               autoComplete="off"
               placeholder="Strand Group Name"
+              onChange={(ev) => {
+                setStrandType({ name: ev.target.value });
+              }}
             />
           </div>
           <button

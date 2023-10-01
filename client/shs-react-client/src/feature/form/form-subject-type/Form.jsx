@@ -6,6 +6,11 @@ function Form() {
     name: "Subject Name 1",
   });
 
+  const submit = (ev) => {
+    ev.preventDefault();
+    console.log("ADD NEW SUBJECT TYPE : ", subjectType);
+  };
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}
@@ -14,7 +19,7 @@ function Form() {
           FILL IN THE BLANKS
         </h5>
         {/*-- SUBJECT TYPE FORM --*/}
-        <form className="w-100">
+        <form onSubmit={submit} className="w-100">
           {/*-- NAME --*/}
           <div className="mb-4 w-100">
             <input
@@ -23,6 +28,9 @@ function Form() {
               id="text"
               autoComplete="off"
               placeholder="Subject Group Name"
+              onChange={(ev) => {
+                setSubjectType({ name: ev.target.value });
+              }}
             />
           </div>
           <button

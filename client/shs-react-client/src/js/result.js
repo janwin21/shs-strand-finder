@@ -5,9 +5,9 @@ import DonutChartAssessment from "./chart/DonutChartAssessment";
 import DonutChartPersonal from "./chart/DonutChartPersonal";
 
 // const barChartSubject = new BarChartSubject();
-//const barChartStrand = new BarChartStrand();
+// const barChartStrand = new BarChartStrand();
 // const donutChartAssessment = new DonutChartAssessment();
-//const donutChartPersonal = new DonutChartPersonal();
+// const donutChartPersonal = new DonutChartPersonal();
 
 $(() => {
   // barChartSubject.display("barChartSubject");

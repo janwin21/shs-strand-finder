@@ -9,6 +9,7 @@ const dataStructure = {
   peQuestionForDeletion: null,
   assessmentQuestionForDeletion: null,
   subjectForPreparation: null,
+  currentQuestion: null,
 };
 
 export { dataStructure };
