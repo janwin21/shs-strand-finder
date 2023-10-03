@@ -1,6 +1,7 @@
 import PEAnswered from "./PEAnswered";
 import PEUnanswer from "./PEUnanswer";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { modalType } from "../modal/modalType";
@@ -10,10 +11,11 @@ import $ from "jquery";
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function PersonalEngagement({ viewableSidebar }) {
+function PersonalEngagement({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(personalEngagementData);
 
@@ -126,26 +128,42 @@ function PersonalEngagement({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                {/*-- STRAND TYPE CONTAINER --*/}
-                <section className="strand-type-container mt-5">
-                  <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-                    PERSONAL ENGAGEMENT
-                  </h5>
-                  <section className="row" style={{ gap: "0.75rem" }}>
-                    {isAnswers.map((bool, i) => {
-                      const peQuestion = data.peQuestions[i];
-                      const uniqueKey = peQuestion.id;
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    {/*-- STRAND TYPE CONTAINER --*/}
+                    <section className="strand-type-container mt-5">
+                      <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
+                        PERSONAL ENGAGEMENT
+                      </h5>
+                      <section className="row" style={{ gap: "0.75rem" }}>
+                        {isAnswers.map((bool, i) => {
+                          const peQuestion = data.peQuestions[i];
+                          const uniqueKey = peQuestion.id;
 
-                      return !bool
-                        ? getPEUnanswer(uniqueKey, i + 1, peQuestion, (b) =>
-                            answerCb(peQuestion.id, b, i)
-                          )
-                        : getPEAnswered(uniqueKey, () => submit());
-                    })}
-                  </section>
-                </section>
+                          return !bool
+                            ? getPEUnanswer(uniqueKey, i + 1, peQuestion, (b) =>
+                                answerCb(peQuestion.id, b, i)
+                              )
+                            : getPEAnswered(uniqueKey, () => submit());
+                        })}
+                      </section>
+                    </section>
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
               <DashboardSidebar
                 user={data.user}

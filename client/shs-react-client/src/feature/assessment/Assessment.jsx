@@ -117,23 +117,27 @@ function Assessment({ viewableSidebar, currentQuestion, setCurrentQuestion }) {
                   </section>
                 </section>
               </section>
-              <AssessmentSidebar
-                question={currentQuestion}
-                otherCb={() => {
-                  const tempArr = [...isAnswers];
-                  tempArr[currentQuestion.quesNo - 1] = true;
-                  setAnswers(tempArr);
-                }}
-                submitCb={() => {
-                  $(() => {
-                    $(`#question${currentQuestion.quesNo}`).hide();
-                    console.log("POSITION AT : ", currentQuestion.quesNo - 1);
-                    data.subject.questions[
-                      currentQuestion.quesNo - 1
-                    ].answered = true;
-                  });
-                }}
-              />
+              {currentQuestion ? (
+                <AssessmentSidebar
+                  question={currentQuestion}
+                  otherCb={() => {
+                    const tempArr = [...isAnswers];
+                    tempArr[currentQuestion.quesNo - 1] = true;
+                    setAnswers(tempArr);
+                  }}
+                  submitCb={() => {
+                    $(() => {
+                      $(`#question${currentQuestion.quesNo}`).hide();
+                      console.log("POSITION AT : ", currentQuestion.quesNo - 1);
+                      data.subject.questions[
+                        currentQuestion.quesNo - 1
+                      ].answered = true;
+                    });
+                  }}
+                />
+              ) : (
+                <></>
+              )}
             </div>
           </>
         )}

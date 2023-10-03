@@ -1,5 +1,5 @@
 import strand1 from "../../asset/strand/strand1.jpg";
-import strand2 from "../../asset/strand/strand1.jpg";
+import strand2 from "../../asset/strand/strand2.jpg";
 
 import subject1 from "../../asset/subject/subject1.jpg";
 
@@ -22,13 +22,13 @@ const dashboardData = {
         {
           id: "strandId123",
           name: "Strand Name 1",
-          description: "This is a strand description.",
+          description: "This is a strand description 1.",
           imagePath: strand1,
         },
         {
           id: "strandId456",
           name: "Strand Name 2",
-          description: "This is a strand description.",
+          description: "This is a strand description 2.",
           imagePath: strand2,
         },
       ],
@@ -40,7 +40,7 @@ const dashboardData = {
         {
           id: "strandId789",
           name: "Strand Name 3",
-          description: "This is a strand description.",
+          description: "This is a strand description 3.",
           imagePath: strand2,
         },
       ],
@@ -54,6 +54,14 @@ const dashboardData = {
     name: "Strand Name 3",
     description:
       "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    imagePath: strand2,
+  },
+
+  preferredStrand: {
+    id: "id321",
+    name: "Strand Name Preferred",
+    description:
+      "Preferred 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     imagePath: strand2,
   },
 

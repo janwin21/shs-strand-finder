@@ -1,30 +1,37 @@
 import DashboardHeader from "./DashboardHeader";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardStrandType from "./DashboardStrandType";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { dashboardData } from "../../js/json-structure/dashboard";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function Dashboard({ viewableSidebar }) {
+function Dashboard({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(dashboardData);
 
   // UML
   const [selectedStrand, setSelectedStrand] = useState({
     userID: "user123",
-    strandID: "strand123",
+    id: "strand123",
+    imagePath: null,
     accessToken: "access-token",
   });
 
   const [logoutUser, setLogoutUser] = useState({
     accessToken: "access-token",
   });
+
+  useEffect(() => {
+    setSelectedStrand({ ...data.selectedStrand });
+  }, []);
 
   return (
     <>
@@ -46,6 +53,12 @@ function Dashboard({ viewableSidebar }) {
                     <DashboardStrandType
                       key={strandType.id}
                       strandType={strandType}
+                      strandCb={(strand) => {
+                        setSelectedStrand({
+                          ...strand,
+                          userID: data.user.email,
+                        });
+                      }}
                     />
                   ))}
                 </section>
@@ -56,19 +69,41 @@ function Dashboard({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <DashboardHeader />
-                {data.strandTypes.map((strandType) => (
-                  <DashboardStrandType
-                    key={strandType.id}
-                    strandType={strandType}
-                  />
-                ))}
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    <DashboardHeader />
+                    {data.strandTypes.map((strandType) => (
+                      <DashboardStrandType
+                        key={strandType.id}
+                        strandType={strandType}
+                        strandCb={(strand) => {
+                          setSelectedStrand({
+                            ...strand,
+                            userID: data.user.email,
+                          });
+                        }}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
               <DashboardSidebar
                 user={data.user}
-                selectedStrand={data.selectedStrand}
+                selectedStrand={selectedStrand}
                 subjects={data.subjects}
                 pendingSubjects={data.pendingSubjects}
               />

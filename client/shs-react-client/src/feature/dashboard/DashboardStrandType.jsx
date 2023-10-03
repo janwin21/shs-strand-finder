@@ -13,7 +13,11 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function DashboardStrandType({ deleteStrandType, strandType }) {
+function DashboardStrandType({
+  deleteStrandType,
+  strandType,
+  strandCb = null,
+}) {
   return (
     <>
       {/*-- STRAND TYPE CONTAINER --*/}
@@ -34,7 +38,11 @@ function DashboardStrandType({ deleteStrandType, strandType }) {
         </h5>
         <section className="row">
           {strandType.strands.map((strand) => (
-            <DashboardStrand key={strand.id} strand={strand} />
+            <DashboardStrand
+              key={strand.id}
+              strand={strand}
+              strandCb={() => strandCb(strand)}
+            />
           ))}
         </section>
       </section>

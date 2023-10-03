@@ -1,5 +1,7 @@
 import { action } from "../../redux/action";
 import { connect } from "react-redux";
+import SidebarSubject from "../dashboard/component/SidebarSubject";
+import SidebarPendingSubject from "../dashboard/component/SidebarPendingSubject";
 import SidebarButton from "../dashboard/component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
 
@@ -10,7 +12,8 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function ResultSidebar({ viewSidebar }) {
+function ResultSidebar({ viewSidebar, user, subjects, predictedStrand }) {
+  console.log(predictedStrand);
   return (
     <>
       {/*-- SIDEBAR --*/}
@@ -19,7 +22,8 @@ function ResultSidebar({ viewSidebar }) {
         style={{ height: "94vh" }}
       >
         <h6 className="roboto text-light position-relative border-bottom border-light px-4 py-3">
-          <i className="fa-solid fa-user me-3"></i>email@email.com
+          <i className="fa-solid fa-user me-3"></i>
+          {user.email}
           <a
             onClick={(event) => {
               event.preventDefault();
@@ -34,16 +38,15 @@ function ResultSidebar({ viewSidebar }) {
         <h6 className="roboto text-secondary px-4 py-3">Predicted Strand</h6>
         <div className="w-100 border-bottom border-light d-flex flex-column align-items-center justify-content-center py-3">
           <img
-            src="../asset/strand/strand1.jpg"
+            src={predictedStrand.imagePath}
             alt="strand image display"
             style={{ height: "175px" }}
           />
-          <h6 className="roboto text-light my-3 px-4 py-3">Strand Name</h6>
+          <h6 className="roboto text-light my-3 px-4 py-3">
+            {predictedStrand.name}
+          </h6>
           <p className="roboto text-light px-4">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-            ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.
+            {predictedStrand.description}
           </p>
         </div>
         <SidebarButton
@@ -54,36 +57,12 @@ function ResultSidebar({ viewSidebar }) {
         <h6 className="roboto text-light border-bottom border-light px-4 py-3">
           <i className="fa-solid fa-clipboard-question me-3"></i>Assessments
         </h6>
-
         {/*-- SUBJECT SECTION --*/}
         <section>
-          {/*-- SUBJECT CARD --*/}
-          <div
-            className="card bg-dark rounded-0 border-bottom border-light border-top-0 border-start-0 border-end-0 p-4"
-            style={{ maxWidth: "540px" }}
-          >
-            <div className="row g-0">
-              <div className="col-md-4">
-                <img
-                  src="../asset/subject/subject1.jpg"
-                  className="img-fluid rounded-0"
-                  alt="subject image"
-                />
-              </div>
-              <div className="col-md-8">
-                <div className="card-body">
-                  <h6 className="card-title poppins text-light text-uppercase mb-3">
-                    Subject Name
-                  </h6>
-                  <p className="card-text text-light mb-0">
-                    score: <strong>100</strong> / 100
-                  </p>
-                  <p className="card-text text-light mb-0">duration: 1 hr</p>
-                  <p className="card-text text-light mb-0">leave count: 3</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/*-- ASSESSED SUBJECT --*/}
+          {subjects?.map((subject) => {
+            return <SidebarSubject key={subject.id} subject={subject} />;
+          })}
         </section>
         <SidebarGroup />
       </section>

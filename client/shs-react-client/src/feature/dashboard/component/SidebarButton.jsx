@@ -8,13 +8,17 @@ function SidebarButton({
   toggle = false,
   target = "",
   path = "",
+  cb = null,
 }) {
   return (
     <h6 className="roboto text-light border-bottom border-light px-4 py-3">
       {target.length > 0 ? (
         <a
           className="nav-link d-inline"
-          onClick={(ev) => ev.preventDefault()}
+          onClick={(ev) => {
+            ev.preventDefault();
+            if (cb) cb();
+          }}
           style={{ cursor: "pointer" }}
           data-bs-toggle={toggle ? "modal" : ""}
           data-bs-target={`#${target}`}

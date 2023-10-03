@@ -49,7 +49,11 @@ function Result({ viewableSidebar }) {
                 <ResultAssessment />
                 <ResultPE />
               </section>
-              <ResultSidebar />
+              <ResultSidebar
+                user={data.user}
+                subjects={data.subjects}
+                predictedStrand={data.predictedStrand}
+              />
             </div>
           </>
         )}

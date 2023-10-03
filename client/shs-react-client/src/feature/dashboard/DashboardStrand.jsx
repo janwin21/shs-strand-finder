@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
 
@@ -10,15 +9,28 @@ const mapDispatchToProps = (dispatch) => {
         type: action.DELETE_STRAND,
         strandForDeletion: strand,
       }),
+    viewSidebar: (bool) =>
+      dispatch({ type: action.VIEW_SIDEBAR, viewableSidebar: bool }),
   };
 };
 
-function DashboardStrand({ deleteStrand, strand }) {
+function DashboardStrand({
+  deleteStrand,
+  viewSidebar,
+  strand,
+  strandCb = null,
+}) {
   return (
     <>
       {/*-- STRAND CONTAINER --*/}
       <div
-        onClick={() => console.log("SELECTED STRAND : ", strand)}
+        onClick={() => {
+          if (strandCb) {
+            strandCb();
+          }
+          viewSidebar(true);
+          console.log("SELECTED STRAND : ", strand);
+        }}
         className="card col-2 position-relative text-bg-dark p-0 m-3"
         style={{ height: "350px", cursor: "pointer" }}
       >

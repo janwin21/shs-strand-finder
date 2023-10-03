@@ -10,6 +10,9 @@ const reducer = (
     // SIDEBAR
     viewableSidebar,
 
+    // PERSONAL ENGAGEMENT VIEWABLE SIDEBAR
+    viewablePE,
+
     // STRANDS
     strandTypeForDeletion,
     strandForDeletion,
@@ -38,6 +41,10 @@ const reducer = (
     // SIDEBAR
     case action.VIEW_SIDEBAR:
       return { ...state, viewableSidebar };
+
+    // PERSONAL ENGAGEMENT VIEWABLE SIDEBAR
+    case action.VIEW_PE:
+      return { ...state, viewablePE };
 
     // STRANDS
     case action.DELETE_STRAND_TYPE:

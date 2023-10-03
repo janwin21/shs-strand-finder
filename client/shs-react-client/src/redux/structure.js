@@ -2,6 +2,7 @@ const dataStructure = {
   user: null,
   test: true,
   viewableSidebar: false,
+  viewablePE: false,
   strandTypeForDeletion: null,
   strandForDeletion: null,
   subjectTypeForDeletion: null,
