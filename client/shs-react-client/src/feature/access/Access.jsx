@@ -1,18 +1,20 @@
 import AccessHeader from "./AccessHeader";
 import AccessTable from "./AccessTable";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formData } from "../../js/json-structure/form";
 import { accessData } from "../../js/json-structure/access";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function Access({ viewableSidebar }) {
+function Access({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(formData);
   const [access, fetchAccess] = useState(accessData);
@@ -25,6 +27,10 @@ function Access({ viewableSidebar }) {
   const { targetUser, setTargetUser } = useState({
     email: "user@email.com",
   });
+
+  useEffect(() => {
+    fetchAccess(accessData);
+  }, []);
 
   const allow = (i) => {
     access.users[i].isAdmin = !access.users[i].isAdmin;
@@ -47,7 +53,7 @@ function Access({ viewableSidebar }) {
               <div className="row">
                 <section className="col-12 pb-4">
                   <AccessHeader />
-                  <AccessTable accessData={accessData} cb={(i) => allow(i)} />
+                  <AccessTable accessData={access} cb={(i) => allow(i)} />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -56,10 +62,26 @@ function Access({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <AccessHeader />
-                <AccessTable />
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    <AccessHeader />
+                    <AccessTable accessData={access} cb={(i) => allow(i)} />
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
               <DashboardSidebar
                 user={data.user}

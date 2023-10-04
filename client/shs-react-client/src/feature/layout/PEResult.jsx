@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { personalEngagementRoute } from "../../route/routes";
 import PEAnswered from "../result/PEAnswered";
 
@@ -11,6 +11,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function PEResult({ viewPE, preferredStrand, personalEngagements }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {/*-- SIDEBAR --*/}
@@ -51,15 +53,18 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
                   <p className="card-text text-light fs-5 my-4">
                     {preferredStrand.description}
                   </p>
-                  <Link
-                    to={personalEngagementRoute.path}
+                  <a
+                    onClick={(ev) => {
+                      ev.preventDefault();
+                      viewPE(false);
+                      navigate(personalEngagementRoute.path);
+                    }}
                     className="nav-link d-inline"
-                    href="#"
                   >
                     <button className="btn btn-secondary roboto px-4 fs-6">
                       RETAKE PERSONAL ENGAGEMENT
                     </button>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

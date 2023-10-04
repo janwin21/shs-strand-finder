@@ -22,6 +22,14 @@ const formData = {
     imagePath: strand2,
   },
 
+  preferredStrand: {
+    id: "id321",
+    name: "Strand Name Preferred",
+    description:
+      "Preferred 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    imagePath: strand2,
+  },
+
   // personal engagements
   personalEngagements: [
     {

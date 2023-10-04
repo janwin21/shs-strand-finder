@@ -1,15 +1,22 @@
 import Form from "./Form";
 import Image from "./Image";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
+import PEResult from "../layout/PEResult";
+import { useState } from "react";
 import { connect } from "react-redux";
+import { formData } from "../../js/json-structure/form";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function Reset({ viewableSidebar }) {
+function Reset({ viewableSidebar, viewablePE }) {
+  // FETCH
+  const [data, fetchAccess] = useState(formData);
+
   return (
     <>
       {/*-- MAIN --*/}
@@ -34,11 +41,36 @@ function Reset({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row align-items-center">
-              <section className="col-9 h-100 auto-overflow position-relative px-5">
-                <Form />
+            <div
+              className={`row align-items-center ${
+                viewablePE ? "bg-dark" : ""
+              }`}
+            >
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    <Form />
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
-              <DashboardSidebar />
+              <DashboardSidebar
+                user={data.user}
+                selectedStrand={data.preferredStrand}
+                subjects={data.subjects}
+                pendingSubjects={data.pendingSubjects}
+              />
             </div>
           </>
         )}

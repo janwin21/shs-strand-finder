@@ -2,6 +2,7 @@ import ResultAssessment from "./ResultAssessment";
 import ResultPE from "./ResultPE";
 import ResultHeader from "./ResultHeader";
 import ResultSidebar from "./ResultSidebar";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { resultData } from "../../js/json-structure/result/";
@@ -10,10 +11,11 @@ import "../../js/result";
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function Result({ viewableSidebar }) {
+function Result({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(resultData);
 
@@ -43,11 +45,27 @@ function Result({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <ResultHeader />
-                <ResultAssessment />
-                <ResultPE />
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    <ResultHeader />
+                    <ResultAssessment />
+                    <ResultPE />
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
               <ResultSidebar
                 user={data.user}

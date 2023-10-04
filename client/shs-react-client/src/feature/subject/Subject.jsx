@@ -1,5 +1,6 @@
 import SubjectType from "./SubjectType";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { subjectData } from "../../js/json-structure/subject";
@@ -7,10 +8,11 @@ import { subjectData } from "../../js/json-structure/subject";
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function Subject({ viewableSidebar }) {
+function Subject({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(subjectData);
 
@@ -45,16 +47,32 @@ function Subject({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                {data.subjectTypes.map((subjectType) => {
-                  return (
-                    <SubjectType
-                      key={subjectType.id}
-                      subjectType={subjectType}
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    {data.subjectTypes.map((subjectType) => {
+                      return (
+                        <SubjectType
+                          key={subjectType.id}
+                          subjectType={subjectType}
+                        />
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
                     />
-                  );
-                })}
+                    ;
+                  </>
+                )}
               </section>
               <DashboardSidebar
                 user={data.user}

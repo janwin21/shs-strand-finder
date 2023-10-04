@@ -1,18 +1,35 @@
 import { action } from "../../redux/action";
 import { connect } from "react-redux";
+import { modalType } from "../modal/modalType";
+import { Link } from "react-router-dom";
+import { resetRoute } from "../../route/routes";
 import SidebarSubject from "../dashboard/component/SidebarSubject";
 import SidebarPendingSubject from "../dashboard/component/SidebarPendingSubject";
 import SidebarButton from "../dashboard/component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
 
+const mapStateToProps = (state) => {
+  return {
+    viewablePE: state.store.viewablePE,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     viewSidebar: (bool) =>
       dispatch({ type: action.VIEW_SIDEBAR, viewableSidebar: bool }),
+    viewPE: (bool) => dispatch({ type: action.VIEW_PE, viewablePE: bool }),
   };
 };
 
-function ResultSidebar({ viewSidebar, user, subjects, predictedStrand }) {
+function ResultSidebar({
+  viewablePE,
+  viewSidebar,
+  viewPE,
+  user,
+  subjects,
+  predictedStrand,
+}) {
   console.log(predictedStrand);
   return (
     <>
@@ -22,8 +39,14 @@ function ResultSidebar({ viewSidebar, user, subjects, predictedStrand }) {
         style={{ height: "94vh" }}
       >
         <h6 className="roboto text-light position-relative border-bottom border-light px-4 py-3">
-          <i className="fa-solid fa-user me-3"></i>
-          {user.email}
+          <Link
+            to={resetRoute.path}
+            className="nav-link"
+            style={{ cursor: "pointer" }}
+          >
+            <i className="fa-solid fa-user me-3"></i>
+            {user?.email}
+          </Link>
           <a
             onClick={(event) => {
               event.preventDefault();
@@ -53,6 +76,9 @@ function ResultSidebar({ viewSidebar, user, subjects, predictedStrand }) {
           label="Personal Engagement"
           icon1="fa-regular fa-note-sticky"
           icon2="fa-solid fa-angle-left"
+          cb={() => viewPE(!viewablePE)}
+          toggle={false}
+          target={modalType.LOGOUT}
         />
         <h6 className="roboto text-light border-bottom border-light px-4 py-3">
           <i className="fa-solid fa-clipboard-question me-3"></i>Assessments
@@ -70,4 +96,4 @@ function ResultSidebar({ viewSidebar, user, subjects, predictedStrand }) {
   );
 }
 
-export default connect(null, mapDispatchToProps)(ResultSidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultSidebar);

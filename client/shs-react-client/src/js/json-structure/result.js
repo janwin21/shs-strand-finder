@@ -1,4 +1,6 @@
 import strand1 from "../../asset/strand/strand1.jpg";
+import strand2 from "../../asset/strand/strand1.jpg";
+
 import subject1 from "../../asset/subject/subject1.jpg";
 
 const resultData = {
@@ -18,6 +20,14 @@ const resultData = {
     description:
       "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     imagePath: strand1,
+  },
+
+  preferredStrand: {
+    id: "id321",
+    name: "Strand Name Preferred",
+    description:
+      "Preferred 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    imagePath: strand2,
   },
 
   // subjects
@@ -48,9 +58,19 @@ const resultData = {
   // personal engagements
   personalEngagements: [
     {
-      strandID: "peId123",
-      yesCount: 3,
-      noCount: 2,
+      id: "peId123",
+      question: "this is a question 1?",
+      yes: true,
+    },
+    {
+      id: "peId456",
+      question: "this is a question 2?",
+      yes: false,
+    },
+    {
+      id: "peId789",
+      question: "this is a question 3?",
+      yes: true,
     },
   ],
 

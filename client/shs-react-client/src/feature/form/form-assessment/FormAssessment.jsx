@@ -1,6 +1,7 @@
 import FormHeader from "../component/FormHeader";
 import Form from "./Form";
 import DashboardSidebar from "../../dashboard/DashboardSidebar";
+import PEResult from "../../layout/PEResult";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { formData } from "../../../js/json-structure/form";
@@ -8,10 +9,11 @@ import { formData } from "../../../js/json-structure/form";
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
   };
 };
 
-function FormAssessment({ viewableSidebar }) {
+function FormAssessment({ viewableSidebar, viewablePE }) {
   // FETCH
   const [data, fetchData] = useState(formData);
 
@@ -48,18 +50,34 @@ function FormAssessment({ viewableSidebar }) {
         ) : (
           <>
             {/*-- W/ SIDEBAR --*/}
-            <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
-                <FormHeader
-                  title="Create New Assessment Question"
-                  instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
+            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
+              <section
+                className={`col-9 h-100 auto-overflow position-relative ${
+                  !viewablePE ? "pb-4 px-5" : "p-0"
+                }`}
+              >
+                {!viewablePE ? (
+                  <>
+                    <FormHeader
+                      title="Create New Assessment Question"
+                      instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
                     elit, sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                     eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                />
-                <Form />
+                    />
+                    <Form />
+                  </>
+                ) : (
+                  <>
+                    <PEResult
+                      preferredStrand={data.preferredStrand}
+                      personalEngagements={data.personalEngagements}
+                    />
+                    ;
+                  </>
+                )}
               </section>
               <DashboardSidebar
                 user={data.user}
