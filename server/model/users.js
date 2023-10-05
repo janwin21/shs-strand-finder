@@ -8,6 +8,6 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const users = mongoose.model("users", userSchema);
+const User = mongoose.model("users", userSchema);
 
-module.exports = users;
+module.exports = User;
