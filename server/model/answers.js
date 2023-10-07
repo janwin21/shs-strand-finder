@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 
-const strandSchema = new mongoose.Schema({
+const answerSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  answerKey: { type: mongoose.Schema.Types.ObjectId, ref: "answer_keys" },
   correct: { type: Boolean, required: true },
-  noOfUnvisit: { type: Number, required: true },
+  noOfUnVisit: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
-const strands = mongoose.model("strands", strandSchema);
+const Answer = mongoose.model("answers", answerSchema);
 
-module.exports = strands;
+module.exports = Answer;

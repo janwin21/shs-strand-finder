@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const answeyKeySchema = new mongoose.Schema({
+  question: { type: mongoose.Schema.Types.ObjectId, ref: "questions" },
   value: { type: String, required: true },
   imagePath: { type: String },
   correct: { type: Boolean, required: true },
@@ -8,6 +9,6 @@ const answeyKeySchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const answer_keys = mongoose.model("answer_keys", answeyKeySchema);
+const AnswerKey = mongoose.model("answer_keys", answeyKeySchema);
 
-module.exports = answer_keys;
+module.exports = AnswerKey;

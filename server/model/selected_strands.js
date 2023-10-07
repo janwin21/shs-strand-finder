@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 
 const selectedStrandSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  strand: { type: mongoose.Schema.Types.ObjectId, ref: "strands" },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-const selected_strands = mongoose.model(
-  "selected_strands",
-  selectedStrandSchema
-);
+const SelectedStrand = mongoose.model("selected_strands", selectedStrandSchema);
 
-module.exports = selected_strands;
+module.exports = SelectedStrand;

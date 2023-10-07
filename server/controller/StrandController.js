@@ -1,8 +1,23 @@
+const Strand = require("../model/strands");
+
 class StrandController {
   async create(req, res) {
-    const { strandTypeID, name, description, imagePath } = req.body;
+    const { strandType, name, description, imagePath } = req.body;
+
+    // INIT
+    const newStrand = new Strand({
+      strandType,
+      name,
+      description,
+      imagePath,
+    });
+
+    // SAVE
+    newStrand.save();
 
     // RESPONSE
-    res.json({ strandTypeID, name, description, imagePath });
+    res.json({ strandType, name, description, imagePath });
   }
 }
+
+module.exports = StrandController;

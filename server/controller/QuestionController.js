@@ -1,8 +1,18 @@
+const Question = require("../model/questions");
+
 class QuestionController {
   async create(req, res) {
-    const { subjectID, question, questionImagePath } = req.body;
+    const { subject, question, questionImagePath } = req.body;
+
+    // INIT
+    const newQuestion = new Question({ subject, question, questionImagePath });
+
+    // SAVE
+    newQuestion.save();
 
     // RESPONSE
-    res.json({ subjectID, question, questionImagePath });
+    res.json({ subject, question, questionImagePath });
   }
 }
+
+module.exports = QuestionController;

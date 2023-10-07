@@ -4,6 +4,6 @@ const strandTypeSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const strand_types = mongoose.model("strand_types", strandTypeSchema);
+const StrandType = mongoose.model("strand_types", strandTypeSchema);
 
-module.exports = strand_types;
+module.exports = StrandType;

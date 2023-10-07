@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const subjectSchema = new mongoose.Schema({
+  subjectType: { type: mongoose.Schema.Types.ObjectId, ref: "subject_types" },
   name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   imagePath: { type: String, required: true },
@@ -8,6 +9,6 @@ const subjectSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const answer_keys = mongoose.model("answer_keys", subjectSchema);
+const Subject = mongoose.model("subjects", subjectSchema);
 
-module.exports = answer_keys;
+module.exports = Subject;

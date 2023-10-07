@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 
 const personalEngagementSchema = new mongoose.Schema({
+  strand: { type: mongoose.Schema.Types.ObjectId, ref: "strands" },
   question: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-const selected_personal_engagements = mongoose.model(
-  "selected_personal_engagements",
-  personalEngagementSchema
-);
+const PE = mongoose.model("personal_engagements", personalEngagementSchema);
 
-module.exports = selected_personal_engagements;
+module.exports = PE;

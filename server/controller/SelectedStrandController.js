@@ -1,8 +1,18 @@
+const SelectedStrand = require("../model/selected_strands");
+
 class SelectedStrandController {
   async create(req, res) {
-    const { userID, strandID } = req.body;
+    const { user, strand } = req.body;
+
+    // INIT
+    const newSelectedStrand = new SelectedStrand({ user, strand });
+
+    // SAVE
+    newSelectedStrand.save();
 
     // RESPONSE
-    res.json({ userID, strandID });
+    res.json({ user, strand });
   }
 }
+
+module.exports = SelectedStrandController;

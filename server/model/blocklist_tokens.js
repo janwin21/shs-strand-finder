@@ -5,6 +5,6 @@ const blocklistTokenSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const blocklistTokens = mongoose.model("blocklistTokens", blocklistTokenSchema);
+const BlocklistToken = mongoose.model("blocklist_tokens", blocklistTokenSchema);
 
-module.exports = blocklistTokens;
+module.exports = BlocklistToken;
