@@ -1,12 +1,17 @@
 const express = require("express");
-const userRoute = express.Router();
+const answerRoute = express.Router();
 
 // CONTROLLER
 const AnswerController = require("../controller/AnswerController");
 
-const userController = new AnswerController();
+const answerController = new AnswerController();
 
-// ROUTES
-userRoute.post("/", userController.create);
+// ROUTES: CRUD
+answerRoute.post("/", answerController.create);
+answerRoute.get("/", answerController.findAll);
+answerRoute.get("/:answerID", answerController.findById);
+answerRoute.put("/:answerID", answerController.put);
+answerRoute.delete("/:answerID", answerController.delete);
+answerRoute.delete("/delete/all", answerController.deleteAll);
 
-module.exports = userRoute;
+module.exports = answerRoute;

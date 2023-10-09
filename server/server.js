@@ -55,9 +55,7 @@ const connection = new Connect(DB_URL);
 
 app.listen(PORT, async () => {
   console.log(`listen on server ${PORT}`);
-  /*
   connection.connect(() => {
     console.log("TRIGGER THIS CALLBACK ONCE THE DATABASE CAUSED AN ERROR!");
   });
-  */
 });

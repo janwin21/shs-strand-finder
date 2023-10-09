@@ -6,7 +6,18 @@ const SelectedStrandController = require("../controller/SelectedStrandController
 
 const selectedStrandController = new SelectedStrandController();
 
-// ROUTES
+// ROUTES: CRUD
 selectedStrandRoute.post("/", selectedStrandController.create);
+selectedStrandRoute.get("/", selectedStrandController.findAll);
+selectedStrandRoute.get(
+  "/:selectedStrandID",
+  selectedStrandController.findById
+);
+selectedStrandRoute.put("/:selectedStrandID", selectedStrandController.put);
+selectedStrandRoute.delete(
+  "/:selectedStrandID",
+  selectedStrandController.delete
+);
+selectedStrandRoute.delete("/delete/all", selectedStrandController.deleteAll);
 
 module.exports = selectedStrandRoute;
