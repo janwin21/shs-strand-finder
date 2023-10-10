@@ -1,3 +1,6 @@
+// FAKER
+const Faker = require("../facade/Faker");
+
 class SelectedStrandFactory {
   constructor(selectedStrand) {
     this.selectedStrand = selectedStrand;

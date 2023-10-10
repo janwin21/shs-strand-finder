@@ -12,7 +12,7 @@ const strand_types_rollback = async () => {
 };
 
 const strand_types_migrate = async () => {
-  const size = 5;
+  const size = 3;
 
   for (let i = 0; i < size; i++) {
     // MIGRATE

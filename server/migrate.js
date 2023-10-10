@@ -30,17 +30,37 @@ const {
   subject_rollback,
   subject_migrate,
 } = require("./database/migration/06_subject_migration");
+const {
+  selected_strand_rollback,
+  selected_strand_migrate,
+} = require("./database/migration/07_selected_strand_migration");
+const {
+  strand_subject_rollback,
+  strand_subject_migrate,
+} = require("./database/migration/08_strand_subject_migration");
+const {
+  pe_rollback,
+  pe_migrate,
+} = require("./database/migration/09_pe_migration");
+const {
+  selected_pe_rollback,
+  selected_pe_migrate,
+} = require("./database/migration/10_selected_pe_migration");
 
 // CONNECT
 connection.connectOnMigration(
   async () => {
-    // ROLBACK
+    // ROLLBACK
     await user_rollback();
     await strand_types_rollback();
     await blocklist_token_rollback();
     await subject_type_rollback();
     await strand_rollback();
     await subject_rollback();
+    await selected_strand_rollback();
+    await strand_subject_rollback();
+    await pe_rollback();
+    await selected_pe_rollback();
     console.log("DATA SUCCESSFULLY ROLLBACKED");
 
     // MIGRATE
@@ -50,6 +70,10 @@ connection.connectOnMigration(
     await subject_type_migrate();
     await strand_migrate();
     await subject_migrate();
+    await selected_strand_migrate();
+    await strand_subject_migrate();
+    await pe_migrate();
+    await selected_pe_migrate();
     console.log("MIGRATION SUCCESSFULLY DONE");
   },
   async () => {

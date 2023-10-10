@@ -13,7 +13,7 @@ const strand_rollback = async () => {
 };
 
 const strand_migrate = async () => {
-  const size = 12;
+  const size = 5;
   const strandTypes = await StrandType.find({}).exec();
 
   for (let i = 0; i < size; i++) {

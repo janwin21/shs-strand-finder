@@ -12,7 +12,7 @@ const blocklist_token_rollback = async () => {
 };
 
 const blocklist_token_migrate = async () => {
-  const size = 15;
+  const size = 4;
 
   for (let i = 0; i < size; i++) {
     // MIGRATE

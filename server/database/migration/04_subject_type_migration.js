@@ -12,7 +12,7 @@ const subject_type_rollback = async () => {
 };
 
 const subject_type_migrate = async () => {
-  const size = 8;
+  const size = 6;
 
   for (let i = 0; i < size; i++) {
     // MIGRATE
