@@ -13,7 +13,7 @@ const subject_rollback = async () => {
 };
 
 const subject_migrate = async () => {
-  const size = 8;
+  const size = 12;
   const subjectTypes = await SubjectType.find({}).exec();
 
   for (let i = 0; i < size; i++) {

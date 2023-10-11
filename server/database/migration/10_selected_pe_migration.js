@@ -17,8 +17,18 @@ const selected_pe_migrate = async () => {
   const users = await User.find({}).exec();
   const pes = await PE.find({}).exec();
 
-  users.forEach(async (user) => {
-    pes.forEach(async (pe) => {
+  console.log("\n\nUSER ANSWERING PE RELATIONSHIP");
+
+  await users.forEach(async (user) => {
+    console.log(
+      "USER " +
+        user.email +
+        " answer PE question w/ a total items of " +
+        pes.length +
+        "."
+    );
+
+    await pes.forEach(async (pe) => {
       // MIGRATE
       await new SelectedPEFactory(new SelectedPE()).make(
         user._id.toString(),

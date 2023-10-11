@@ -17,7 +17,7 @@ const selected_strand_migrate = async () => {
   const strands = await Strand.find({}).exec();
   const users = await User.find({}).exec();
 
-  users.forEach(async (user) => {
+  await users.forEach(async (user) => {
     // MIGRATE
     await new SelectedStrandFactory(new SelectedStrand())
       .setStrands(strands.map((strand) => strand._id.toString()))

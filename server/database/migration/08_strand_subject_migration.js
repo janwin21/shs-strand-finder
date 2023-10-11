@@ -19,9 +19,9 @@ const strand_subject_migrate = async () => {
   const strands = await Strand.find({}).exec();
   const subjects = await Subject.find({}).exec();
 
-  console.log("TEST SUBJECT TO STARND RELATIONSHIP");
+  console.log("TEST SUBJECT TO STRAND RELATIONSHIP");
 
-  subjects.forEach(async (subject, i) => {
+  await subjects.forEach(async (subject, i) => {
     // INIT
     const randomLength = Faker.generateRandomNumber(1, strands.length);
     const shuffledStrands = _.shuffle(strands);
@@ -29,7 +29,7 @@ const strand_subject_migrate = async () => {
 
     console.log("SUBJECT " + i + ": " + subject.name);
 
-    fetchStrands.forEach(async (strand) => {
+    await fetchStrands.forEach(async (strand) => {
       console.log("\tASSOCIATED STRAND " + i + ": " + strand.name);
 
       // MIGRATE

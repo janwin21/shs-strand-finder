@@ -2,25 +2,26 @@
 const Faker = require("../../facade/Faker");
 
 // MODEL
-const PE = require("../../model/personal_engagements");
-const Strand = require("../../model/strands");
+const Question = require("../../model/questions");
+const Subject = require("../../model/subjects");
 
 // FACTORY
-const PEFactory = require("../../factory/PEFactory");
+const QuestionFactory = require("../../factory/QuestionFactory");
 
 const pe_rollback = async () => {
-  await PE.deleteMany({});
+  await Question.deleteMany({});
 };
 
 const pe_migrate = async () => {
-  const size = 4;
-  const strands = await Strand.find({}).exec();
+  const minItem = 20;
+  const maxItem = 40;
+  const subjects = await Subject.find({}).exec();
 
   console.log("\n\nTEST PE TO STRAND RELATIONSHIP");
 
   await strands.forEach(async (strand, i) => {
     // INIT
-    const randomLength = Faker.generateRandomNumber(1, size);
+    const randomLength = Faker.generateRandomNumber(minItem, maxItem);
 
     console.log("STRAND " + i + " (" + randomLength + "): " + strand.name);
 
