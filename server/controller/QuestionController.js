@@ -1,4 +1,5 @@
 const Question = require("../model/questions");
+const AnswerKey = require("../model/answer_keys");
 
 class QuestionController {
   /* CRUD ----------------------------------------------------------- */
@@ -19,10 +20,36 @@ class QuestionController {
   // READ ALL
   async findAll(req, res) {
     // FIND ALL
-    const questions = await Question.find({}).exec();
+    const answerKeys = await AnswerKey.find({}).populate("question").exec();
+
+    // Create a mapping of group.no to their corresponding values
+    const groupMap = new Map();
+    const newQuestions = [];
+
+    answerKeys.forEach((answerKey) => {
+      const questionID = answerKey.question._id.toString();
+
+      if (!groupMap.has(questionID)) {
+        groupMap.set(questionID, []);
+      }
+
+      groupMap.get(questionID).push({
+        _id: answerKey._id,
+        value: answerKey.value,
+        imagePath: answerKey.imagePath,
+        correct: answerKey.correct,
+        createdAt: answerKey.createdAt,
+        updatedAt: answerKey.updatedAt,
+      });
+    });
+
+    // Convert the mapping into the desired format
+    groupMap.forEach((values, questionID) => {
+      newQuestions.push({ questionID, values });
+    });
 
     // RESPONSE
-    res.json(questions);
+    res.json(newQuestions);
   }
 
   // READ BY ID
@@ -31,6 +58,15 @@ class QuestionController {
 
     // FIND SINGLE DATA
     const question = await Question.findById(questionID).exec();
+
+    if (question) {
+      const answerKeys = await AnswerKey.find({
+        question: question._id,
+      }).exec();
+
+      // RESPONSE
+      return res.json({ ...question.toObject(), answerKeys });
+    }
 
     // RESPONSE
     res.json(question);

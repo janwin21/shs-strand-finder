@@ -7,25 +7,19 @@ const connection = new Connect(DB_URL);
 
 // MIGRATION
 const {
-  pe_rollback,
-  pe_migrate,
-} = require("./database/migration/09_pe_migration");
-const {
-  question_rollback,
-  question_migrate,
-} = require("./database/migration/11_question_migration");
+  answer_key_rollback,
+  answer_key_migrate,
+} = require("./database/migration/12_answer_key_migration");
 
 // CONNECT
 connection.connectOnMigration(
   async () => {
     // ROLLBACK
-    await pe_rollback();
-    await question_rollback();
+    await answer_key_rollback();
     console.log("DATA SUCCESSFULLY ROLLBACKED");
 
     // MIGRATE
-    await pe_migrate();
-    await question_migrate();
+    await answer_key_migrate();
     console.log("MIGRATION SUCCESSFULLY DONE");
   },
   async () => {

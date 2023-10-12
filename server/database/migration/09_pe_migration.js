@@ -25,9 +25,7 @@ const pe_migrate = async () => {
     console.log("STRAND " + i + " (" + randomLength + "): " + strand.name);
 
     for (let i = 0; i < randomLength; i++) {
-      console.log(
-        "\tPE QUESTION " + i + " Associate by " + "STRAND " + strand.name
-      );
+      console.log("\tPE QUESTION " + i + " Associate by STRAND " + strand.name);
 
       // MIGRATE
       await new PEFactory(new PE()).make(
