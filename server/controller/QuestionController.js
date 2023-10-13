@@ -24,13 +24,16 @@ class QuestionController {
 
     // Create a mapping of group.no to their corresponding values
     const groupMap = new Map();
+    const mappedQuestions = new Map();
     const newQuestions = [];
 
     answerKeys.forEach((answerKey) => {
       const questionID = answerKey.question._id.toString();
+      const question = answerKey.question;
 
       if (!groupMap.has(questionID)) {
         groupMap.set(questionID, []);
+        mappedQuestions.set(questionID, question);
       }
 
       groupMap.get(questionID).push({
@@ -45,7 +48,10 @@ class QuestionController {
 
     // Convert the mapping into the desired format
     groupMap.forEach((values, questionID) => {
-      newQuestions.push({ questionID, values });
+      newQuestions.push({
+        ...mappedQuestions.get(questionID).toObject(),
+        answerKeys: values,
+      });
     });
 
     // RESPONSE
