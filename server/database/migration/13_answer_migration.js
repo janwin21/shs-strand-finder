@@ -24,6 +24,7 @@ const answer_migrate = async () => {
       // INIT
       const boolArr = [false, false, false, false];
       const randomIndex = Faker.generateRandomNumber(0, boolArr.length - 1);
+      const randomLeave = Faker.generateRandomNumber(0, 2);
       boolArr[randomIndex] = true;
 
       // FIND SINGLE DATA
@@ -32,13 +33,16 @@ const answer_migrate = async () => {
       }).exec();
 
       answerKeys.forEach(async (answerKey, index) => {
-        console.log(index, boolArr[index], answerKey);
-        await new AnswerFactory(new Answer()).make(
-          user._id.toString(),
-          answerKey._id.toString(),
-          boolArr[index],
-          0
-        );
+        // console.log(index, boolArr[index], answerKey);
+
+        if (boolArr[index]) {
+          await new AnswerFactory(new Answer()).make(
+            user._id.toString(),
+            answerKey._id.toString(),
+            answerKey.correct,
+            randomLeave
+          );
+        }
       });
     });
   });

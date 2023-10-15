@@ -27,7 +27,15 @@ const strand_subject_migrate = async () => {
     const shuffledStrands = _.shuffle(strands);
     const fetchStrands = shuffledStrands.slice(0, randomLength);
 
-    console.log("SUBJECT " + i + ": " + subject.name);
+    console.log(
+      "SUBJECT " +
+        i +
+        ": " +
+        subject.name +
+        " has " +
+        randomLength +
+        " assiciated STRANDS"
+    );
 
     await fetchStrands.forEach(async (strand) => {
       console.log("\tASSOCIATED STRAND " + i + ": " + strand.name);

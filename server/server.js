@@ -21,6 +21,9 @@ const blocklistTokenRoute = require("./router/blocklistTokenRoute");
 const answerRoute = require("./router/answerRoute");
 const answerKeyRoute = require("./router/answerKeyRoute");
 
+// ROUTES => PAGES
+const resultRoute = require("./router/page/resultRoute");
+
 // IMPORT DB TEST
 const User = require("./model/users");
 
@@ -45,6 +48,9 @@ app.use("/shs-strand-finder/api/V1.0.0/pe", peRoute);
 app.use("/shs-strand-finder/api/V1.0.0/blocklistToken", blocklistTokenRoute);
 app.use("/shs-strand-finder/api/V1.0.0/answer", answerRoute);
 app.use("/shs-strand-finder/api/V1.0.0/answerKey", answerKeyRoute);
+
+// MIDDLEWARE => PAGES
+app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);
 
 // LISTEN
 const PORT = process.env.SHS_PORT;

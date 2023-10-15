@@ -9,7 +9,8 @@
     "test:migrate": "node migrate.js",
     "test:migrate:question": "node migrateQuestions.js",
     "test:migrate:answerKey": "node migrateAnswerKeys.js",
-    "test:migrate:answer": "node migrateAnswers.js"
+    "test:migrate:answer": "node migrateAnswers.js",
+    "test:knn": "node testKNN.js"
   },
   "keywords": [
     "server"
