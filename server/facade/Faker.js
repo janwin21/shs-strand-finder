@@ -32,6 +32,18 @@ class Faker {
     "doctor",
     "away",
   ];
+  static imgs = [
+    "uploads\\sample\\img01.webp",
+    "uploads\\sample\\img02.jpg",
+    "uploads\\sample\\img03.jpg",
+    "uploads\\sample\\img04.jpg",
+    "uploads\\sample\\img05.jpg",
+    "uploads\\sample\\img06.jpg",
+    "uploads\\sample\\img07.jpg",
+    "uploads\\sample\\img08.jpg",
+    "uploads\\sample\\img09.jpg",
+    "uploads\\sample\\img10.jpg",
+  ];
 
   // GENERATE RANDOM STRING
   static generateRandomString(length) {
@@ -77,6 +89,12 @@ class Faker {
     }
 
     return sentence.join(" ");
+  }
+
+  // CREATE RANDOM IMAGES
+  static image() {
+    const randNum = Faker.generateRandomNumber(0, Faker.imgs.length - 1);
+    return Faker.imgs[randNum];
   }
 }
 

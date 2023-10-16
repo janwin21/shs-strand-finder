@@ -1,8 +1,9 @@
 import SubjectType from "./SubjectType";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
+import SubjectP from "../../js/model/SubjectP";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { subjectData } from "../../js/json-structure/subject";
 
 const mapStateToProps = (state) => {
@@ -14,7 +15,24 @@ const mapStateToProps = (state) => {
 
 function Subject({ viewableSidebar, viewablePE }) {
   // FETCH
-  const [data, fetchData] = useState(subjectData);
+  const [data, setData] = useState(subjectData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataD = await new SubjectP().read();
+      console.log("TRIGGER11", dataD.subjectTypes);
+      setData({
+        ...data,
+        subjectTypes: dataD.subjectTypes,
+      });
+      // console.log(databaseData);
+    };
+
+    fetchData();
+  }, []);
+
+  // UPDATE subject data
+  useEffect(() => {}, [data]);
 
   return (
     <>
@@ -31,13 +49,8 @@ function Subject({ viewableSidebar, viewablePE }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  {data.subjectTypes.map((subjectType) => {
-                    return (
-                      <SubjectType
-                        key={subjectType.id}
-                        subjectType={subjectType}
-                      />
-                    );
+                  {data.subjectTypes.map((subjectType, i) => {
+                    return <SubjectType key={i} subjectType={subjectType} />;
                   })}
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
@@ -55,13 +68,8 @@ function Subject({ viewableSidebar, viewablePE }) {
               >
                 {!viewablePE ? (
                   <>
-                    {data.subjectTypes.map((subjectType) => {
-                      return (
-                        <SubjectType
-                          key={subjectType.id}
-                          subjectType={subjectType}
-                        />
-                      );
+                    {data.subjectTypes.map((subjectType, i) => {
+                      return <SubjectType key={i} subjectType={subjectType} />;
                     })}
                   </>
                 ) : (

@@ -4,6 +4,11 @@ require("express-async-errors");
 const express = require("express");
 const Connect = require("./database/Connection");
 const app = express();
+const cors = require("cors");
+const path = require("path");
+
+// Apply CORS
+app.use(cors());
 
 // ROUTES
 const testRoute = require("./router/testRoute");
@@ -23,15 +28,34 @@ const answerKeyRoute = require("./router/answerKeyRoute");
 
 // ROUTES => PAGES
 const resultRoute = require("./router/page/resultRoute");
+const dashboardRoute = require("./router/page/dashboardRoute");
+const subjectPRoute = require("./router/page/subjectRoute");
 
 // IMPORT DB TEST
 const User = require("./model/users");
 
-// ERROR HANDLING
-
 // MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Define the directory where your image files are located (assuming "uploads" folder in the main directory)
+const uploadDirectory = path.join(__dirname, "uploads");
+
+// Serve files from the "uploads" directory
+app.use("/uploads", (req, res, next) => {
+  const allowedExtensions = [".png", ".jpg", ".webp", ".gif"];
+
+  // Get the file extension from the request URL
+  const fileExtension = path.extname(req.url);
+
+  if (allowedExtensions.includes(fileExtension)) {
+    // Serve the file if it has an allowed extension
+    express.static(uploadDirectory)(req, res, next);
+  } else {
+    // Return a 404 response for non-allowed extensions
+    res.status(404).end("Not Found");
+  }
+});
 
 // MAIN MIDDLEWARE
 app.use("/shs-strand-finder/test", testRoute);
@@ -51,6 +75,13 @@ app.use("/shs-strand-finder/api/V1.0.0/answerKey", answerKeyRoute);
 
 // MIDDLEWARE => PAGES
 app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);
+app.use("/shs-strand-finder/api/V1.0.0/dashboard", dashboardRoute);
+app.use("/shs-strand-finder/api/V1.0.0/subjectP", subjectPRoute);
+
+// ERROR HANDLING
+app.use((err, req, res, next) => {
+  res.status(500).json(err);
+});
 
 // LISTEN
 const PORT = process.env.SHS_PORT;

@@ -33,7 +33,7 @@ const answer_key_migrate = async () => {
       await new AnswerKeyFactory(new AnswerKey()).make(
         question._id.toString(),
         `ANSWER KEY IS ${bool}`,
-        `Answer Key image ${i + 1}`,
+        Faker.image(),
         bool
       );
     });

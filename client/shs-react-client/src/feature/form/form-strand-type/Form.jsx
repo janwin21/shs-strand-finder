@@ -1,4 +1,5 @@
 import { useState } from "react";
+import StrandType from "../../../js/model/StrandType";
 
 function Form() {
   // UML
@@ -6,9 +7,11 @@ function Form() {
     name: "Strand Name 1",
   });
 
-  const submit = (ev) => {
+  const submit = async (ev) => {
     ev.preventDefault();
-    console.log("ADD NEW STRAND TYPE : ", strandType);
+    const strandTypeModel = new StrandType();
+    await strandTypeModel.create(strandtype);
+    // console.log("ADD NEW STRAND TYPE : ", strandtype);
   };
 
   return (

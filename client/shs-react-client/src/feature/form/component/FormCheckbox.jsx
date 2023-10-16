@@ -5,10 +5,10 @@ function FormCheckbox({ strandType, onChangeCb }) {
         type="checkbox"
         className="btn-check"
         onChange={onChangeCb}
-        id={strandType.id}
+        id={strandType._id}
         autoComplete="off"
       />
-      <label className="btn btn-outline-primary" htmlFor={strandType.id}>
+      <label className="btn btn-outline-primary" htmlFor={strandType._id}>
         {strandType.name}
       </label>
     </>

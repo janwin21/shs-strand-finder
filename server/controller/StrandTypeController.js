@@ -22,7 +22,7 @@ class StrandTypeController {
     const strandTypes = await StrandType.find({}).exec();
 
     // RESPONSE
-    res.json(strandTypes);
+    res.json({ strandTypes });
   }
 
   // READ BY ID

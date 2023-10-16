@@ -133,15 +133,25 @@ class ResultController {
 
     // Extract and order the _id along with the predicted values
     const results = nearestPoints.map((item, index) => ({
-      _id: item.point._id,
+      _id: item.point._id.toString(),
       score: k - index,
       // mistakes: item.point.mistakes,
       // duration: item.point.duration,
       // noOfUnVisit: item.point.noOfUnVisit,
     }));
 
+    const finalResult = newStrandSubjects.map((newStrandSubject) => {
+      const sum = newStrandSubject.subjects.reduce((accumulator, subject) => {
+        return accumulator + _.find(results, { _id: subject.toString() }).score;
+      }, 0);
+
+      return { strand: newStrandSubject.strandID, sum };
+    });
+
+    const orderedFinalResult = _.orderBy(finalResult, ["sum"], ["desc"]);
+
     // RESPONSE
-    res.json({ count: mappedSubjects.length, results });
+    res.json({ count: mappedSubjects.length, orderedFinalResult });
   }
 }
 

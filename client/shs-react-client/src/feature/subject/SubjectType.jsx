@@ -34,8 +34,8 @@ function SubjectType({ deleteSubjectType, subjectType }) {
           {subjectType.name}
         </h5>
         <section className="row">
-          {subjectType.subjects.map((subject) => {
-            return <SubjectC key={subject.id} subject={subject} />;
+          {subjectType.subjects.map((subject, i) => {
+            return <SubjectC key={i} subject={subject} />;
           })}
         </section>
       </section>

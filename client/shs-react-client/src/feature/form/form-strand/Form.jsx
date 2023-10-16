@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { strandTypeData } from "../../../js/json-structure/form/strand-type";
+// import { strandTypeData } from "../../../js/json-structure/form/strand-type";
+import StrandType from "../../../js/model/StrandType";
+import Strand from "../../../js/model/Strand";
 import FormRadioBtn from "../component/FormRadioBtn";
 import strand2 from "../../../asset/strand/strand2.jpg";
 import $ from "jquery";
@@ -13,6 +15,10 @@ function Form() {
     image: null,
   });
 
+  const [strandTypeData, setStrandTypeData] = useState({
+    strandTypes: [],
+  });
+
   const [uploadBtn, setUploadBtn] = useState(null);
 
   const handleFileInputChange = (e) => {
@@ -21,23 +27,36 @@ function Form() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setStrand({ ...strand, image: e.target.result });
+        setStrand({ ...strand, image: file, display: e.target.result });
       };
       reader.readAsDataURL(file);
     }
   };
 
   useEffect(() => {
-    console.log("RELOAD STRAND TYPE : ", strandTypeData);
+    const fetchData = async () => {
+      // console.log("RELOAD STRAND TYPE : ", strandTypeData);
+      const strandType = await new StrandType().read();
+      setStrandTypeData(strandType);
 
-    $(() => {
-      setUploadBtn($("#uploadBtn"));
-    });
+      $(() => {
+        setUploadBtn($("#uploadBtn"));
+      });
+    };
+
+    fetchData();
   }, []);
 
-  const submit = (ev) => {
+  useEffect(() => {
+    // This will log the updated strandTypeData whenever it changes
+    console.log("Updated strandTypeData:", strandTypeData);
+  }, [strandTypeData]);
+
+  const submit = async (ev) => {
     ev.preventDefault();
-    console.log("ADD NEW STRAND : ", strand);
+    const strandModel = new Strand();
+    await strandModel.create(strand);
+    // console.log("ADD NEW STRAND : ", strand);
   };
 
   return (
@@ -51,7 +70,7 @@ function Form() {
           <section className="col-3">
             <img
               className="w-100 rounded-top"
-              src={strand.image ? strand.image : strand2}
+              src={strand.display ? strand.display : strand2}
               alt="file img input"
             />
             <button
@@ -108,7 +127,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {strandTypeData.strandTypes.map((strandType, i) => {
+                {strandTypeData?.strandTypes.map((strandType, i) => {
                   return (
                     <FormRadioBtn
                       key={i}

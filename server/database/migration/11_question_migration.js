@@ -34,7 +34,7 @@ const question_migrate = async () => {
       await new QuestionFactory(new Question()).make(
         subject._id.toString(),
         `Assessment Question ${Faker.word(4)} ${i + 1}?`,
-        `Question image ${i + 1}`
+        Faker.image()
       );
     }
   });

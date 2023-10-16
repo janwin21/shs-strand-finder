@@ -6,8 +6,17 @@ const StrandController = require("../controller/StrandController");
 
 const strandController = new StrandController();
 
+// STORAGE
+const StorageMiddleware = require("../middleware/StorageMiddleware");
+
+const storageMiddleware = new StorageMiddleware();
+
 // ROUTES: CRUD
-strandRoute.post("/", strandController.create);
+strandRoute.post(
+  "/",
+  storageMiddleware.storage("strand").single("image"),
+  strandController.create
+);
 strandRoute.get("/", strandController.findAll);
 strandRoute.get("/:strandID", strandController.findById);
 strandRoute.put("/:strandID", strandController.put);

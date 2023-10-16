@@ -4,16 +4,22 @@ class StrandSubjectController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { strand, subject } = req.body;
+    const { strandID, subjectID } = req.body;
 
     // INIT
-    const newStrandSubject = new StrandSubject({ strand, subject });
+    const newStrandSubject = new StrandSubject({
+      strand: strandID,
+      subject: subjectID,
+    });
 
     // SAVE
     newStrandSubject.save();
 
     // RESPONSE
-    res.json({ strand, subject });
+    res.json({
+      strand: strandID,
+      subject: subjectID,
+    });
   }
 
   // READ ALL

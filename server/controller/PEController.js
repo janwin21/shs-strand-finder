@@ -4,16 +4,16 @@ class PEController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { strand, question } = req.body;
+    const { strandID, question } = req.body;
 
     // INIT
-    const newPE = new PE({ strand, question });
+    const newPE = new PE({ strand: strandID, question });
 
     // SAVE
     newPE.save();
 
     // RESPONSE
-    res.json({ strand, question });
+    res.json({ strand: strandID, question });
   }
 
   // READ ALL

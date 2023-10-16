@@ -4,16 +4,22 @@ class AnswerKeyController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { question, value, imagePath, correct } = req.body;
+    const { questionID, value, correct } = req.body;
+    const imagePath = req.file.path;
 
     // INIT
-    const newAnswerKey = new AnswerKey({ question, value, imagePath, correct });
+    const newAnswerKey = new AnswerKey({
+      question: questionID,
+      value,
+      imagePath,
+      correct,
+    });
 
     // SAVE
     newAnswerKey.save();
 
     // RESPONSE
-    res.json({ question, value, imagePath, correct });
+    res.json({ question: questionID, value, imagePath, correct });
   }
 
   // READ ALL

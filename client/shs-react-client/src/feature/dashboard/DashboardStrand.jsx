@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
+import Localhost from "../../js/model/LocalHost";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -35,7 +36,7 @@ function DashboardStrand({
         style={{ height: "350px", cursor: "pointer" }}
       >
         <img
-          src={strand.imagePath}
+          src={Localhost.path() + strand.imagePath}
           className="card-img h-100"
           alt="strand img"
         />

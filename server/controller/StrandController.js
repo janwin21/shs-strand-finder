@@ -4,11 +4,12 @@ class StrandController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { strandType, name, description, imagePath } = req.body;
+    const { strandTypeID, name, description } = req.body;
+    const imagePath = req.file.path;
 
     // INIT
     const newStrand = new Strand({
-      strandType,
+      strandType: strandTypeID,
       name,
       description,
       imagePath,
@@ -18,7 +19,7 @@ class StrandController {
     newStrand.save();
 
     // RESPONSE
-    res.json({ strandType, name, description, imagePath });
+    res.json({ strandType: strandTypeID, name, description, imagePath });
   }
 
   // READ ALL
@@ -27,7 +28,7 @@ class StrandController {
     const strands = await Strand.find({}).exec();
 
     // RESPONSE
-    res.json(strands);
+    res.json({ strands });
   }
 
   // READ BY ID

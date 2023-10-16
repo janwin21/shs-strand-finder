@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SubjectType from "../../../js/model/SubjectType";
 
 function Form() {
   // UML
@@ -6,9 +7,11 @@ function Form() {
     name: "Subject Name 1",
   });
 
-  const submit = (ev) => {
+  const submit = async (ev) => {
     ev.preventDefault();
-    console.log("ADD NEW SUBJECT TYPE : ", subjectType);
+    const subjectTypeModel = new SubjectType();
+    await subjectTypeModel.create(subjectType);
+    // console.log("ADD NEW SUBJECT TYPE : ", subjectType);
   };
 
   return (

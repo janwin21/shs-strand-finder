@@ -22,7 +22,7 @@ class SubjectTypeController {
     const subjectTypes = await SubjectType.find({}).exec();
 
     // RESPONSE
-    res.json(subjectTypes);
+    res.json({ subjectTypes });
   }
 
   // READ BY ID

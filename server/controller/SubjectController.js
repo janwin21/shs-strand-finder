@@ -4,11 +4,12 @@ class SubjectController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { subjectType, name, description, imagePath } = req.body;
+    const { subjectTypeID, name, description } = req.body;
+    const imagePath = req.file.path;
 
     // INIT
     const newSubject = new Subject({
-      subjectType,
+      subjectType: subjectTypeID,
       name,
       description,
       imagePath,
@@ -18,7 +19,12 @@ class SubjectController {
     newSubject.save();
 
     // RESPONSE
-    res.json({ subjectType, name, description, imagePath });
+    res.json({
+      subjectID: newSubject._id.toString(),
+      name,
+      description,
+      imagePath,
+    });
   }
 
   // READ ALL

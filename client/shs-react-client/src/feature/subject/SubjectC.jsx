@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
+import Localhost from "../../js/model/LocalHost";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -33,7 +34,7 @@ function SubjectC({ deleteSubject, prepareSubject, subject }) {
         }}
       >
         <img
-          src={subject.imagePath}
+          src={Localhost.path() + subject.imagePath}
           className="card-img h-100"
           alt="subject img"
         />

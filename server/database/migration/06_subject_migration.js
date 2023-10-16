@@ -25,7 +25,7 @@ const subject_migrate = async () => {
       .make(
         `Subject ${Faker.word(4)} ${i + 1}`,
         Faker.sentence(),
-        `Subject image ${i + 1}`
+        Faker.image()
       );
   }
 };

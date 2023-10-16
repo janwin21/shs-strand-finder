@@ -6,8 +6,17 @@ const QuestionController = require("../controller/QuestionController");
 
 const questionController = new QuestionController();
 
+// STORAGE
+const StorageMiddleware = require("../middleware/StorageMiddleware");
+
+const storageMiddleware = new StorageMiddleware();
+
 // ROUTES: CRUD
-questionRoute.post("/", questionController.create);
+questionRoute.post(
+  "/",
+  storageMiddleware.storage("question").single("questionImage"),
+  questionController.create
+);
 questionRoute.get("/", questionController.findAll);
 questionRoute.get("/:questionID", questionController.findById);
 questionRoute.put("/:questionID", questionController.put);

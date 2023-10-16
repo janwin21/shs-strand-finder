@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { strandTypeData } from "../../../js/json-structure/form/strand-type";
-import { subjectTypeData } from "../../../js/json-structure/form/subject-type";
+// import { strandTypeData } from "../../../js/json-structure/form/strand-type";
+// import { subjectTypeData } from "../../../js/json-structure/form/subject-type";
+import SubjectType from "../../../js/model/SubjectType";
+import Strand from "../../../js/model/Strand";
+import Subject from "../../../js/model/Subject";
+import StrandSubject from "../../../js/model/StrandSubject";
 import FormCheckBox from "../component/FormCheckBox";
 import FormRadioBtn from "../component/FormRadioBtn";
 import subject1 from "../../../asset/subject/subject1.jpg";
@@ -17,6 +21,14 @@ function Form() {
     // (server) subjectID: string
   });
 
+  const [subjectTypeData, setSubjectTypeData] = useState({
+    subjectTypes: [],
+  });
+
+  const [strandData, setStrandData] = useState({
+    strands: [],
+  });
+
   const [uploadBtn, setUploadBtn] = useState(null);
 
   const handleFileInputChange = (e) => {
@@ -25,20 +37,38 @@ function Form() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSubject({ ...subject, image: e.target.result });
+        setSubject({
+          ...subject,
+          image: file,
+          display: e.target.result,
+        });
       };
       reader.readAsDataURL(file);
     }
   };
 
   useEffect(() => {
-    console.log("RELOAD STRAND TYPE : ", strandTypeData);
-    console.log("RELOAD SUBJECT TYPE : ", subjectTypeData);
+    const fetchData = async () => {
+      // console.log("RELOAD STRAND TYPE : ", strandTypeData);
+      // console.log("RELOAD SUBJECT TYPE : ", subjectTypeData);
+      const subjectType = await new SubjectType().read();
+      const strand = await new Strand().read();
+      setSubjectTypeData(subjectType);
+      setStrandData(strand);
 
-    $(() => {
-      setUploadBtn($("#uploadBtn"));
-    });
+      $(() => {
+        setUploadBtn($("#uploadBtn"));
+      });
+    };
+
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    // This will log the updated strandTypeData whenever it changes
+    console.log("Updated subjectTypeData:", subjectTypeData);
+    console.log("Updated strandTypeData:", strandData);
+  }, [subjectTypeData, strandData]);
 
   const onStrandChange = (ev) => {
     const { id, checked } = ev.target;
@@ -53,9 +83,16 @@ function Form() {
     }
   };
 
-  const submit = (ev) => {
+  const submit = async (ev) => {
     ev.preventDefault();
-    console.log("ADD NEW STRAND : ", subject);
+    const strandTypeIDs = subject.strandTypeIDs;
+    const subjectModel = new Subject();
+    const subjectID = await subjectModel.create(subject);
+    const strandSubject = await new StrandSubject().create(
+      subjectID,
+      strandTypeIDs
+    );
+    console.log("ADD NEW STRAND ID: ", strandSubject);
   };
 
   return (
@@ -69,7 +106,7 @@ function Form() {
           <section className="col-3">
             <img
               className="w-100 rounded-top"
-              src={subject.image ? subject.image : subject1}
+              src={subject.display ? subject.display : subject1}
               alt="file img input"
             />
             <button
@@ -126,14 +163,14 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {subjectTypeData.subjectTypes.map((subjectType, i) => {
+                {subjectTypeData?.subjectTypes.map((subjectType, i) => {
                   return (
                     <FormRadioBtn
                       key={i}
                       onChangeCb={() =>
                         setSubject({
                           ...subject,
-                          subjectTypeID: subjectType.id,
+                          subjectTypeID: subjectType._id,
                         })
                       }
                       name={"subjectType"}
@@ -152,12 +189,12 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {strandTypeData.strandTypes.map((strandType, i) => {
+                {strandData.strands.map((strand, i) => {
                   return (
                     <FormCheckBox
                       key={i}
                       onChangeCb={onStrandChange}
-                      strandType={strandType}
+                      strandType={strand}
                     />
                   );
                 })}

@@ -5,16 +5,21 @@ class QuestionController {
   /* CRUD ----------------------------------------------------------- */
   // CREATE
   async create(req, res) {
-    const { subject, question, questionImagePath } = req.body;
+    const { subjectID, question } = req.body;
+    const questionImagePath = req.file.path;
 
     // INIT
-    const newQuestion = new Question({ subject, question, questionImagePath });
+    const newQuestion = new Question({
+      subject: subjectID,
+      question,
+      questionImagePath,
+    });
 
     // SAVE
     newQuestion.save();
 
     // RESPONSE
-    res.json({ subject, question, questionImagePath });
+    res.json({ subject: subjectID, question, questionImagePath });
   }
 
   // READ ALL

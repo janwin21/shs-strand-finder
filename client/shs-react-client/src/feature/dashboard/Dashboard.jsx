@@ -2,6 +2,7 @@ import DashboardHeader from "./DashboardHeader";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardStrandType from "./DashboardStrandType";
 import PEResult from "../layout/PEResult";
+import DashboardD from "../../js/model/Dashboard";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { dashboardData } from "../../js/json-structure/dashboard";
@@ -15,7 +16,7 @@ const mapStateToProps = (state) => {
 
 function Dashboard({ viewableSidebar, viewablePE }) {
   // FETCH
-  const [data, fetchData] = useState(dashboardData);
+  const [data, setData] = useState(dashboardData);
 
   // UML
   const [selectedStrand, setSelectedStrand] = useState({
@@ -30,8 +31,21 @@ function Dashboard({ viewableSidebar, viewablePE }) {
   });
 
   useEffect(() => {
-    setSelectedStrand({ ...data.selectedStrand });
+    const fetchData = async () => {
+      const dataD = await new DashboardD().read();
+      console.log("TRIGGER11", dataD.strandTypes);
+      setData({
+        ...data,
+        strandTypes: dataD.strandTypes,
+      });
+      // console.log(databaseData);
+    };
+
+    fetchData();
   }, []);
+
+  // UPDATE dashboard data
+  useEffect(() => {}, [data]);
 
   return (
     <>
@@ -49,9 +63,9 @@ function Dashboard({ viewableSidebar, viewablePE }) {
               <div className="row">
                 <section className="col-12 pb-4">
                   <DashboardHeader />
-                  {data.strandTypes.map((strandType) => (
+                  {data.strandTypes.map((strandType, i) => (
                     <DashboardStrandType
-                      key={strandType.id}
+                      key={i}
                       strandType={strandType}
                       strandCb={(strand) => {
                         setSelectedStrand({
@@ -78,9 +92,9 @@ function Dashboard({ viewableSidebar, viewablePE }) {
                 {!viewablePE ? (
                   <>
                     <DashboardHeader />
-                    {data.strandTypes.map((strandType) => (
+                    {data.strandTypes.map((strandType, i) => (
                       <DashboardStrandType
-                        key={strandType.id}
+                        key={i}
                         strandType={strandType}
                         strandCb={(strand) => {
                           setSelectedStrand({

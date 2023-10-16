@@ -6,10 +6,10 @@ function FormRadioBtn({ name, subjectType, onChangeCb }) {
         className="btn-check"
         name={name}
         onChange={onChangeCb}
-        id={subjectType.id}
+        id={subjectType._id}
         autoComplete="off"
       />
-      <label className="btn btn-outline-primary" htmlFor={subjectType.id}>
+      <label className="btn btn-outline-primary" htmlFor={subjectType._id}>
         {subjectType.name}
       </label>
     </>

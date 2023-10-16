@@ -25,7 +25,7 @@ const strand_migrate = async () => {
       .make(
         `Strand ${Faker.word(4)} ${i + 1}`,
         Faker.sentence(),
-        `Strand image ${i + 1}`
+        Faker.image()
       );
   }
 };

@@ -34,12 +34,12 @@ function DashboardStrandType({
           <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0"></i>
         </a>
         <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
-          STRAND TYPE NAME
+          {strandType.name}
         </h5>
         <section className="row">
-          {strandType.strands.map((strand) => (
+          {strandType.strands.map((strand, i) => (
             <DashboardStrand
-              key={strand.id}
+              key={i}
               strand={strand}
               strandCb={() => strandCb(strand)}
             />
