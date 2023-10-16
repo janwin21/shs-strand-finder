@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { subjectData } from "../../../js/json-structure/form/subject";
+import Subject from "../../../js/model/Subject";
 import FormRadioBtn from "../component/FormRadioBtn";
 import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
@@ -20,6 +21,8 @@ function Form() {
       },
     ],
   });
+
+  const [subjectDData, setSubjectDData] = useState(subjectData);
 
   const [uploadBtn, setUploadBtn] = useState(null);
 
@@ -50,12 +53,23 @@ function Form() {
   };
 
   useEffect(() => {
-    console.log("RELOAD SUBJECT : ", subjectData);
+    const fetchData = async () => {
+      const subject = await new Subject().read();
+      console.log("RELOAD SUBJECT : ", subject);
+      setSubjectDData({ ...subjectData, subjectTypes: subject });
 
-    $(() => {
-      setUploadBtn($("#uploadBtn"));
-    });
+      $(() => {
+        setUploadBtn($("#uploadBtn"));
+      });
+    };
+
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    // This will log the updated strandTypeData whenever it changes
+    console.log("Updated subjectTypeData:", subjectDData);
+  }, [subjectDData]);
 
   const submit = (ev) => {
     ev.preventDefault();
@@ -114,7 +128,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {subjectData.subjects.map((subject, i) => {
+                {subjectData?.subjects?.map((subject, i) => {
                   return (
                     <FormRadioBtn
                       key={i}
@@ -133,7 +147,7 @@ function Form() {
                 const uploadBtnId = `uploadBtn${i}`;
 
                 return (
-                  <section key={answerKey.id} className="row mt-5">
+                  <section key={i} className="row mt-5">
                     <section className="col-3">
                       <img
                         className="w-100 rounded-top"

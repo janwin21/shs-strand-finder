@@ -19,6 +19,16 @@ class Subject {
       console.error("Error creating Subject:", error.message);
     }
   }
+
+  async read() {
+    try {
+      // Send a POST request to create the Subject
+      const response = await axios.get(Subject.endPoint);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default Subject;

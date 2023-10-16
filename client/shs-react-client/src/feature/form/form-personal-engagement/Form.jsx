@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { strandData } from "../../../js/json-structure/form/strand";
+// import { strandData } from "../../../js/json-structure/form/strand";
+import Strand from "../../../js/model/Strand";
+import PEP from "../../../js/model/PEP";
 import FormRadioBtn from "../component/FormRadioBtn";
 
 function Form() {
@@ -8,12 +10,33 @@ function Form() {
     question: "This is a question",
   });
 
+  const [strandData, setStrandData] = useState({
+    strands: [],
+  });
+
   useEffect(() => {
-    console.log("RELOAD STRAND TYPE : ", strandData);
+    const fetchData = async () => {
+      // console.log("RELOAD STRAND : ", strandData);
+      const strand = await new Strand().read();
+      setStrandData(strand);
+
+      $(() => {
+        setUploadBtn($("#uploadBtn"));
+      });
+    };
+
+    fetchData();
   }, []);
 
-  const submit = (ev) => {
+  useEffect(() => {
+    // This will log the updated strandTypeData whenever it changes
+    console.log("Updated strandTypeData:", strandData);
+  }, [strandData]);
+
+  const submit = async (ev) => {
     ev.preventDefault();
+    const pepModel = new PEP();
+    await pepModel.create(personalEngagement);
     console.log("ADD NEW PERSONAL ENGAGEMENT : ", personalEngagement);
   };
 

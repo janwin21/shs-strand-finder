@@ -49,7 +49,7 @@ function Form() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // console.log("RELOAD STRAND TYPE : ", strandTypeData);
+      // console.log("RELOAD STRAND : ", strandData);
       // console.log("RELOAD SUBJECT TYPE : ", subjectTypeData);
       const subjectType = await new SubjectType().read();
       const strand = await new Strand().read();
