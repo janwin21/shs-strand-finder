@@ -34,7 +34,7 @@ const strand_subject_migrate = async () => {
         subject.name +
         " has " +
         randomLength +
-        " assiciated STRANDS"
+        " associated STRANDS"
     );
 
     await fetchStrands.forEach(async (strand) => {
@@ -42,8 +42,8 @@ const strand_subject_migrate = async () => {
 
       // MIGRATE
       await new StrandSubjectFactory(new StrandSubject()).make(
-        strand._id.toString(),
-        subject
+        strand._id,
+        subject._id
       );
     });
   });
