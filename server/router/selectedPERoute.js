@@ -10,6 +10,7 @@ const selectedPEController = new SelectedPEController();
 selectedPERoute.post("/", selectedPEController.create);
 selectedPERoute.get("/", selectedPEController.findAll);
 selectedPERoute.get("/:selectedPEID", selectedPEController.findById);
+selectedPERoute.get("/user/:userID", selectedPEController.findByUserID);
 selectedPERoute.put("/:selectedPEID", selectedPEController.put);
 selectedPERoute.delete("/:selectedPEID", selectedPEController.delete);
 selectedPERoute.delete("/delete/all", selectedPEController.deleteAll);

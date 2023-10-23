@@ -7,6 +7,7 @@ import SidebarButton from "./component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
 import SidebarSubject from "./component/SidebarSubject";
 import SidebarPendingSubject from "./component/SidebarPendingSubject";
+import Localhost from "../../js/model/LocalHost";
 
 const mapStateToProps = (state) => {
   return {
@@ -66,7 +67,7 @@ function DashboardSidebar({
           {selectedStrand ? (
             <>
               <img
-                src={selectedStrand.imagePath}
+                src={Localhost.path() + selectedStrand.imagePath}
                 alt="strand image display"
                 style={{ height: "175px" }}
               />

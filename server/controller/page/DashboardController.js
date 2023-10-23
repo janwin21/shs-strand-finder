@@ -32,7 +32,14 @@ class DashboardController {
       };
     });
 
-    res.json({ strandTypes: resultStrandTypes });
+    res.json({
+      user: req.user,
+      strandTypes: resultStrandTypes,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+    });
   }
 }
 

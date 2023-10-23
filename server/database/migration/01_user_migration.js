@@ -12,7 +12,7 @@ const user_rollback = async () => {
 };
 
 const user_migrate = async () => {
-  const size = 4;
+  const size = 10;
 
   for (let i = 0; i < size; i++) {
     // MIGRATE

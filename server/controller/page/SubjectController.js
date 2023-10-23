@@ -32,7 +32,13 @@ class SubjectController {
       };
     });
 
-    res.json({ subjectTypes: resultSubjectTypes });
+    res.json({
+      user: req.user,
+      subjectTypes: resultSubjectTypes,
+      selectedStrand: req.selectedStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+    });
   }
 }
 

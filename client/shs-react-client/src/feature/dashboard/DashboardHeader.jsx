@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import {
   personalEngagementRoute,
+  _personalEngagementRoute,
   subjectRoute,
   resultRoute,
 } from "../../route/routes";
 
-function DashboardHeader() {
+function DashboardHeader({ user }) {
   return (
     <>
       {/*-- PANEL DISPLAY --*/}
@@ -13,14 +14,18 @@ function DashboardHeader() {
         <div className="card-body p-5">
           <h2 className="card-title poppins">Welcome to SHS Strand Finder</h2>
           <p className="card-text my-4 roboto">
-            Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
-            elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Hello, {user.email}! Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.
           </p>
-          <Link to={personalEngagementRoute.path} className="nav-link d-inline">
+          <Link
+            to={_personalEngagementRoute.path}
+            className="nav-link d-inline"
+          >
             <button className="btn btn-dark roboto px-4 fs-6 fw-semibold">
               PERSONAL ENGAGEMENT
             </button>

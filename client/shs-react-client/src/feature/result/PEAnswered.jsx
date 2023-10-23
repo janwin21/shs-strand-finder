@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function PEAnswered({ yes, peNo }) {
+function PEAnswered({ pe, peNo }) {
   return (
     <>
       {/*-- ANSWERED --*/}
@@ -25,11 +25,11 @@ function PEAnswered({ yes, peNo }) {
             className="card-text roboto text-light"
             style={{ height: "200px", overflowY: "auto" }}
           >
-            This is a question?
+            {pe.question}
           </p>
           <button
             className={`btn btn-${
-              yes ? "success" : "dark"
+              pe.yes ? "success" : "dark"
             } roboto w-100 mb-2 px-4 fs-6 fw-semibold`}
             disabled={true}
           >
@@ -37,7 +37,7 @@ function PEAnswered({ yes, peNo }) {
           </button>
           <button
             className={`btn btn-${
-              !yes ? "danger" : "dark"
+              !pe.yes ? "danger" : "dark"
             } roboto w-100 px-4 fs-6 fw-semibold`}
             disabled={true}
           >

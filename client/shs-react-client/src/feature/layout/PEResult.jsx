@@ -3,6 +3,7 @@ import { action } from "../../redux/action";
 import { useNavigate } from "react-router-dom";
 import { personalEngagementRoute } from "../../route/routes";
 import PEAnswered from "../result/PEAnswered";
+import Localhost from "../../js/model/LocalHost";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -39,7 +40,7 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
             <div className="row g-0">
               <div className="col-md-2">
                 <img
-                  src={preferredStrand.imagePath}
+                  src={Localhost.path() + preferredStrand.imagePath}
                   className="img-fluid rounded"
                   style={{ minHeight: "300px" }}
                   alt="pending strand image"
@@ -73,7 +74,7 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
           {/*-- CONTAINER --*/}
           <section className="row w-100 p-4">
             {personalEngagements.map((pe, index) => (
-              <PEAnswered key={pe.id} peNo={index + 1} yes={pe.yes} />
+              <PEAnswered key={pe._id} peNo={index + 1} pe={pe} />
             ))}
           </section>
         </div>

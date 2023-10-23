@@ -70,7 +70,7 @@ class Faker {
 
   // CREATE RANDOM BOOLEAN
   static boolean() {
-    return Faker.generateRandomNumber(0, 1) == 1;
+    return Math.random() < 0.5;
   }
 
   // CREATE RANDOM WORD

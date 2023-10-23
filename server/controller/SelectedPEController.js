@@ -1,4 +1,9 @@
 const SelectedPE = require("../model/selected_personal_engagements");
+const PE = require("../model/personal_engagements");
+const Strand = require("../model/strands");
+
+// LODASH
+const _ = require("lodash");
 
 class SelectedPEController {
   /* CRUD ----------------------------------------------------------- */
@@ -34,6 +39,75 @@ class SelectedPEController {
 
     // RESPONSE
     res.json(selectedPE);
+  }
+
+  // READ BY USER ID
+  async findByUserID(req, res) {
+    const { userID } = req.params;
+
+    // INIT
+    const strands = await Strand.find({}).exec();
+
+    // FIND SINGLE DATA
+    const selectedPEs = await SelectedPE.find({ user: userID }).exec();
+    const mappedPEs = await Promise.all(
+      selectedPEs.map(async (selectedPE) => {
+        const pe = await PE.findOne({ _id: selectedPE.pe.toString() });
+
+        return {
+          ...selectedPE.toObject(),
+          question: pe.question,
+          strand: pe.strand,
+        };
+      })
+    );
+
+    // Create a mapping of group.no to their corresponding values
+    const groupMap = new Map();
+    const newStrands = [];
+
+    mappedPEs.forEach((mappedPE) => {
+      const strandID = mappedPE.strand.toString();
+      delete mappedPE.strand;
+
+      if (!groupMap.has(strandID)) {
+        groupMap.set(strandID, []);
+      }
+
+      groupMap.get(strandID).push({
+        ...mappedPE,
+      });
+    });
+
+    // Convert the mapping into the desired format
+    groupMap.forEach((values, strandID) => {
+      let yes = 0;
+      let no = 0;
+      const strand = strands.filter(
+        (strand) => strand._id.toString() === strandID
+      );
+
+      values.forEach((value) => {
+        if (value.yes) yes++;
+        else no++;
+      });
+
+      const prob = (yes / values.length) * 100;
+
+      newStrands.push({
+        ...strand[0].toObject(),
+        total: values.length,
+        yes,
+        no,
+        prob,
+        personalEngagements: values,
+      });
+    });
+
+    const orderedStrands = _.orderBy(newStrands, ["prob"], ["desc"]);
+
+    // RESPONSE
+    res.json(orderedStrands);
   }
 
   // UPDATE

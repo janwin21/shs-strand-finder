@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
 import { useState } from "react";
+import Register from "../../js/model/Register";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -20,10 +21,18 @@ function RegisterForm({ loginUser }) {
     confirmPassword: "password",
   });
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    loginUser({ name: "username1" });
-    navigate(dashboardRoute.path);
+    const register = new Register();
+
+    loginUser({ ...newUser });
+    const err = await register.register(newUser);
+
+    if (err?.error) {
+      console.log(err.error);
+    } else {
+      navigate(dashboardRoute.path);
+    }
   };
 
   return (
@@ -50,6 +59,9 @@ function RegisterForm({ loginUser }) {
             className="form-control shs-input register-input shadow"
             id="email"
             autoComplete="off"
+            onChange={(ev) => {
+              setNewUser({ ...newUser, email: ev.target.value });
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -69,6 +81,9 @@ function RegisterForm({ loginUser }) {
             className="form-control shs-input register-input shadow"
             id="password"
             autoComplete="off"
+            onChange={(ev) => {
+              setNewUser({ ...newUser, password: ev.target.value });
+            }}
           />
         </div>
 
@@ -85,6 +100,9 @@ function RegisterForm({ loginUser }) {
             className="form-control shs-input register-input shadow"
             id="confirmPassword"
             autoComplete="off"
+            onChange={(ev) => {
+              setNewUser({ ...newUser, confirmPassword: ev.target.value });
+            }}
           />
         </div>
         <button

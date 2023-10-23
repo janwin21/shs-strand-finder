@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const express = require("express");
 const Connect = require("./database/Connection");
+const asyncErrors = require("express-async-errors");
 const app = express();
 const cors = require("cors");
 const path = require("path");
@@ -30,6 +31,7 @@ const answerKeyRoute = require("./router/answerKeyRoute");
 const resultRoute = require("./router/page/resultRoute");
 const dashboardRoute = require("./router/page/dashboardRoute");
 const subjectPRoute = require("./router/page/subjectRoute");
+const registerRoute = require("./router/page/registerRoute");
 
 // IMPORT DB TEST
 const User = require("./model/users");
@@ -77,11 +79,12 @@ app.use("/shs-strand-finder/api/V1.0.0/answerKey", answerKeyRoute);
 app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);
 app.use("/shs-strand-finder/api/V1.0.0/dashboard", dashboardRoute);
 app.use("/shs-strand-finder/api/V1.0.0/subjectP", subjectPRoute);
+app.use("/shs-strand-finder/api/V1.0.0/register", registerRoute);
 
 // ERROR HANDLING
-app.use((err, req, res, next) => {
-  res.status(500).json(err);
-});
+const ErrorMiddleware = require("./middleware/ErrorMiddleware");
+const errorMiddleware = new ErrorMiddleware();
+app.use(errorMiddleware.erorr);
 
 // LISTEN
 const PORT = process.env.SHS_PORT;

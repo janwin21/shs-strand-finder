@@ -1,4 +1,7 @@
+import Localhost from "../../../js/model/LocalHost";
+
 function SidebarSubject({ subject }) {
+  console.log("SUBJECT", subject);
   return (
     <>
       {/*-- SUBJECT CARD --*/}
@@ -9,7 +12,7 @@ function SidebarSubject({ subject }) {
         <div className="row g-0">
           <div className="col-md-4">
             <img
-              src={subject.imagePath}
+              src={Localhost.path() + subject.imagePath}
               className="img-fluid rounded-0"
               alt="subject image"
             />
@@ -23,7 +26,8 @@ function SidebarSubject({ subject }) {
                 score: <strong>{subject.score}</strong> / {subject.totalScore}
               </p>
               <p className="card-text text-light mb-0">
-                duration: {subject.duration}
+                duration: {subject.duration}{" "}
+                {subject.duration < 1 ? "sec" : "min"}
               </p>
               <p className="card-text text-light mb-0">leave count: 3</p>
             </div>

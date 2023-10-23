@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Localhost from "../../js/model/LocalHost";
 
 function AssessmentModal({ id, path, subject = null, cb = () => {} }) {
   const navigate = useNavigate();
@@ -48,7 +49,9 @@ function AssessmentModal({ id, path, subject = null, cb = () => {} }) {
               <div className="row g-0">
                 <div className="col-md-4">
                   <img
-                    src={subject ? subject.imagePath : "UNKNOWN"}
+                    src={
+                      subject ? Localhost.path() + subject.imagePath : "UNKNOWN"
+                    }
                     className="img-fluid rounded-0"
                     alt="subject image"
                   />

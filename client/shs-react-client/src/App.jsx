@@ -7,6 +7,8 @@ import {
   dashboardBurgerRoute,
   personalEngagementRoute,
   assessmentRoute,
+  _assessmentRoute,
+  _personalEngagementRoute,
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,
@@ -72,7 +74,15 @@ function App({
           path={personalEngagementRoute.path}
           element={personalEngagementRoute.element}
         />
+        <Route
+          path={_personalEngagementRoute.path}
+          element={_personalEngagementRoute.element}
+        />
         <Route path={assessmentRoute.path} element={assessmentRoute.element} />
+        <Route
+          path={_assessmentRoute.path}
+          element={_assessmentRoute.element}
+        />
         <Route
           path={assessmentBurgerRoute.path}
           element={assessmentBurgerRoute.element}
@@ -223,7 +233,7 @@ function App({
       {/* ASSESSMENT QUESTION DELETION */}
       <AssessmentModal
         id={modalType.ASSESSMENT_PREPARATION}
-        path={assessmentRoute.path}
+        path={_assessmentRoute.path}
         subject={subjectForPreparation}
         cb={() => {}}
       />

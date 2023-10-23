@@ -7,6 +7,8 @@ import Dashboard from "../feature/dashboard/Dashboard";
 import DashboardBurger from "../feature/dashboard/DashboardBurger";
 import PersonalEngagement from "../feature/personal-engagement/PersonalEngagement";
 import Assessment from "../feature/assessment/Assessment";
+import _Assessment from "../feature/_assessment/_Assessment";
+import _PE from "../feature/_personal-engagement/_PE";
 import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 import Subject from "../feature/subject/Subject";
 import Access from "../feature/access/Access";
@@ -33,7 +35,12 @@ const personalEngagementRoute = new RouteLink(
   "/personal-engagement",
   <PersonalEngagement />
 );
+const _personalEngagementRoute = new RouteLink(
+  "/_personal-engagement",
+  <_PE />
+);
 const assessmentRoute = new RouteLink("/assessment", <Assessment />);
+const _assessmentRoute = new RouteLink("/_assessment", <_Assessment />);
 const assessmentBurgerRoute = new RouteLink(
   "/assessment-burger",
   <AssessmentBurger />
@@ -71,6 +78,8 @@ export {
   dashboardBurgerRoute,
   personalEngagementRoute,
   assessmentRoute,
+  _assessmentRoute,
+  _personalEngagementRoute,
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,

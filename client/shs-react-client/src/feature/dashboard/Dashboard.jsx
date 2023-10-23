@@ -32,12 +32,17 @@ function Dashboard({ viewableSidebar, viewablePE }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const dataD = await new DashboardD().read();
+      const dataD = await new DashboardD().read("6533ea4651db08d5ba7e139c");
       console.log("TRIGGER11", dataD.strandTypes);
       setData({
         ...data,
+        user: dataD.user,
+        preferredStrand: dataD.preferredStrand,
+        personalEngagements: dataD.personalEngagements,
+        subjects: dataD.subjects,
         strandTypes: dataD.strandTypes,
       });
+      setSelectedStrand(dataD.selectedStrand);
       // console.log(databaseData);
     };
 
@@ -62,7 +67,7 @@ function Dashboard({ viewableSidebar, viewablePE }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <DashboardHeader />
+                  <DashboardHeader user={data.user} />
                   {data.strandTypes.map((strandType, i) => (
                     <DashboardStrandType
                       key={i}
@@ -91,7 +96,7 @@ function Dashboard({ viewableSidebar, viewablePE }) {
               >
                 {!viewablePE ? (
                   <>
-                    <DashboardHeader />
+                    <DashboardHeader user={data.user} />
                     {data.strandTypes.map((strandType, i) => (
                       <DashboardStrandType
                         key={i}
