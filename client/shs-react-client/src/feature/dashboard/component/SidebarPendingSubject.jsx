@@ -1,3 +1,5 @@
+import Localhost from "../../../js/model/LocalHost";
+
 function SidebarPendingSubject({ pendingSubject }) {
   return (
     <>
@@ -9,7 +11,7 @@ function SidebarPendingSubject({ pendingSubject }) {
         <div className="row g-0">
           <div className="col-md-4">
             <img
-              src={pendingSubject.imagePath}
+              src={Localhost.path() + pendingSubject.imagePath}
               className="img-fluid rounded-0"
               alt="pending subject image"
             />

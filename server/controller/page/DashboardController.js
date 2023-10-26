@@ -39,6 +39,7 @@ class DashboardController {
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,
       subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
     });
   }
 }

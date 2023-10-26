@@ -7,7 +7,6 @@ class PEP {
   async create(data) {
     try {
       // Send a POST request to create the Strand
-      console.log(data);
       const response = await axios.post(PEP.endPoint, data);
 
       console.log("Strand created successfully");

@@ -8,7 +8,6 @@ class Subject {
   async create(data) {
     try {
       // Send a POST request to create the Subject
-      console.log("CALLLLLLL!", data);
       const response = await axios.post(Subject.endPoint, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });

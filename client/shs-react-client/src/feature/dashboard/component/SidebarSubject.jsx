@@ -1,7 +1,6 @@
 import Localhost from "../../../js/model/LocalHost";
 
 function SidebarSubject({ subject }) {
-  console.log("SUBJECT", subject);
   return (
     <>
       {/*-- SUBJECT CARD --*/}

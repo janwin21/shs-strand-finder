@@ -7,7 +7,6 @@ class Strand {
   async create(data) {
     try {
       // Send a POST request to create the Strand
-      console.log(data);
       const response = await axios.post(Strand.endPoint, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });

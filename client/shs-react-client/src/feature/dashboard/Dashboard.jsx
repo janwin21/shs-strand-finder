@@ -3,9 +3,14 @@ import DashboardSidebar from "./DashboardSidebar";
 import DashboardStrandType from "./DashboardStrandType";
 import PEResult from "../layout/PEResult";
 import DashboardD from "../../js/model/Dashboard";
+import Localhost from "../../js/model/LocalHost";
+import SelectedStrand from "../../js/model/SelectedStrand";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { dashboardData } from "../../js/json-structure/dashboard";
+import { indexRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,7 +19,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Dashboard({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
   const [data, setData] = useState(dashboardData);
 
@@ -32,18 +45,24 @@ function Dashboard({ viewableSidebar, viewablePE }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const dataD = await new DashboardD().read("6533ea4651db08d5ba7e139c");
-      console.log("TRIGGER11", dataD.strandTypes);
-      setData({
-        ...data,
-        user: dataD.user,
-        preferredStrand: dataD.preferredStrand,
-        personalEngagements: dataD.personalEngagements,
-        subjects: dataD.subjects,
-        strandTypes: dataD.strandTypes,
-      });
-      setSelectedStrand(dataD.selectedStrand);
-      // console.log(databaseData);
+      const token = Localhost.sessionKey("user");
+      const dataD = await new DashboardD().read(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        setData({
+          ...data,
+          user: dataD.user,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
     };
 
     fetchData();
@@ -72,10 +91,12 @@ function Dashboard({ viewableSidebar, viewablePE }) {
                     <DashboardStrandType
                       key={i}
                       strandType={strandType}
-                      strandCb={(strand) => {
+                      strandCb={async (strand) => {
+                        const selectedStrand = new SelectedStrand();
+                        await selectedStrand.create(data.user.id, strand._id);
                         setSelectedStrand({
                           ...strand,
-                          userID: data.user.email,
+                          userID: data.user.id,
                         });
                       }}
                     />
@@ -90,8 +111,8 @@ function Dashboard({ viewableSidebar, viewablePE }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (
@@ -101,10 +122,12 @@ function Dashboard({ viewableSidebar, viewablePE }) {
                       <DashboardStrandType
                         key={i}
                         strandType={strandType}
-                        strandCb={(strand) => {
+                        strandCb={async (strand) => {
+                          const selectedStrand = new SelectedStrand();
+                          await selectedStrand.create(data.user.id, strand._id);
                           setSelectedStrand({
                             ...strand,
-                            userID: data.user.email,
+                            userID: data.user.id,
                           });
                         }}
                       />
@@ -134,4 +157,4 @@ function Dashboard({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

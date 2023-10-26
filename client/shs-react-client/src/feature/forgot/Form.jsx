@@ -1,19 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { indexRoute } from "../../route/routes";
 import { useState } from "react";
+import Forgot from "../../js/model/Forgot";
 
 function Form() {
   const navigate = useNavigate();
 
   // UML
   const [forgotUser, setForgotUser] = useState({
-    currentEmail: "user@email.com",
-    newPassword: "newPassword",
+    email: "user@email.com",
+    password: "newPassword",
+    confirmPassword: "newPassword",
   });
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    navigate(indexRoute.path);
+    const forgot = new Forgot();
+    const error = await forgot.forgot(forgotUser);
+
+    if (error?.response?.data?.error) {
+      console.log(error?.response?.data?.error);
+    } else {
+      console.log(error);
+      navigate(indexRoute.path);
+    }
   };
 
   return (
@@ -35,6 +45,9 @@ function Form() {
             aria-describedby="emailHelp"
             autoComplete="off"
             placeholder="Email Address"
+            onChange={(ev) => {
+              setForgotUser({ ...forgotUser, email: ev.target.value });
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -49,6 +62,9 @@ function Form() {
             id="newPassword"
             autoComplete="off"
             placeholder="New Password"
+            onChange={(ev) => {
+              setForgotUser({ ...forgotUser, password: ev.target.value });
+            }}
           />
         </div>
 
@@ -60,6 +76,12 @@ function Form() {
             id="confirmNewPassword"
             autoComplete="off"
             placeholder="Confirm New Password"
+            onChange={(ev) => {
+              setForgotUser({
+                ...forgotUser,
+                confirmPassword: ev.target.value,
+              });
+            }}
           />
         </div>
         <button

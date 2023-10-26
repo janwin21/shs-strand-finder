@@ -2,9 +2,14 @@ import Form from "./Form";
 import Image from "./Image";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
-import { useState } from "react";
+import DashboardD from "../../js/model/Dashboard";
+import Localhost from "../../js/model/LocalHost";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { formData } from "../../js/json-structure/form";
+import { indexRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -13,15 +18,63 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Reset({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function Reset({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
   const [data, fetchAccess] = useState(formData);
+
+  // UML
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    id: "strand123",
+    imagePath: null,
+    accessToken: "access-token",
+  });
+
+  const [logoutUser, setLogoutUser] = useState({
+    accessToken: "access-token",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Localhost.sessionKey("user");
+      const dataD = await new DashboardD().read(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        fetchAccess({
+          ...data,
+          user: dataD.user,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // UPDATE dashboard data
+  useEffect(() => {}, [data]);
 
   return (
     <>
       {/*-- MAIN --*/}
       <main
-        className={`login d-lg-flex align-items-center ${
+        className={`login d-lg-flex align-items-center px-0 ${
           !viewableSidebar
             ? "auto-overflow container"
             : "position-relative container-fluid"
@@ -42,13 +95,15 @@ function Reset({ viewableSidebar, viewablePE }) {
           <>
             {/*-- W/ SIDEBAR --*/}
             <div
-              className={`row align-items-center ${
+              className={`row align-items-center w-100 m-0 ${
                 viewablePE ? "bg-dark" : ""
-              }`}
+              } h-100`}
             >
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE
+                    ? "auto-overflow pb-4 px-5 d-flex flex-column justify-content-center"
+                    : "p-0"
                 }`}
               >
                 {!viewablePE ? (
@@ -67,7 +122,7 @@ function Reset({ viewableSidebar, viewablePE }) {
               </section>
               <DashboardSidebar
                 user={data.user}
-                selectedStrand={data.preferredStrand}
+                selectedStrand={selectedStrand}
                 subjects={data.subjects}
                 pendingSubjects={data.pendingSubjects}
               />
@@ -87,4 +142,4 @@ function Reset({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Reset);
+export default connect(mapStateToProps, mapDispatchToProps)(Reset);

@@ -30,6 +30,8 @@ import Nav from "./feature/nav/Nav.jsx";
 import SimpleModal from "./feature/modal/SimpleModal";
 import AssessmentModal from "./feature/modal/AssessmentModal";
 import NotifModal from "./feature/modal/NotifModal";
+import Localhost from "./js/model/LocalHost";
+import Login from "./js/model/Login";
 
 const mapStateToProps = (state) => {
   return {
@@ -125,7 +127,12 @@ function App({
         body="Do you want to logout your account?"
         yes="YES"
         no="CANCEL"
-        cb={() => logoutUser()}
+        cb={async () => {
+          logoutUser();
+          const login = new Login();
+          const data = await login.logout();
+          if (data.success) Localhost.deleteSession("user");
+        }}
       />
 
       {/* STRAND TYPE DELETION */}

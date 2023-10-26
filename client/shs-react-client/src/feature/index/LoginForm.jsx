@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { action } from "../../redux/action";
 import { useState } from "react";
 import { forgotRoute } from "../../route/routes";
+import Login from "../../js/model/Login";
+import Localhost from "../../js/model/LocalHost";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -21,10 +23,18 @@ function LoginForm({ loginUser }) {
     password: "password",
   });
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    loginUser({ name: "username1" });
-    navigate(dashboardRoute.path);
+    const login = new Login();
+    const err = await login.auth(validateUser);
+
+    if (err?.error) {
+      console.log(err.error);
+    } else {
+      loginUser(validateUser);
+      Localhost.session("user", err.token);
+      navigate(dashboardRoute.path);
+    }
   };
 
   return (
@@ -45,6 +55,9 @@ function LoginForm({ loginUser }) {
             id="email"
             aria-describedby="emailHelp"
             autoComplete="off"
+            onChange={(ev) => {
+              setValidateUser({ ...validateUser, email: ev.target.value });
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -64,6 +77,9 @@ function LoginForm({ loginUser }) {
             className="form-control shs-input shadow"
             id="password"
             autoComplete="off"
+            onChange={(ev) => {
+              setValidateUser({ ...validateUser, password: ev.target.value });
+            }}
           />
         </div>
 

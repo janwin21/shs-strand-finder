@@ -5,10 +5,14 @@ class DashboardD {
   static endPoint =
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/dashboard";
 
-  async read(userID) {
+  async read(token) {
     try {
       // Send a POST request to create the Dashboard
-      const response = await axios.get(DashboardD.endPoint + "/" + userID);
+      const response = await axios.get(DashboardD.endPoint, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the token as a bearer token
+        },
+      });
       return response.data;
     } catch (error) {
       return error;

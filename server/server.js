@@ -1,15 +1,17 @@
 require("dotenv").config();
 require("express-async-errors");
 
-const express = require("express");
 const Connect = require("./database/Connection");
-const asyncErrors = require("express-async-errors");
+const LocalStrategy = require("passport-local").Strategy;
+const express = require("express");
 const app = express();
 const cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
 const path = require("path");
 
-// Apply CORS
-app.use(cors());
+// AUTH CONRTOLLER
+const LoginController = require("./controller/page/LoginController");
 
 // ROUTES
 const testRoute = require("./router/testRoute");
@@ -32,9 +34,27 @@ const resultRoute = require("./router/page/resultRoute");
 const dashboardRoute = require("./router/page/dashboardRoute");
 const subjectPRoute = require("./router/page/subjectRoute");
 const registerRoute = require("./router/page/registerRoute");
+const loginRoute = require("./router/page/loginRoute");
+const forgotRoute = require("./router/page/forgotRoute");
 
 // IMPORT DB TEST
 const User = require("./model/users");
+
+// Apply CORS
+app.use(cors());
+
+// SESSION & PASSPORT
+const SECRET = process.env.SHS_SECRET;
+app.use(
+  session({
+    secret: SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // MIDDLEWARE
 app.use(express.json());
@@ -80,6 +100,52 @@ app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);
 app.use("/shs-strand-finder/api/V1.0.0/dashboard", dashboardRoute);
 app.use("/shs-strand-finder/api/V1.0.0/subjectP", subjectPRoute);
 app.use("/shs-strand-finder/api/V1.0.0/register", registerRoute);
+app.use("/shs-strand-finder/api/V1.0.0/login", loginRoute);
+app.use("/shs-strand-finder/api/V1.0.0/forgot", forgotRoute);
+
+// AUTHENTICATION
+const loginController = new LoginController();
+const loginURL = "/shs-strand-finder/api/V1.0.0/login";
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+    },
+    loginController.auth
+  )
+);
+
+passport.serializeUser(loginController.serialize);
+passport.deserializeUser(loginController.deserialize);
+
+app.post(loginURL, async (req, res, next) => {
+  await passport.authenticate(
+    "local",
+    await loginController.success(req, res) /*{
+      successRedirect: loginURL + "/success",
+      failureRedirect: loginURL + "/failure",
+      failureFlash: true,
+    }*/
+  )(req, res, next);
+});
+
+// LOGOUT
+app.get("/shs-strand-finder/api/V1.0.0/logout", (req, res) => {
+  // Clear the user's session (log them out)
+  req.logout((err) => {
+    if (err) {
+      return res.json({ error: "Logout failed" });
+    }
+
+    // Remove the token from the session
+    delete req.session.token;
+
+    // Redirect to a logout success page or any other appropriate action
+    res.json({ success: true });
+  });
+});
 
 // ERROR HANDLING
 const ErrorMiddleware = require("./middleware/ErrorMiddleware");

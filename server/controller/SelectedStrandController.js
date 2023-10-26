@@ -10,10 +10,35 @@ class SelectedStrandController {
     const newSelectedStrand = new SelectedStrand({ user, strand });
 
     // SAVE
-    newSelectedStrand.save();
+    await newSelectedStrand.save();
 
     // RESPONSE
     res.json({ user, strand });
+  }
+
+  // CREATE BY SELECTED STRAND BY USER ID
+  async createByUserID(req, res) {
+    const { userID } = req.params;
+    const { strand } = req.body;
+
+    // FIND EXISTING USER
+    const userSelectedStrand = await SelectedStrand.findOne({
+      user: userID,
+    }).exec();
+
+    // INIT
+    if (userSelectedStrand) {
+      userSelectedStrand.strand = strand;
+      await userSelectedStrand.save();
+      return res.json({ selectedStrand: userSelectedStrand });
+    } else {
+      const newSelectedStrand = new SelectedStrand({
+        user: userID,
+        strand,
+      });
+      await newSelectedStrand.save();
+      return res.json({ selectedStrand: newSelectedStrand });
+    }
   }
 
   // READ ALL

@@ -53,6 +53,7 @@ function DashboardSidebar({
             onClick={(event) => {
               event.preventDefault();
               viewSidebar(false);
+              viewPE(false);
             }}
             className="nav-link"
             style={{ cursor: "pointer" }}
@@ -64,6 +65,24 @@ function DashboardSidebar({
           Preferred Strand (Selected)
         </h6>
         <div className="w-100 border-bottom border-light d-flex flex-column align-items-center justify-content-center py-3">
+          {selectedStrand ? (
+            <img
+              src={Localhost.path() + selectedStrand.imagePath}
+              alt="strand image display"
+              style={{ height: "175px" }}
+            />
+          ) : (
+            <></>
+          )}
+          <h6 className="roboto text-light my-3 px-4 py-3">
+            {selectedStrand ? selectedStrand.name : "No Selected Strand"}
+          </h6>
+          <p className="roboto text-light px-4">
+            {selectedStrand
+              ? selectedStrand.description
+              : "To complete the assessment, one of the requirements should select ONE (1)Strand that you like. Just CLICK any strand at the DASHBOARD PAGE."}
+          </p>
+          {/* 
           {selectedStrand ? (
             <>
               <img
@@ -90,6 +109,7 @@ function DashboardSidebar({
               </p>
             </>
           )}
+          */}
         </div>
         <SidebarButton
           label="Personal Engagement"
@@ -105,8 +125,8 @@ function DashboardSidebar({
         {/*-- SUBJECT SECTION --*/}
         <section>
           {/*-- ASSESSED SUBJECT --*/}
-          {subjects?.map((subject) => {
-            return <SidebarSubject key={subject.id} subject={subject} />;
+          {subjects?.map((subject, index) => {
+            return <SidebarSubject key={index} subject={subject} />;
           })}
           {/*-- PENDING SUBJECT --*/}
           {pendingSubjects?.map((pendingSubject) => {

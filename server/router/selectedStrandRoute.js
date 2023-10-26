@@ -8,6 +8,10 @@ const selectedStrandController = new SelectedStrandController();
 
 // ROUTES: CRUD
 selectedStrandRoute.post("/", selectedStrandController.create);
+selectedStrandRoute.post(
+  "/user/:userID",
+  selectedStrandController.createByUserID
+);
 selectedStrandRoute.get("/", selectedStrandController.findAll);
 selectedStrandRoute.get(
   "/:selectedStrandID",

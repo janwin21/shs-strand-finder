@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.store.user,
     viewableSidebar: state.store.viewableSidebar,
+    viewablePE: state.store.viewablePE,
     test: state.store.test,
   };
 };
@@ -16,11 +17,20 @@ const mapDispatchToProps = (dispatch) => {
   return {
     viewSidebar: (bool) =>
       dispatch({ type: action.VIEW_SIDEBAR, viewableSidebar: bool }),
+    viewPE: (bool) => dispatch({ type: action.VIEW_PE, viewablePE: bool }),
     setTest: (bool) => dispatch({ type: action.TEST, test: bool }),
   };
 };
 
-function Nav({ test, user, viewableSidebar, viewSidebar, setTest }) {
+function Nav({
+  test,
+  user,
+  viewableSidebar,
+  viewablePE,
+  viewSidebar,
+  viewPE,
+  setTest,
+}) {
   const location = useLocation();
 
   useEffect(() => {
@@ -90,6 +100,7 @@ function Nav({ test, user, viewableSidebar, viewSidebar, setTest }) {
                     onClick={(event) => {
                       event.preventDefault();
                       viewSidebar(!viewableSidebar);
+                      viewPE(viewableSidebar && !viewablePE);
                     }}
                     className="nav-link roboto text-uppercase text-light fw-semibold fs-6"
                   >

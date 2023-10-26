@@ -77,7 +77,7 @@ function RegisterForm({ loginUser }) {
             Password
           </label>
           <input
-            type="text"
+            type="password"
             className="form-control shs-input register-input shadow"
             id="password"
             autoComplete="off"

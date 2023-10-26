@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { personalEngagementRoute } from "../../route/routes";
 import PEAnswered from "../result/PEAnswered";
 import Localhost from "../../js/model/LocalHost";
+import strandNone from "../../asset/strand/strand-none.avif";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -40,7 +41,11 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
             <div className="row g-0">
               <div className="col-md-2">
                 <img
-                  src={Localhost.path() + preferredStrand.imagePath}
+                  src={
+                    preferredStrand
+                      ? Localhost.path() + preferredStrand.imagePath
+                      : strandNone
+                  }
                   className="img-fluid rounded"
                   style={{ minHeight: "300px" }}
                   alt="pending strand image"
@@ -49,10 +54,14 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
               <div className="col-md-10">
                 <div className="card-body">
                   <h5 className="card-title poppins text-light text-uppercase">
-                    {preferredStrand.name}
+                    {preferredStrand
+                      ? preferredStrand.name
+                      : "No Preferred Strand"}
                   </h5>
                   <p className="card-text text-light fs-5 my-4">
-                    {preferredStrand.description}
+                    {preferredStrand
+                      ? preferredStrand.description
+                      : "To show the result, answer all the questions from personal engagement assessments. The AI will not be able to point out your preferred strand as you are yet to provide essential data to analyze"}
                   </p>
                   <a
                     onClick={(ev) => {
@@ -62,9 +71,9 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
                     }}
                     className="nav-link d-inline"
                   >
-                    <button className="btn btn-secondary roboto px-4 fs-6">
+                    {/* <button className="btn btn-secondary roboto px-4 fs-6">
                       RETAKE PERSONAL ENGAGEMENT
-                    </button>
+                    </button> */}
                   </a>
                 </div>
               </div>
@@ -74,7 +83,7 @@ function PEResult({ viewPE, preferredStrand, personalEngagements }) {
           {/*-- CONTAINER --*/}
           <section className="row w-100 p-4">
             {personalEngagements.map((pe, index) => (
-              <PEAnswered key={pe._id} peNo={index + 1} pe={pe} />
+              <PEAnswered key={index} peNo={index + 1} pe={pe} />
             ))}
           </section>
         </div>
