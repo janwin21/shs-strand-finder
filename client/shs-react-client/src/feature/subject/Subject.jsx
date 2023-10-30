@@ -2,9 +2,13 @@ import SubjectType from "./SubjectType";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
 import SubjectP from "../../js/model/SubjectP";
+import Localhost from "../../js/model/LocalHost";
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { subjectData } from "../../js/json-structure/subject";
+import { indexRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -13,19 +17,47 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Subject({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function Subject({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
   const [data, setData] = useState(subjectData);
 
+  // UML
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    id: "strand123",
+    imagePath: null,
+    accessToken: "access-token",
+  });
+
   useEffect(() => {
     const fetchData = async () => {
-      const dataD = await new SubjectP().read();
-      console.log("TRIGGER11", dataD.subjectTypes);
-      setData({
-        ...data,
-        subjectTypes: dataD.subjectTypes,
-      });
-      // console.log(databaseData);
+      const token = Localhost.sessionKey("user");
+      const dataD = await new SubjectP().read(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        setData({
+          ...data,
+          user: dataD.user,
+          subjectTypes: dataD.subjectTypes,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
     };
 
     fetchData();
@@ -84,7 +116,7 @@ function Subject({ viewableSidebar, viewablePE }) {
               </section>
               <DashboardSidebar
                 user={data.user}
-                selectedStrand={data.selectedStrand}
+                selectedStrand={selectedStrand}
                 subjects={data.subjects}
                 pendingSubjects={data.pendingSubjects}
               />
@@ -96,4 +128,4 @@ function Subject({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Subject);
+export default connect(mapStateToProps, mapDispatchToProps)(Subject);

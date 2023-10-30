@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { modalType } from "../modal/modalType";
 import { Link } from "react-router-dom";
 import { resetRoute } from "../../route/routes";
+import Localhost from "../../js/model/LocalHost";
 import SidebarSubject from "../dashboard/component/SidebarSubject";
 import SidebarPendingSubject from "../dashboard/component/SidebarPendingSubject";
 import SidebarButton from "../dashboard/component/SidebarButton";
 import SidebarGroup from "../layout/SidebarGroup";
+import strandNone from "../../asset/strand/strand-none.avif";
 
 const mapStateToProps = (state) => {
   return {
@@ -30,7 +32,6 @@ function ResultSidebar({
   subjects,
   predictedStrand,
 }) {
-  console.log(predictedStrand);
   return (
     <>
       {/*-- SIDEBAR --*/}
@@ -61,15 +62,19 @@ function ResultSidebar({
         <h6 className="roboto text-secondary px-4 py-3">Predicted Strand</h6>
         <div className="w-100 border-bottom border-light d-flex flex-column align-items-center justify-content-center py-3">
           <img
-            src={predictedStrand.imagePath}
+            src={
+              predictedStrand?.imagePath
+                ? Localhost.path() + predictedStrand.imagePath
+                : strandNone
+            }
             alt="strand image display"
             style={{ height: "175px" }}
           />
           <h6 className="roboto text-light my-3 px-4 py-3">
-            {predictedStrand.name}
+            {predictedStrand?.name}
           </h6>
           <p className="roboto text-light px-4">
-            {predictedStrand.description}
+            {predictedStrand?.description}
           </p>
         </div>
         <SidebarButton

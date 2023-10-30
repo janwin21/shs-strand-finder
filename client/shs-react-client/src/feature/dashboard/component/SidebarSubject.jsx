@@ -25,7 +25,10 @@ function SidebarSubject({ subject }) {
                 score: <strong>{subject.score}</strong> / {subject.totalScore}
               </p>
               <p className="card-text text-light mb-0">
-                duration: {subject.duration}{" "}
+                duration:{" "}
+                {subject.duration < 1
+                  ? subject.duration * 100
+                  : subject.duration}{" "}
                 {subject.duration < 1 ? "sec" : "min"}
               </p>
               <p className="card-text text-light mb-0">leave count: 3</p>

@@ -21,7 +21,7 @@ class SideboardMiddleware {
     // FIND SINGLE USER DATA
     const answers = await Answer.find({ user: userID }).exec();
 
-    // FIND SINGLE SELECTED DATA
+    // FIND SINGLE SELECTED STRAND DATA
     const selectedStrand = await SelectedStrand.findOne({
       user: userID,
     }).exec();
@@ -64,14 +64,11 @@ class SideboardMiddleware {
               answerKey.question.toString() === question._id.toString()
           )
           .map((answerKey) => answerKey._id.toString())
-          .map((id) => {
-            // console.log(id, mappedAnswers);
-            return _.find(mappedAnswers, { answerKey: id });
-          });
+          .map((id) => _.find(mappedAnswers, { answerKey: id }));
 
         return {
           subject: question.subject,
-          createdAt: question.createdAt,
+          createdAt: userAnswers[0].createdAt,
           updatedAt: question.updatedAt,
           correct: userAnswers[0].correct,
           noOfUnVisit: userAnswers[0].noOfUnVisit,
@@ -80,42 +77,61 @@ class SideboardMiddleware {
 
       // FIND ALL SUBJECT DATA
       // const questions = await Question.find({}).exec();
-      mappedSubjects = subjects.map((subject) => {
-        let corrects = 0;
-        let mistakes = 0;
-        let totalNoOfUnVisit = 0;
-        const subjectQuestions = questions.filter(
-          (question) => subject._id.toString() === question.subject.toString()
-        );
+      mappedSubjects = await Promise.all(
+        subjects.map(async (subject) => {
+          let corrects = 0;
+          let mistakes = 0;
+          let totalNoOfUnVisit = 0;
+          const totalQuestions = await Question.find({
+            subject: subject._id,
+          }).exec();
+          const subjectQuestions = questions.filter(
+            (question) => subject._id.toString() === question.subject.toString()
+          );
+          subjectQuestions.forEach((question) => {
+            if (!question.correct) mistakes++;
+            else corrects++;
+            totalNoOfUnVisit += question.noOfUnVisit;
+          });
 
-        subjectQuestions.forEach((question) => {
-          if (!question.correct) mistakes++;
-          else corrects++;
-          totalNoOfUnVisit += question.noOfUnVisit;
-        });
+          let orderedQuestions = [];
 
-        const orderedQuestions = _.orderBy(
-          subjectQuestions,
-          ["createdAt"],
-          ["asc"]
-        );
+          if (subjectQuestions.length) {
+            orderedQuestions = _.orderBy(
+              subjectQuestions,
+              ["createdAt"],
+              ["asc"]
+            );
+          }
 
-        const oldestQuestion = orderedQuestions[0];
-        const latestQuestion = orderedQuestions[orderedQuestions.length - 1];
-        const oldestDate = new Date(oldestQuestion.createdAt);
-        const latestDate = new Date(latestQuestion.createdAt);
+          const oldestQuestion = orderedQuestions.length
+            ? orderedQuestions[0]
+            : null;
+          const latestQuestion = orderedQuestions.length
+            ? orderedQuestions[orderedQuestions.length - 1]
+            : null;
+          const oldestDate = orderedQuestions.length
+            ? new Date(oldestQuestion.createdAt)
+            : null;
+          const latestDate = orderedQuestions.length
+            ? new Date(latestQuestion.createdAt)
+            : null;
 
-        const differenceInMilliseconds = latestDate - oldestDate;
+          const differenceInMilliseconds = latestDate - oldestDate;
 
-        return {
-          ...subject.toObject(),
-          totalScore: subjectQuestions.length,
-          score: corrects,
-          mistakes,
-          duration: (differenceInMilliseconds / 60000).toFixed(2), // convert to min
-          noOfUnVisit: totalNoOfUnVisit,
-        };
-      });
+          return {
+            ...subject.toObject(),
+            totalScore: subjectQuestions.length,
+            answered: totalQuestions.length == subjectQuestions.length,
+            score: corrects,
+            mistakes,
+            duration: (differenceInMilliseconds / 60000).toFixed(2), // convert to min
+            noOfUnVisit: totalNoOfUnVisit,
+          };
+        })
+      );
+
+      mappedSubjects = mappedSubjects.filter((subject) => subject.answered);
     }
 
     // FIND PREFFERED STRAND BY PE

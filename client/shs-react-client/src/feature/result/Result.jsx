@@ -3,9 +3,14 @@ import ResultPE from "./ResultPE";
 import ResultHeader from "./ResultHeader";
 import ResultSidebar from "./ResultSidebar";
 import PEResult from "../layout/PEResult";
+import ResultD from "../../js/model/Result";
+import Localhost from "../../js/model/LocalHost";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { resultData } from "../../js/json-structure/result/";
+import { indexRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 import "../../js/result";
 
 const mapStateToProps = (state) => {
@@ -15,9 +20,56 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Result({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function Result({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
-  const [data, fetchData] = useState(resultData);
+  const [data, setData] = useState(null);
+
+  // UML
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    id: "strand123",
+    imagePath: null,
+    accessToken: "access-token",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Localhost.sessionKey("user");
+      const dataD = await new ResultD().read(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        setData({
+          ...data,
+          user: dataD.user,
+          count: dataD.count,
+          orderedSubjects: dataD.orderedSubjects,
+          orderedFinalResult: dataD.orderedFinalResult,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // UPDATE dashboard data
+  useEffect(() => {}, [data]);
 
   return (
     <>
@@ -34,7 +86,14 @@ function Result({ viewableSidebar, viewablePE }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <ResultHeader />
+                  {data ? (
+                    <ResultHeader
+                      subjects={data.orderedSubjects}
+                      strands={data.orderedFinalResult}
+                    />
+                  ) : (
+                    <></>
+                  )}
                   <ResultAssessment />
                   <ResultPE />
                 </section>
@@ -53,24 +112,31 @@ function Result({ viewableSidebar, viewablePE }) {
               >
                 {!viewablePE ? (
                   <>
-                    <ResultHeader />
+                    {data ? (
+                      <ResultHeader
+                        subjects={data.orderedSubjects}
+                        strands={data.orderedFinalResult}
+                      />
+                    ) : (
+                      <></>
+                    )}
                     <ResultAssessment />
                     <ResultPE />
                   </>
                 ) : (
                   <>
                     <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
+                      preferredStrand={data?.preferredStrand}
+                      personalEngagements={data?.personalEngagements}
                     />
                     ;
                   </>
                 )}
               </section>
               <ResultSidebar
-                user={data.user}
-                subjects={data.subjects}
-                predictedStrand={data.predictedStrand}
+                user={data?.user}
+                subjects={data?.subjects}
+                predictedStrand={data?.preferredStrand}
               />
             </div>
           </>
@@ -80,4 +146,4 @@ function Result({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Result);
+export default connect(mapStateToProps, mapDispatchToProps)(Result);

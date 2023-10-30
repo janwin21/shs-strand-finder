@@ -1,22 +1,29 @@
-import sampleImg from "../../asset/strand/strand1.jpg";
+import Localhost from "../../js/model/LocalHost";
 
-function AssessmentQuestion() {
+function AssessmentQuestion({ question }) {
   return (
     <>
       {/*-- QUESTION --*/}
-      <section className="roboto d-flex flex-column justify-content-center align-items-center">
-        <img
-          className="mb-3"
-          src={sampleImg}
-          alt="answer key image"
-          style={{ maxWidth: "250px" }}
-        />
+      <section
+        className={`roboto d-flex flex-column justify-content-center align-items-${
+          question?.questionImagePath ? "center" : "start"
+        }`}
+      >
+        {question?.questionImagePath ? (
+          <img
+            className="mb-3"
+            src={Localhost.path() + question?.questionImagePath}
+            alt="answer key image"
+            style={{ maxWidth: "250px" }}
+          />
+        ) : (
+          <></>
+        )}
         <p>
-          <strong>1) </strong>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis enim
-          illum deserunt officiis, assumenda cumque facilis odit blanditiis
-          tenetur non quos, architecto asperiores exercitationem ex perspiciatis
-          neque tempora veritatis! Autem!
+          <strong>{question ? question?.index : 0}) </strong>
+          {question
+            ? question.question
+            : "Lorem ipsum dolor sit amet consectetur adipisicing elit?"}
         </p>
       </section>
     </>

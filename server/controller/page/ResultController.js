@@ -15,10 +15,10 @@ const KNN = require("../../facade/KNN");
 class ResultController {
   // READ THE RESULT BY USER ID
   async resultByUserId(req, res) {
-    const { userID } = req.params;
+    const user = req.user;
 
     // Find the user's answers
-    const answers = await Answer.find({ user: userID }).exec();
+    const answers = await Answer.find({ user: user.id }).exec();
     const strands = await Strand.find({}).exec();
     const strandSubjects = await StrandSubject.find({}).exec();
 
@@ -115,7 +115,7 @@ class ResultController {
 
       return {
         _id: subject._id,
-        // name: subject.name,
+        name: subject.name,
         // counts: subjectQuestions.length,
         // corrects,
         mistakes,
@@ -135,9 +135,11 @@ class ResultController {
     const results = nearestPoints.map((item, index) => ({
       _id: item.point._id.toString(),
       score: k - index,
-      // mistakes: item.point.mistakes,
-      // duration: item.point.duration,
-      // noOfUnVisit: item.point.noOfUnVisit,
+      name: item.point.name,
+      mistakes: item.point.mistakes,
+      duration: item.point.duration,
+      noOfUnVisit: item.point.noOfUnVisit,
+      distance: item.distance,
     }));
 
     const finalResult = newStrandSubjects.map((newStrandSubject) => {
@@ -145,13 +147,28 @@ class ResultController {
         return accumulator + _.find(results, { _id: subject.toString() }).score;
       }, 0);
 
-      return { strand: newStrandSubject.strandID, sum };
+      const setStrand = strands.filter(
+        (strand) =>
+          strand._id.toString() == newStrandSubject.strandID.toString()
+      );
+
+      return { ...setStrand[0].toObject(), sum };
     });
 
     const orderedFinalResult = _.orderBy(finalResult, ["sum"], ["desc"]);
 
     // RESPONSE
-    res.json({ count: mappedSubjects.length, orderedFinalResult });
+    res.json({
+      user,
+      count: mappedSubjects.length,
+      orderedSubjects: results,
+      orderedFinalResult,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
+    });
   }
 }
 

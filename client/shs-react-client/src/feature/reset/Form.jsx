@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { dashboardRoute } from "../../route/routes";
 import { useState } from "react";
+import ResetD from "../../js/model/Reset";
 
 function Form() {
   const navigate = useNavigate();
@@ -9,12 +10,20 @@ function Form() {
   const [resetUser, setResetUser] = useState({
     currentEmail: "user@email.com",
     oldPassword: "oldPassword",
-    newPassword: "newPassword",
+    password: "newPassword",
+    confirmPassword: "newPassword",
   });
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    navigate(dashboardRoute.path);
+    const error = await new ResetD().reset(resetUser);
+
+    if (error?.response?.data?.error) {
+      console.log(error?.response?.data?.error);
+    } else {
+      console.log(error);
+      navigate(dashboardRoute.path);
+    }
   };
 
   return (
@@ -36,6 +45,9 @@ function Form() {
             aria-describedby="emailHelp"
             autoComplete="off"
             placeholder="Email Address"
+            onChange={(ev) => {
+              setResetUser({ ...resetUser, email: ev.target.value });
+            }}
           />
           <div id="emailHelp" className="form-text">
             We'll never share your email with anyone else.
@@ -50,6 +62,9 @@ function Form() {
             id="oldPassword"
             autoComplete="off"
             placeholder="Old Password"
+            onChange={(ev) => {
+              setResetUser({ ...resetUser, oldPassword: ev.target.value });
+            }}
           />
         </div>
 
@@ -61,6 +76,9 @@ function Form() {
             id="newPassword"
             autoComplete="off"
             placeholder="New Password"
+            onChange={(ev) => {
+              setResetUser({ ...resetUser, password: ev.target.value });
+            }}
           />
         </div>
 
@@ -72,6 +90,9 @@ function Form() {
             id="confirmNewPassword"
             autoComplete="off"
             placeholder="Confirm New Password"
+            onChange={(ev) => {
+              setResetUser({ ...resetUser, confirmPassword: ev.target.value });
+            }}
           />
         </div>
         <button

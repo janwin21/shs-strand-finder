@@ -2,7 +2,7 @@ import Form from "./Form";
 import Image from "./Image";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
-import DashboardD from "../../js/model/Dashboard";
+import ResetD from "../../js/model/Reset";
 import Localhost from "../../js/model/LocalHost";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,7 @@ function Reset({ viewableSidebar, viewablePE, loginUser }) {
   useEffect(() => {
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
-      const dataD = await new DashboardD().read(token);
+      const dataD = await new ResetD().auth(token);
 
       if (dataD?.response?.data?.error) {
         navigate(indexRoute.path);

@@ -80,7 +80,7 @@ function DashboardSidebar({
           <p className="roboto text-light px-4">
             {selectedStrand
               ? selectedStrand.description
-              : "To complete the assessment, one of the requirements should select ONE (1)Strand that you like. Just CLICK any strand at the DASHBOARD PAGE."}
+              : "If you have already preferred STRAND to take, just CLICK any strand at the DASHBOARD PAGE. (TAKE NOTE that this is optional)"}
           </p>
           {/* 
           {selectedStrand ? (
@@ -125,14 +125,14 @@ function DashboardSidebar({
         {/*-- SUBJECT SECTION --*/}
         <section>
           {/*-- ASSESSED SUBJECT --*/}
-          {subjects?.map((subject, index) => {
-            return <SidebarSubject key={index} subject={subject} />;
-          })}
+          {subjects?.map((subject, index) => (
+            <SidebarSubject key={index} subject={subject} />
+          ))}
           {/*-- PENDING SUBJECT --*/}
           {pendingSubjects?.map((pendingSubject) => {
             return (
               <SidebarPendingSubject
-                key={pendingSubject.id}
+                key={pendingSubject._id}
                 pendingSubject={pendingSubject}
               />
             );

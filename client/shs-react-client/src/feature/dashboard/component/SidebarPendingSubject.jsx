@@ -1,6 +1,19 @@
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
+import { modalType } from "../../modal/modalType";
 import Localhost from "../../../js/model/LocalHost";
 
-function SidebarPendingSubject({ pendingSubject }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    prepareSubject: (preparedSubject) =>
+      dispatch({
+        type: action.PREPARE_SUBJECT,
+        subjectForPreparation: preparedSubject,
+      }),
+  };
+};
+
+function SidebarPendingSubject({ prepareSubject, pendingSubject }) {
   return (
     <>
       {/*-- PENDING SUBJECT CARD --*/}
@@ -22,7 +35,15 @@ function SidebarPendingSubject({ pendingSubject }) {
                 {pendingSubject.name}
               </h6>
               <a className="nav-link d-inline" href="#">
-                <button className="btn btn-secondary roboto px-4 fs-6">
+                <button
+                  className="btn btn-secondary roboto px-4 fs-6"
+                  data-bs-toggle="modal"
+                  data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    prepareSubject(pendingSubject);
+                  }}
+                >
                   TAKE ASSESSMENT
                 </button>
               </a>
@@ -34,4 +55,4 @@ function SidebarPendingSubject({ pendingSubject }) {
   );
 }
 
-export default SidebarPendingSubject;
+export default connect(null, mapDispatchToProps)(SidebarPendingSubject);

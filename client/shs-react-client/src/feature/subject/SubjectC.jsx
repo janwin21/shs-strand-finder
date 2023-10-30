@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { useState } from "react";
 import { action } from "../../redux/action";
 import { modalType } from "../modal/modalType";
 import Localhost from "../../js/model/LocalHost";

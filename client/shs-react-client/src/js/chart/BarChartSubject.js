@@ -39,21 +39,23 @@
   }
 }*/
 class BarChartSubject {
+  table = [
+    ["Element", "Density", { role: "style" }],
+    ["Copper", 8.94, "#b87333"],
+    ["Silver", 10.49, "silver"],
+    ["Gold", 19.3, "gold"],
+    ["Platinum", 21.45, "color: #e5e4e2"],
+  ];
+
   data() {
-    return [
-      ["Element", "Density", { role: "style" }],
-      ["Copper", 8.94, "#b87333"],
-      ["Silver", 10.49, "silver"],
-      ["Gold", 19.3, "gold"],
-      ["Platinum", 21.45, "color: #e5e4e2"],
-    ];
+    return this.table;
   }
 
   option() {
     return {
       width: "100%",
       height: "100%",
-      bar: { groupWidth: "95%" },
+      bar: { groupWidth: "75%" },
       legend: { position: "none" },
     };
   }

@@ -6,7 +6,7 @@ import {
   resultRoute,
 } from "../../route/routes";
 
-function DashboardHeader({ user }) {
+function DashboardHeader({ user, finish }) {
   return (
     <>
       {/*-- PANEL DISPLAY --*/}
@@ -35,11 +35,15 @@ function DashboardHeader({ user }) {
               TAKE ASSESSMENT
             </button>
           </Link>
-          <Link to={resultRoute.path} className="nav-link d-inline">
-            <button className="btn btn-success text-light roboto px-4 ms-3 fs-6 fw-semibold">
-              SEE RESULTS
-            </button>
-          </Link>
+          {finish ? (
+            <Link to={resultRoute.path} className="nav-link d-inline">
+              <button className="btn btn-success text-light roboto px-4 ms-3 fs-6 fw-semibold">
+                SEE RESULTS
+              </button>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
       </header>
     </>

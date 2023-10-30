@@ -13,7 +13,7 @@ const pe_rollback = async () => {
 };
 
 const pe_migrate = async () => {
-  const size = 4;
+  const size = 3;
   const strands = await Strand.find({}).exec();
 
   console.log("\n\nTEST PE TO STRAND RELATIONSHIP");

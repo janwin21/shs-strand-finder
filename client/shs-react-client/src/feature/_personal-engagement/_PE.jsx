@@ -1,9 +1,14 @@
 import PEPanel from "./PEPanel";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
+import PEP from "../../js/model/PEP";
+import Localhost from "../../js/model/LocalHost";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { assessmentData } from "../../js/json-structure/assessment";
+import { indexRoute, dashboardRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -12,9 +17,19 @@ const mapStateToProps = (state) => {
   };
 };
 
-function _Assessment({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
   const [data, setData] = useState(assessmentData);
+  const [pe, setPE] = useState({});
+  const [error, setError] = useState(true);
 
   // UML
   const [selectedStrand, setSelectedStrand] = useState({
@@ -23,6 +38,104 @@ function _Assessment({ viewableSidebar, viewablePE }) {
     imagePath: null,
     accessToken: "access-token",
   });
+
+  const [choice, setChoice] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = Localhost.sessionKey("user");
+      const dataD = await new PEP().findByIdNav("none", token);
+      console.log(dataD);
+
+      if (dataD?.error) {
+        console.log(dataD.error);
+        return navigate(dashboardRoute.path);
+      }
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        setPE({
+          ...dataD,
+          user: dataD.user,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
+
+      console.log(pe);
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {}, [pe, choice]);
+
+  // FUNCTION
+  const prevCall = async () => {
+    const token = Localhost.sessionKey("user");
+    const dataD = await new PEP().findByIdNav(pe.prev, token);
+
+    setPE({
+      ...dataD,
+      user: dataD.user,
+      preferredStrand: dataD.preferredStrand,
+      personalEngagements: dataD.personalEngagements,
+      subjects: dataD.subjects,
+      pendingSubjects: dataD.pendingSubjects,
+      strandTypes: dataD.strandTypes,
+    });
+    setSelectedStrand(dataD.selectedStrand);
+  };
+
+  const nextCall = async () => {
+    // ANSWER
+    const pep = new PEP();
+
+    if (choice.length != 0) {
+      await pep.answer({
+        user: pe.user.id,
+        pe: pe._id,
+        yes: choice === "a",
+      });
+    }
+
+    setChoice("");
+
+    // GO TO NEXT QUESTION
+    const token = Localhost.sessionKey("user");
+    const dataD = await pep.findByIdNav(pe.next, token);
+
+    setPE({
+      ...dataD,
+      user: dataD.user,
+      preferredStrand: dataD.preferredStrand,
+      personalEngagements: dataD.personalEngagements,
+      subjects: dataD.subjects,
+      pendingSubjects: dataD.pendingSubjects,
+      strandTypes: dataD.strandTypes,
+    });
+    setSelectedStrand(dataD.selectedStrand);
+  };
+
+  const submit = async () => {
+    // ANSWER
+    if (choice.length != 0) {
+      await new PEP().answer({
+        user: pe.user.id,
+        pe: pe._id,
+        yes: choice === "a",
+      });
+    }
+
+    setChoice("");
+    navigate(dashboardRoute.path);
+  };
 
   return (
     <>
@@ -39,11 +152,30 @@ function _Assessment({ viewableSidebar, viewablePE }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <PEPanel />
+                  <PEPanel
+                    pe={pe}
+                    choice={choice}
+                    cb1={() => setChoice("a")}
+                    cb2={() => setChoice("b")}
+                  />
                   {/*-- NEXT --*/}
-                  <button className="btn btn-dark float-end roboto px-4">
-                    NEXT
+                  <button
+                    className="btn btn-dark float-start roboto px-4"
+                    onClick={prevCall}
+                    disabled={!pe.prev}
+                  >
+                    PREV
                   </button>
+                  {choice.length != 0 ? (
+                    <button
+                      className="btn btn-dark float-end roboto px-4"
+                      onClick={() => (pe.next ? nextCall() : submit())}
+                    >
+                      {pe.next ? "NEXT" : "SUBMIT"}
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -64,11 +196,30 @@ function _Assessment({ viewableSidebar, viewablePE }) {
                     <div className="container">
                       <div className="row">
                         <section className="col-12 pb-4">
-                          <PEPanel />
+                          <PEPanel
+                            pe={pe}
+                            choice={choice}
+                            cb1={() => setChoice("a")}
+                            cb2={() => setChoice("b")}
+                          />
                           {/*-- NEXT --*/}
-                          <button className="btn btn-dark float-end roboto px-4">
-                            NEXT
+                          <button
+                            className="btn btn-dark float-start roboto px-4"
+                            onClick={prevCall}
+                            disabled={!pe.prev}
+                          >
+                            PREV
                           </button>
+                          {choice.length != 0 ? (
+                            <button
+                              className="btn btn-dark float-end roboto px-4"
+                              onClick={() => (pe.next ? nextCall() : submit())}
+                            >
+                              {pe.next ? "NEXT" : "SUBMIT"}
+                            </button>
+                          ) : (
+                            <></>
+                          )}
                         </section>
                         {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
                       </div>
@@ -77,18 +228,18 @@ function _Assessment({ viewableSidebar, viewablePE }) {
                 ) : (
                   <>
                     <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
+                      preferredStrand={pe?.preferredStrand}
+                      personalEngagements={pe.personalEngagements}
                     />
                     ;
                   </>
                 )}
               </section>
               <DashboardSidebar
-                user={data.user}
+                user={pe.user}
                 selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
+                subjects={pe.subjects}
+                pendingSubjects={pe.pendingSubjects}
               />
             </div>
           </>
@@ -98,4 +249,4 @@ function _Assessment({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(_Assessment);
+export default connect(mapStateToProps, mapDispatchToProps)(_Assessment);

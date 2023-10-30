@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function PEResult({ viewPE, preferredStrand, personalEngagements }) {
+function PEResult({ viewPE, preferredStrand = null, personalEngagements }) {
   const navigate = useNavigate();
 
   return (

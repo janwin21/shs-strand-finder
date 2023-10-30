@@ -17,7 +17,7 @@ const user_rollback = async () => {
 const saltRounds = 10;
 
 const user_migrate = async () => {
-  const size = 10;
+  const size = 4;
 
   // ENCRYPT
   const salt = await bcrypt.genSalt(saltRounds);

@@ -86,7 +86,10 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <DashboardHeader user={data.user} />
+                  <DashboardHeader
+                    user={data.user}
+                    finish={data.pendingSubjects.length == 0}
+                  />
                   {data.strandTypes.map((strandType, i) => (
                     <DashboardStrandType
                       key={i}
@@ -117,7 +120,10 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
               >
                 {!viewablePE ? (
                   <>
-                    <DashboardHeader user={data.user} />
+                    <DashboardHeader
+                      user={data.user}
+                      finish={data.pendingSubjects.length == 0}
+                    />
                     {data.strandTypes.map((strandType, i) => (
                       <DashboardStrandType
                         key={i}

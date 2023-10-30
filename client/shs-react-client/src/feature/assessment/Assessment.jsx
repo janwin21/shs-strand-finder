@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     currentQuestion: state.store.currentQuestion,
+    subjectForPreparation: state.store.subjectForPreparation,
   };
 };
 
@@ -24,7 +25,12 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function Assessment({ viewableSidebar, currentQuestion, setCurrentQuestion }) {
+function Assessment({
+  viewableSidebar,
+  currentQuestion,
+  subjectForPreparation,
+  setCurrentQuestion,
+}) {
   // FETCH
   const [data, fetchData] = useState(assessmentData);
 

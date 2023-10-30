@@ -36,6 +36,7 @@ const subjectPRoute = require("./router/page/subjectRoute");
 const registerRoute = require("./router/page/registerRoute");
 const loginRoute = require("./router/page/loginRoute");
 const forgotRoute = require("./router/page/forgotRoute");
+const resetRoute = require("./router/page/resetRoute");
 
 // IMPORT DB TEST
 const User = require("./model/users");
@@ -102,6 +103,7 @@ app.use("/shs-strand-finder/api/V1.0.0/subjectP", subjectPRoute);
 app.use("/shs-strand-finder/api/V1.0.0/register", registerRoute);
 app.use("/shs-strand-finder/api/V1.0.0/login", loginRoute);
 app.use("/shs-strand-finder/api/V1.0.0/forgot", forgotRoute);
+app.use("/shs-strand-finder/api/V1.0.0/reset", resetRoute);
 
 // AUTHENTICATION
 const loginController = new LoginController();

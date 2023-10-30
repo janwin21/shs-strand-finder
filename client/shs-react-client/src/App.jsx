@@ -242,7 +242,9 @@ function App({
         id={modalType.ASSESSMENT_PREPARATION}
         path={_assessmentRoute.path}
         subject={subjectForPreparation}
-        cb={() => {}}
+        cb={(subjectID) => {
+          console.log(subjectID);
+        }}
       />
 
       {/* NOTIFICATION */}

@@ -1,25 +1,26 @@
-import sampleImg from "../../asset/strand/strand1.jpg";
+import { useState } from "react";
+import Localhost from "../../js/model/LocalHost";
 
-function AssessmentChoices() {
+function AssessmentChoices({ user, answerKey, cb }) {
   return (
     <>
       {/*-- CHOICES --*/}
-      <button className="btn btn-light w-100 p-3 my-2 d-flex flex-column">
+      <button
+        className="btn btn-light w-100 p-3 my-2 d-flex flex-column"
+        onClick={() => cb(user.id, answerKey._id, answerKey.correct, 0)}
+      >
+        {answerKey?.imagePath ? (
+          <img
+            className="mb-3"
+            src={Localhost.path() + answerKey.imagePath}
+            alt="answer key image"
+            style={{ maxWidth: "250px" }}
+          />
+        ) : (
+          <></>
+        )}
         <p className="m-0 text-start">
-          <strong>A. </strong>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </p>
-      </button>
-      <button className="btn btn-light w-100 p-3 my-2 d-flex flex-column">
-        <img
-          className="mb-3"
-          src={sampleImg}
-          alt="answer key image"
-          style={{ maxWidth: "250px" }}
-        />
-        <p className="m-0 text-start">
-          <strong>A.</strong>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <strong>A.</strong> {answerKey.value}
         </p>
       </button>
     </>

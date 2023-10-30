@@ -13,8 +13,8 @@ const question_rollback = async () => {
 };
 
 const question_migrate = async () => {
-  const minItem = 20;
-  const maxItem = 40;
+  const minItem = 3;
+  const maxItem = 5;
   const subjects = await Subject.find({}).exec();
 
   console.log("\n\nTEST QUESTION TO SUBJECT RELATIONSHIP");

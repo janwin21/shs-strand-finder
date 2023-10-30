@@ -1,14 +1,13 @@
 import axios from "axios";
 
-class DashboardD {
+class ResultD {
   // API endpoint
-  static endPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/dashboard";
+  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/result";
 
   async read(token) {
     try {
       // Send a GET request to create the Dashboard
-      const response = await axios.get(DashboardD.endPoint, {
+      const response = await axios.get(ResultD.endPoint, {
         headers: {
           Authorization: `Bearer ${token}`, // Add the token as a bearer token
         },
@@ -20,4 +19,4 @@ class DashboardD {
   }
 }
 
-export default DashboardD;
+export default ResultD;
