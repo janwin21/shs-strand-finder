@@ -1,10 +1,61 @@
-import { Chart } from "react-google-charts";
-import { useState } from "react";
-import { chartEvents } from "../../js/chart/chart-event";
+import { useEffect, useState } from "react";
 import DonutChartAssessment from "../../js/chart/DonutChartAssessment";
+import ResultCard from "./ResultCard";
 
-function ResultAssessment() {
-  const [donutChartAssessment1] = useState(new DonutChartAssessment());
+function ResultAssessment({ subjectTypes = [] }) {
+  // DONUT CHART
+  const [donutChartAssessments, setDonutChartAssessments] = useState([]);
+
+  // TABLES
+  const assessmentHeader = ["Answer", "Ticks"];
+  const [assessmentTable, setAssessmentTable] = useState([]);
+
+  useEffect(() => {
+    const donutChartArr = [];
+
+    subjectTypes?.forEach((st) => {
+      st.subjects.forEach((s) => {
+        // ASSESSMENT TABLE
+        const table = [assessmentHeader];
+        const newDonutChartAssessment = new DonutChartAssessment();
+
+        table.push(["Correct", s.score]);
+        table.push(["Wrong", s.mistakes]);
+
+        setAssessmentTable(table);
+        newDonutChartAssessment.table = table;
+        donutChartArr.push(newDonutChartAssessment);
+        setDonutChartAssessments(donutChartArr);
+      });
+    });
+  }, [subjectTypes]);
+
+  useEffect(() => {}, [assessmentTable]);
+
+  // DISPLAY FUNCTION
+  const displayAssessmentChart = () => {
+    let positionCounter = 0;
+
+    const outputSt = subjectTypes.map((st) => (
+      <>
+        {/*-- COL --*/}
+        <section key={st._id} className="col-3 pt-3 g-2">
+          <h5 className="w-100 text-center poppins text-uppercase fw-semibold">
+            {st.name}
+          </h5>
+          {st.subjects.map((s) => (
+            <ResultCard
+              key={s._id}
+              subject={s}
+              donutChart={donutChartAssessments[positionCounter++]}
+            />
+          ))}
+        </section>
+      </>
+    ));
+
+    return outputSt;
+  };
 
   return (
     <>
@@ -15,43 +66,7 @@ function ResultAssessment() {
         </h5>
         <section className="row mt-3 g-2">
           {/*-- USE MODULUS FOR ORGANIZATION --*/}
-          {/*-- COL-1 --*/}
-          <section className="col-2 g-2">
-            {/*-- ASSESSMENT RESULT CARD  --*/}
-            <div className="card bg-light p-2 mt-2">
-              {/*-- CHART DISPLAY --*/}
-              <Chart
-                chartType="PieChart"
-                data={donutChartAssessment1.data()}
-                options={donutChartAssessment1.option()}
-                graph_id="UNIQIEID789"
-                width={"100%"}
-                height={"300px"}
-                chartEvents={chartEvents(donutChartAssessment1)}
-                legend_toggle
-              />
-              <div className="card-body text-center">
-                <h6 className="card-title poppins text-uppercase mb-3">
-                  Subject Name
-                </h6>
-                <p className="card-text mb-0">
-                  score: <strong>100</strong> / 100
-                </p>
-                <p className="card-text mb-0">duration: 1 hr</p>
-                <p className="card-text mb-0">leave count: 3</p>
-              </div>
-            </div>
-          </section>
-          {/*-- COL-2 --*/}
-          <section className="col-2 g-2"></section>
-          {/*-- COL-3 --*/}
-          <section className="col-2 g-2"></section>
-          {/*-- COL-4 --*/}
-          <section className="col-2 g-2"></section>
-          {/*-- COL-5 --*/}
-          <section className="col-2 g-2"></section>
-          {/*-- COL-6 --*/}
-          <section className="col-2 g-2"></section>
+          {displayAssessmentChart()}
         </section>
       </section>
     </>

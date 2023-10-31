@@ -25,12 +25,14 @@
   }
 }*/
 class DonutChartAssessment {
+  table = [
+    ["Task", "Hours per Day"],
+    ["Correct", 11],
+    ["Wrong", 2],
+  ];
+
   data() {
-    return [
-      ["Task", "Hours per Day"],
-      ["Correct", 11],
-      ["Wrong", 2],
-    ];
+    return this.table;
   }
 
   option() {

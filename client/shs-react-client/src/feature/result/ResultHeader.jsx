@@ -20,7 +20,7 @@ function ResultHeader({ subjects, strands }) {
     // SUBJECT TABLE
     let table = [subjectHeader];
 
-    subjects?.map((subject) => {
+    subjects?.forEach((subject) => {
       table.push([subject.name, subject.distance, "#4d4848"]);
     });
 
@@ -30,7 +30,7 @@ function ResultHeader({ subjects, strands }) {
     // STRAND TABLE
     table = [strandHeader];
 
-    strands?.map((strand) => {
+    strands?.forEach((strand) => {
       table.push([strand.name, strand.sum, "#4d4848"]);
     });
 

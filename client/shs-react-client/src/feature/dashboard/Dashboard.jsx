@@ -62,6 +62,14 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
           strandTypes: dataD.strandTypes,
         });
         setSelectedStrand(dataD.selectedStrand);
+        console.log(
+          dataD.pendingSubjects.length,
+          dataD.personalEngagements.length,
+          dataD.pendingSubjects.length == 0,
+          dataD.personalEngagements.length != 0,
+          dataD.pendingSubjects.length == 0 &&
+            dataD.personalEngagements.length != 0
+        );
       }
     };
 
@@ -88,7 +96,10 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
                 <section className="col-12 pb-4">
                   <DashboardHeader
                     user={data.user}
-                    finish={data.pendingSubjects.length == 0}
+                    finish={
+                      data.pendingSubjects.length == 0 &&
+                      data.personalEngagements.length != 0
+                    }
                   />
                   {data.strandTypes.map((strandType, i) => (
                     <DashboardStrandType

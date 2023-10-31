@@ -2,6 +2,7 @@
 const Answer = require("../../model/answers");
 const AnswerKey = require("../../model/answer_keys");
 const Question = require("../../model/questions");
+const SubjectType = require("../../model/subject_types");
 const Subject = require("../../model/subjects");
 const Strand = require("../../model/strands");
 const StrandSubject = require("../../model/strand_subjects");
@@ -19,6 +20,7 @@ class ResultController {
 
     // Find the user's answers
     const answers = await Answer.find({ user: user.id }).exec();
+    const subjectTypes = await SubjectType.find({}).exec();
     const strands = await Strand.find({}).exec();
     const strandSubjects = await StrandSubject.find({}).exec();
 
@@ -157,14 +159,44 @@ class ResultController {
 
     const orderedFinalResult = _.orderBy(finalResult, ["sum"], ["desc"]);
 
+    // CHANGE
+    const subjectTypeMap = new Map();
+    const newSubjectTypes = [];
+
+    req.subjects.forEach((s) => {
+      const subjectTypeID = s.subjectType.toString();
+
+      if (!subjectTypeMap.has(subjectTypeID)) {
+        subjectTypeMap.set(subjectTypeID, []);
+      }
+
+      subjectTypeMap.get(subjectTypeID).push({
+        ...s,
+      });
+    });
+
+    // Convert the mapping into the desired format
+    subjectTypeMap.forEach((values, subjectTypeID) => {
+      const subjectType = subjectTypes.filter(
+        (st) => st._id.toString() === subjectTypeID
+      );
+      newSubjectTypes.push({
+        ...subjectType[0].toObject(),
+        subjects: values,
+      });
+    });
+
     // RESPONSE
     res.json({
       user,
       count: mappedSubjects.length,
       orderedSubjects: results,
       orderedFinalResult,
+      subjectTypeResults: newSubjectTypes,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
+      predictedStrand: orderedFinalResult[0],
+      peStrandResults: req.peStrandResults,
       personalEngagements: req.pes,
       subjects: req.subjects,
       pendingSubjects: req.pendingSubjects,

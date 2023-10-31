@@ -55,7 +55,9 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
           count: dataD.count,
           orderedSubjects: dataD.orderedSubjects,
           orderedFinalResult: dataD.orderedFinalResult,
-          preferredStrand: dataD.preferredStrand,
+          peStrandResults: dataD.peStrandResults,
+          subjectTypeResults: dataD.subjectTypeResults,
+          preferredStrand: dataD.predictedStrand, // PREDICTED STRAND
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
@@ -94,8 +96,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
                   ) : (
                     <></>
                   )}
-                  <ResultAssessment />
-                  <ResultPE />
+                  <ResultAssessment subjectTypes={data?.subjectTypeResults} />
+                  <ResultPE strands={data?.peStrandResults} />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -120,8 +122,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
                     ) : (
                       <></>
                     )}
-                    <ResultAssessment />
-                    <ResultPE />
+                    <ResultAssessment subjectTypes={data?.subjectTypeResults} />
+                    <ResultPE strands={data?.peStrandResults} />
                   </>
                 ) : (
                   <>

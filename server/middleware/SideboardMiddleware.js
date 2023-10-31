@@ -212,7 +212,8 @@ class SideboardMiddleware {
     req.pes = mappedPEs;
     req.subjects = mappedSubjects;
     req.pendingSubjects = subjectDifference;
-    req.preferredStrand = orderedStrands != 0 ? orderedStrands[0] : null;
+    req.preferredStrand = orderedStrands.length != 0 ? orderedStrands[0] : null;
+    req.peStrandResults = orderedStrands.length != 0 ? orderedStrands : null;
 
     next();
   }
