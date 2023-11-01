@@ -62,6 +62,7 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
           strandTypes: dataD.strandTypes,
         });
         setSelectedStrand(dataD.selectedStrand);
+        /*
         console.log(
           dataD.pendingSubjects.length,
           dataD.personalEngagements.length,
@@ -70,6 +71,7 @@ function Dashboard({ viewableSidebar, viewablePE, loginUser }) {
           dataD.pendingSubjects.length == 0 &&
             dataD.personalEngagements.length != 0
         );
+        */
       }
     };
 

@@ -7,6 +7,11 @@ class AnswerKeyController {
     const { questionID, value, correct } = req.body;
     const imagePath = req.file.path;
 
+    // Check if 'value' is missing
+    if (!value) {
+      throw new Error("Value field should be fill up!");
+    }
+
     // INIT
     const newAnswerKey = new AnswerKey({
       question: questionID,

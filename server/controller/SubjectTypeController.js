@@ -6,6 +6,18 @@ class SubjectTypeController {
   async create(req, res) {
     const { name } = req.body;
 
+    // Check if 'name' is missing
+    if (!name) {
+      throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'name' already exists in the database
+    const existingSubjectType = await SubjectType.findOne({ name });
+
+    if (existingSubjectType) {
+      throw new Error("This subject type has already existed!");
+    }
+
     // INIT
     const newSubjectType = new SubjectType({ name });
 
@@ -14,6 +26,18 @@ class SubjectTypeController {
 
     // RESPONSE
     res.json({ name });
+  }
+
+  // AUTH
+  async auth(req, res) {
+    res.json({
+      user: req.user,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
+    });
   }
 
   // READ ALL

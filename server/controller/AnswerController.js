@@ -1,4 +1,6 @@
 const Answer = require("../model/answers");
+const fs = require("fs");
+const path = require("path");
 
 class AnswerController {
   /* CRUD ----------------------------------------------------------- */
@@ -61,11 +63,24 @@ class AnswerController {
   async delete(req, res) {
     const { answerID } = req.params;
 
+    // Find the Strand data first to get the imagePath
+    const answer = await Answer.findById(answerID);
+
+    if (!answer) {
+      throw new Error("Answer not found.");
+    }
+
+    // DELETE IMAGE
+    if (answer.imagePath) {
+      const imagePath = path.join(__dirname, "../", answer.imagePath);
+      fs.unlinkSync(imagePath);
+    }
+
     // DELETE SINGLE DATA
-    const answer = await Answer.deleteOne({ _id: answerID });
+    const deletedAnswer = await Answer.deleteOne({ _id: answerID });
 
     // RESPONSE
-    res.json(answer);
+    res.json(deletedAnswer);
   }
 
   // DELETE ALL

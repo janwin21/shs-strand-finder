@@ -30,7 +30,7 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(resultData);
 
   // UML
   const [selectedStrand, setSelectedStrand] = useState({

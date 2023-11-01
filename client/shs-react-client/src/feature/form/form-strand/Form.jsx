@@ -55,7 +55,8 @@ function Form() {
   const submit = async (ev) => {
     ev.preventDefault();
     const strandModel = new Strand();
-    await strandModel.create(strand);
+    const data = await strandModel.create(strand);
+    console.log(data);
     // console.log("ADD NEW STRAND : ", strand);
   };
 

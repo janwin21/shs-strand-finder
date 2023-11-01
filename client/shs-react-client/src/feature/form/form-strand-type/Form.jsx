@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dashboardRoute } from "../../../route/routes";
 import StrandType from "../../../js/model/StrandType";
 
 function Form() {
+  const navigate = useNavigate();
+
   // UML
   const [strandtype, setStrandType] = useState({
     name: "Strand Name 1",
@@ -10,8 +14,13 @@ function Form() {
   const submit = async (ev) => {
     ev.preventDefault();
     const strandTypeModel = new StrandType();
-    await strandTypeModel.create(strandtype);
-    // console.log("ADD NEW STRAND TYPE : ", strandtype);
+    const data = await strandTypeModel.create(strandtype);
+
+    if (data?.error) {
+      console.log(data.error);
+    } else {
+      navigate(dashboardRoute.path);
+    }
   };
 
   return (

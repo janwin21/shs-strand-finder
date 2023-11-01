@@ -2,10 +2,15 @@ import AccessHeader from "./AccessHeader";
 import AccessTable from "./AccessTable";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
+import Localhost from "../../js/model/LocalHost";
+import FormAuth from "../../js/model/FormAuth";
 import { connect } from "react-redux";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { formData } from "../../js/json-structure/form";
 import { accessData } from "../../js/json-structure/access";
+import { indexRoute } from "../../route/routes";
+import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,9 +19,17 @@ const mapStateToProps = (state) => {
   };
 };
 
-function Access({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function Access({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
-  const [data, fetchData] = useState(formData);
+  const [data, fetchAuth] = useState(formData);
   const [access, fetchAccess] = useState(accessData);
 
   // UML
@@ -24,13 +37,46 @@ function Access({ viewableSidebar, viewablePE }) {
     userID: "user456",
     isAdmin: true,
   });
+
   const { targetUser, setTargetUser } = useState({
     email: "user@email.com",
   });
 
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    id: "strand123",
+    imagePath: null,
+    accessToken: "access-token",
+  });
+
   useEffect(() => {
-    fetchAccess(accessData);
+    const fetchData = async () => {
+      const token = Localhost.sessionKey("user");
+      const dataD = await new FormAuth().adminAuth(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        fetchAccess(accessData);
+        fetchAuth({
+          ...data,
+          user: dataD.user,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  // UPDATE dashboard data
+  useEffect(() => {}, [data]);
 
   const allow = (i) => {
     access.users[i].isAdmin = !access.users[i].isAdmin;
@@ -85,6 +131,7 @@ function Access({ viewableSidebar, viewablePE }) {
               </section>
               <DashboardSidebar
                 user={data.user}
+                selectedStrand={selectedStrand}
                 subjects={data.subjects}
                 pendingSubjects={data.pendingSubjects}
               />
@@ -96,4 +143,4 @@ function Access({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(Access);
+export default connect(mapStateToProps, mapDispatchToProps)(Access);

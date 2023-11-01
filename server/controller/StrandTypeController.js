@@ -6,6 +6,18 @@ class StrandTypeController {
   async create(req, res) {
     const { name } = req.body;
 
+    // Check if 'name' is missing
+    if (!name) {
+      throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'name' already exists in the database
+    const existingStrandType = await StrandType.findOne({ name });
+
+    if (existingStrandType) {
+      throw new Error("This strand type has already existed!");
+    }
+
     // INIT
     const newStrandType = new StrandType({ name });
 
@@ -14,6 +26,18 @@ class StrandTypeController {
 
     // RESPONSE
     res.json({ name });
+  }
+
+  // AUTH
+  async auth(req, res) {
+    res.json({
+      user: req.user,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
+    });
   }
 
   // READ ALL

@@ -1,5 +1,7 @@
 const Question = require("../model/questions");
 const AnswerKey = require("../model/answer_keys");
+const fs = require("fs");
+const path = require("path");
 
 class QuestionController {
   /* CRUD ----------------------------------------------------------- */
@@ -7,6 +9,11 @@ class QuestionController {
   async create(req, res) {
     const { subjectID, question } = req.body;
     const questionImagePath = req.file.path;
+
+    // Check if 'name' is missing
+    if (!question) {
+      throw new Error("Name field should be fill up!");
+    }
 
     // INIT
     const newQuestion = new Question({
@@ -20,6 +27,18 @@ class QuestionController {
 
     // RESPONSE
     res.json({ subject: subjectID, question, questionImagePath });
+  }
+
+  // AUTH
+  async auth(req, res) {
+    res.json({
+      user: req.user,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
+    });
   }
 
   // READ ALL
@@ -108,11 +127,24 @@ class QuestionController {
   async delete(req, res) {
     const { questionID } = req.params;
 
+    // Find the Strand data first to get the imagePath
+    const existingQuestion = await Question.findById(questionID);
+
+    if (!existingQuestion) {
+      throw new Error("Question not found.");
+    }
+
+    // DELETE IMAGE
+    if (existingQuestion.imagePath) {
+      const imagePath = path.join(__dirname, "../", existingQuestion.imagePath);
+      fs.unlinkSync(imagePath);
+    }
+
     // DELETE SINGLE DATA
-    const cQuestion = await Question.deleteOne({ _id: questionID });
+    const deletedQuestion = await Question.deleteOne({ _id: questionID });
 
     // RESPONSE
-    res.json(cQuestion);
+    res.json(deletedQuestion);
   }
 
   // DELETE ALL

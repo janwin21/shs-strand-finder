@@ -2,9 +2,14 @@ import FormHeader from "../component/FormHeader";
 import Form from "./Form";
 import DashboardSidebar from "../../dashboard/DashboardSidebar";
 import PEResult from "../../layout/PEResult";
+import Localhost from "../../../js/model/LocalHost";
+import FormAuth from "../../../js/model/FormAuth";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { formData } from "../../../js/json-structure/form";
+import { indexRoute } from "../../../route/routes";
+import { action } from "../../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
@@ -13,9 +18,53 @@ const mapStateToProps = (state) => {
   };
 };
 
-function FormStrandType({ viewableSidebar, viewablePE }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+  };
+};
+
+function FormStrandType({ viewableSidebar, viewablePE, loginUser }) {
+  const navigate = useNavigate();
+
   // FETCH
-  const [data, fetchData] = useState(formData);
+  const [data, fetchAccess] = useState(formData);
+
+  // UML
+  const [selectedStrand, setSelectedStrand] = useState({
+    userID: "user123",
+    id: "strand123",
+    imagePath: null,
+    accessToken: "access-token",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = Localhost.sessionKey("user");
+      const dataD = await new FormAuth().strandTypeAuth(token);
+
+      if (dataD?.response?.data?.error) {
+        navigate(indexRoute.path);
+      } else {
+        loginUser(dataD.user);
+        fetchAccess({
+          ...data,
+          user: dataD.user,
+          preferredStrand: dataD.preferredStrand,
+          personalEngagements: dataD.personalEngagements,
+          subjects: dataD.subjects,
+          pendingSubjects: dataD.pendingSubjects,
+          strandTypes: dataD.strandTypes,
+        });
+        setSelectedStrand(dataD.selectedStrand);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // UPDATE dashboard data
+  useEffect(() => {}, [data]);
 
   return (
     <>
@@ -34,12 +83,12 @@ function FormStrandType({ viewableSidebar, viewablePE }) {
                 <section className="col-12 pb-4">
                   <FormHeader
                     title="Create Strand Type / Group"
-                    instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
+                    instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
                       elit, sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
                   <Form />
                 </section>
@@ -60,12 +109,12 @@ function FormStrandType({ viewableSidebar, viewablePE }) {
                   <>
                     <FormHeader
                       title="Create Strand Type / Group"
-                      instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                      instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
                     <Form />
                   </>
@@ -81,7 +130,7 @@ function FormStrandType({ viewableSidebar, viewablePE }) {
               </section>
               <DashboardSidebar
                 user={data.user}
-                selectedStrand={data.selectedStrand}
+                selectedStrand={selectedStrand}
                 subjects={data.subjects}
                 pendingSubjects={data.pendingSubjects}
               />
@@ -93,4 +142,4 @@ function FormStrandType({ viewableSidebar, viewablePE }) {
   );
 }
 
-export default connect(mapStateToProps, null)(FormStrandType);
+export default connect(mapStateToProps, mapDispatchToProps)(FormStrandType);

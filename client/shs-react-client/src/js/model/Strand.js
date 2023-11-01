@@ -12,9 +12,9 @@ class Strand {
       });
 
       console.log("Strand created successfully");
-      console.log("Strand data:", response.data);
+      return response.data;
     } catch (error) {
-      console.error("Error creating Strand:", error.message);
+      return error.message;
     }
   }
 

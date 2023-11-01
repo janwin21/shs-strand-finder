@@ -7,6 +7,11 @@ class PEController {
   async create(req, res) {
     const { strandID, question } = req.body;
 
+    // Check if 'question' is missing
+    if (!question) {
+      throw new Error("Question field should be fill up!");
+    }
+
     // INIT
     const newPE = new PE({ strand: strandID, question });
 
@@ -15,6 +20,18 @@ class PEController {
 
     // RESPONSE
     res.json({ strand: strandID, question });
+  }
+
+  // AUTH
+  async auth(req, res) {
+    res.json({
+      user: req.user,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
+    });
   }
 
   // READ ALL

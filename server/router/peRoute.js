@@ -15,6 +15,12 @@ const authMiddleware = new AuthMiddleware();
 
 // ROUTES: CRUD
 peRoute.post("/", peController.create);
+peRoute.get(
+  "/auth/user",
+  authMiddleware.authorize,
+  sideboardMiddleware.middleware,
+  peController.auth
+);
 peRoute.get("/", peController.findAll);
 peRoute.get("/:peID", peController.findById);
 peRoute.get(

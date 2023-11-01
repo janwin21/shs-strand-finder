@@ -36,7 +36,7 @@ function ResultHeader({ subjects, strands }) {
 
     setStrandTable(table);
     barChartStrand.table = table;
-  }, []);
+  }, [subjects]);
 
   useEffect(() => {}, [subjectTable, strandTable]);
 

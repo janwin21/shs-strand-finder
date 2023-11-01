@@ -11,9 +11,10 @@ class StrandType {
       const response = await axios.post(StrandType.endPoint, data);
 
       console.log("StrandType created successfully");
-      console.log("StrandType data:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error creating StrandType:", error.message);
+      return error.response.data;
     }
   }
 

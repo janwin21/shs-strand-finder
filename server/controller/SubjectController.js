@@ -1,4 +1,7 @@
 const Subject = require("../model/subjects");
+const StrandSubject = require("../model/strand_subjects");
+const fs = require("fs");
+const path = require("path");
 
 class SubjectController {
   /* CRUD ----------------------------------------------------------- */
@@ -6,6 +9,18 @@ class SubjectController {
   async create(req, res) {
     const { subjectTypeID, name, description } = req.body;
     const imagePath = req.file.path;
+
+    // Check if 'name' is missing
+    if (!name) {
+      throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'name' already exists in the database
+    const existingSubject = await Subject.findOne({ name });
+
+    if (existingSubject) {
+      throw new Error("This subject has already existed!");
+    }
 
     // INIT
     const newSubject = new Subject({
@@ -24,6 +39,18 @@ class SubjectController {
       name,
       description,
       imagePath,
+    });
+  }
+
+  // AUTH
+  async auth(req, res) {
+    res.json({
+      user: req.user,
+      selectedStrand: req.selectedStrand,
+      preferredStrand: req.preferredStrand,
+      personalEngagements: req.pes,
+      subjects: req.subjects,
+      pendingSubjects: req.pendingSubjects,
     });
   }
 
@@ -72,11 +99,36 @@ class SubjectController {
   async delete(req, res) {
     const { subjectID } = req.params;
 
+    // Find the Strand data first to get the imagePath
+    const subject = await Subject.findById(subjectID);
+
+    if (!subject) {
+      throw new Error("Subject not found.");
+    }
+
+    // DELETE IMAGE
+    if (subject.imagePath) {
+      const imagePath = path.join(__dirname, "../", subject.imagePath);
+      fs.unlinkSync(imagePath);
+    }
+
     // DELETE SINGLE DATA
-    const subject = await Subject.deleteOne({ _id: subjectID });
+    const deletedSubject = await Subject.deleteOne({ _id: subjectID });
+
+    // DELETE ALL STRAND SUBJECTS WITH SUBJECT ID
+    const dataToDelete = await StrandSubject.find({ subject: subjectID });
+
+    if (dataToDelete.length === 0) {
+      return console.log("No data found with the specified subject.");
+    }
+
+    // Delete the found data
+    const deleteResult = await StrandSubject.deleteMany({
+      subject: subjectID,
+    });
 
     // RESPONSE
-    res.json(subject);
+    res.json({ deletedSubject, deleteResult });
   }
 
   // DELETE ALL
