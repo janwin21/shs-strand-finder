@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Localhost from "../../js/model/LocalHost";
 
 function AssessmentChoices({ user, answerKey, cb }) {

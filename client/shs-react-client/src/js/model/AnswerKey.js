@@ -1,21 +1,22 @@
 import axios from "axios";
 
-class AnswerKey {
+class AnswerKeyP {
   // API endpoint
-  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/answer";
+  static endPoint =
+    "http://localhost:3000/shs-strand-finder/api/V1.0.0/answerKey";
 
-  // create PE
+  // create Answer Key
   async create(data) {
     try {
-      // Send a POST request to create the PE
-      const response = await axios.post(AnswerKey.endPoint, data);
-
+      // Send a POST request to create the Answer Key
+      const response = await axios.post(AnswerKeyP.endPoint, data);
       console.log("Answer Key created successfully");
-      console.log("Answer Key data:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error creating Answer Key:", error.message);
+      return error.response.data;
     }
   }
 }
 
-export default AnswerKey;
+export default AnswerKeyP;

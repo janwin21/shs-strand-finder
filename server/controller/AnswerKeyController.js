@@ -12,11 +12,6 @@ class AnswerKeyController {
       throw new Error("Value field should be fill up!");
     }
 
-    // Check if 'correct' is missing
-    if (!correct) {
-      throw new Error("Answer key should be fill up!");
-    }
-
     // Check if 'question' is missing
     if (!questionID) {
       throw new Error("Select a question first!");

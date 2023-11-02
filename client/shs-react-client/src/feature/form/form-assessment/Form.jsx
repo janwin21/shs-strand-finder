@@ -1,20 +1,27 @@
 // import { subjectData } from "../../../js/json-structure/form/subject";
 // import Subject from "../../../js/model/Subject";
+// import DashboardD from "../../../js/model/Dashboard";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dashboardRoute } from "../../../route/routes";
+import QuestionP from "../../../js/model/Question";
+import AnswerKeyP from "../../../js/model/AnswerKey";
 import FormRadioBtn from "../component/FormRadioBtn";
 import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
 import $ from "jquery";
 
 function Form({ subjects }) {
+  const navigate = useNavigate();
+
   // UML
   const [question, setQuestion] = useState({
     subjectID: "",
-    question: "This is a question?",
+    question: "",
     questionImage: null,
     answerKeys: [
       {
-        value: "This is answer A",
+        value: ".",
         image: null,
         correct: true,
       },
@@ -55,9 +62,27 @@ function Form({ subjects }) {
     });
   }, []);
 
-  const submit = (ev) => {
+  const submit = async (ev) => {
     ev.preventDefault();
-    console.log("ADD NEW STRAND : ", question);
+    if (question.answerKeys.length != 0) {
+      const questionData = await new QuestionP().create(question);
+      console.log(questionData);
+
+      if (questionData?.error) {
+        console.log(questionData.error);
+      } else {
+        question.answerKeys.forEach(async (key) => {
+          const keyForm = key;
+          keyForm.questionID = questionData._id;
+          console.log(keyForm);
+          const keyData = await new AnswerKeyP().create(keyForm);
+          console.log(keyData);
+        });
+        navigate(dashboardRoute.path);
+      }
+    } else {
+      console.log("Set at least 1 answer key!");
+    }
   };
 
   return (
@@ -256,9 +281,14 @@ function Form({ subjects }) {
                 CREATE QUESTION
               </button>
               <button
+                type="button"
                 onClick={() => {
                   const tempAnswerKeys = question.answerKeys;
-                  tempAnswerKeys.push({});
+                  tempAnswerKeys.push({
+                    value: ".",
+                    image: null,
+                    correct: true,
+                  });
                   setQuestion({
                     ...question,
                     answerKeys: tempAnswerKeys,

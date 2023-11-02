@@ -3,7 +3,7 @@ import DashboardSidebar from "../dashboard/DashboardSidebar";
 import PEResult from "../layout/PEResult";
 import Localhost from "../../js/model/LocalHost";
 import SubjectP from "../../js/model/SubjectP";
-import AnswerKey from "../../js/model/AnswerKey";
+import AnswerP from "../../js/model/Answer";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,49 +52,7 @@ function _Assessment({
     noOfUnVisit: 6,
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new SubjectP().readAssessment(subjectID, token);
-
-      if (dataD?.error) {
-        console.log(dataD.error);
-        return navigate(dashboardRoute.path);
-      }
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        setData({
-          ...data,
-          user: dataD.user,
-          isLast: dataD.isLast,
-          subject: dataD.subject,
-          question: dataD.question,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-        });
-        setSelectedStrand(dataD.selectedStrand);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // UPDATE assessment data
-  useEffect(() => {}, [data]);
-
-  // FUNCTION
-  const select = (user, answerKey, correct, noOfUnVisit) => {
-    setChoice({ user, answerKey, correct, noOfUnVisit });
-  };
-
-  const submit = async () => {
-    await new AnswerKey().create(choice);
+  const callAccess = async () => {
     const token = Localhost.sessionKey("user");
     const dataD = await new SubjectP().readAssessment(subjectID, token);
 
@@ -121,6 +79,23 @@ function _Assessment({
       });
       setSelectedStrand(dataD.selectedStrand);
     }
+  };
+
+  useEffect(() => {
+    callAccess();
+  }, []);
+
+  // UPDATE assessment data
+  useEffect(() => {}, [data]);
+
+  // FUNCTION
+  const select = (user, answerKey, correct, noOfUnVisit) => {
+    setChoice({ user, answerKey, correct, noOfUnVisit });
+  };
+
+  const submit = async () => {
+    await new AnswerP().create(choice);
+    await callAccess();
   };
 
   return (

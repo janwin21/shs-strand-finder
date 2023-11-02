@@ -38,7 +38,7 @@ class QuestionController {
     newQuestion.save();
 
     // RESPONSE
-    res.json({ subject: subjectID, question, questionImagePath });
+    res.json(newQuestion);
   }
 
   // AUTH
