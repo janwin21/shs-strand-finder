@@ -9,11 +9,11 @@ class SubjectType {
     try {
       // Send a POST request to create the SubjectType
       const response = await axios.post(SubjectType.endPoint, data);
-
       console.log("SubjectType created successfully");
-      console.log("SubjectType data:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error creating SubjectType:", error.message);
+      return error.response.data;
     }
   }
 

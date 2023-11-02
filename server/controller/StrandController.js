@@ -1,4 +1,5 @@
 const Strand = require("../model/strands");
+const StrandType = require("../model/strand_types");
 const fs = require("fs");
 const path = require("path");
 
@@ -12,6 +13,11 @@ class StrandController {
     // Check if 'name' is missing
     if (!name) {
       throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'strand type' is missing
+    if (!strandTypeID) {
+      throw new Error("Select a strand type first!");
     }
 
     // Check if 'name' already exists in the database
@@ -38,8 +44,11 @@ class StrandController {
 
   // AUTH
   async auth(req, res) {
+    const strandTypes = await StrandType.find({}).exec();
+
     res.json({
       user: req.user,
+      strandTypes,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,

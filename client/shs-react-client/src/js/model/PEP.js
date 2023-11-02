@@ -25,11 +25,11 @@ class PEP {
     try {
       // Send a POST request to create the PE
       const response = await axios.post(PEP.endPoint, data);
-
       console.log("PE created successfully");
-      console.log("PE data:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error creating PE:", error.message);
+      return error.response.data;
     }
   }
 

@@ -1,3 +1,5 @@
+const SubjectType = require("../model/subject_types");
+const Strand = require("../model/strands");
 const Subject = require("../model/subjects");
 const StrandSubject = require("../model/strand_subjects");
 const fs = require("fs");
@@ -13,6 +15,11 @@ class SubjectController {
     // Check if 'name' is missing
     if (!name) {
       throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'subject type' is missing
+    if (!subjectTypeID) {
+      throw new Error("Select a subject type first!");
     }
 
     // Check if 'name' already exists in the database
@@ -44,8 +51,13 @@ class SubjectController {
 
   // AUTH
   async auth(req, res) {
+    const strandTypes = await SubjectType.find({}).exec();
+    const strands = await Strand.find({}).exec();
+
     res.json({
       user: req.user,
+      strandTypes,
+      strands,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,
@@ -117,15 +129,14 @@ class SubjectController {
 
     // DELETE ALL STRAND SUBJECTS WITH SUBJECT ID
     const dataToDelete = await StrandSubject.find({ subject: subjectID });
-
-    if (dataToDelete.length === 0) {
-      return console.log("No data found with the specified subject.");
-    }
+    let deleteResult = null;
 
     // Delete the found data
-    const deleteResult = await StrandSubject.deleteMany({
-      subject: subjectID,
-    });
+    if (dataToDelete.length !== 0) {
+      deleteResult = await StrandSubject.deleteMany({
+        subject: subjectID,
+      });
+    }
 
     // RESPONSE
     res.json({ deletedSubject, deleteResult });

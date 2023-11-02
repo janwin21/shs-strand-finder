@@ -10,11 +10,11 @@ class Strand {
       const response = await axios.post(Strand.endPoint, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       console.log("Strand created successfully");
       return response.data;
     } catch (error) {
-      return error.message;
+      console.error("Error creating Strand:", error.message);
+      return error.response.data;
     }
   }
 

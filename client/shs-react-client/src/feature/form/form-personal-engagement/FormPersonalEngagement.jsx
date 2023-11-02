@@ -50,6 +50,7 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
         fetchAccess({
           ...data,
           user: dataD.user,
+          strands: dataD.strands,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
@@ -83,14 +84,14 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
                 <section className="col-12 pb-4">
                   <FormHeader
                     title="Create New Personal Engagement Question"
-                    instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
+                    instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
                       elit, sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
-                  <Form />
+                  <Form strands={data?.strands} />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -109,14 +110,14 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
                   <>
                     <FormHeader
                       title="Create New Personal Engagement Question"
-                      instruction="Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                      instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
-                    <Form />
+                    <Form strands={data?.strands} />
                   </>
                 ) : (
                   <>

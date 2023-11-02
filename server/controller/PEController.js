@@ -1,4 +1,5 @@
 const PE = require("../model/personal_engagements");
+const Strand = require("../model/strands");
 const SelectedPE = require("../model/selected_personal_engagements");
 
 class PEController {
@@ -10,6 +11,11 @@ class PEController {
     // Check if 'question' is missing
     if (!question) {
       throw new Error("Question field should be fill up!");
+    }
+
+    // Check if 'strand' is missing
+    if (!strandID) {
+      throw new Error("Select a strand first!");
     }
 
     // INIT
@@ -24,8 +30,11 @@ class PEController {
 
   // AUTH
   async auth(req, res) {
+    const strands = await Strand.find({}).exec();
+
     res.json({
       user: req.user,
+      strands,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,

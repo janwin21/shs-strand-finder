@@ -1,43 +1,26 @@
-import { useEffect, useState } from "react";
 // import { strandData } from "../../../js/json-structure/form/strand";
-import Strand from "../../../js/model/Strand";
+// import Strand from "../../../js/model/Strand";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dashboardRoute } from "../../../route/routes";
 import PEP from "../../../js/model/PEP";
 import FormRadioBtn from "../component/FormRadioBtn";
 
-function Form() {
-  const [personalEngagement, setPersonalEngagement] = useState({
-    strandID: "strand123",
-    question: "This is a question",
-  });
+function Form({ strands }) {
+  const navigate = useNavigate();
 
-  const [strandData, setStrandData] = useState({
-    strands: [],
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // console.log("RELOAD STRAND : ", strandData);
-      const strand = await new Strand().read();
-      setStrandData(strand);
-
-      $(() => {
-        setUploadBtn($("#uploadBtn"));
-      });
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    // This will log the updated strandTypeData whenever it changes
-    console.log("Updated strandTypeData:", strandData);
-  }, [strandData]);
+  // UML
+  const [personalEngagement, setPersonalEngagement] = useState({});
 
   const submit = async (ev) => {
     ev.preventDefault();
-    const pepModel = new PEP();
-    await pepModel.create(personalEngagement);
-    console.log("ADD NEW PERSONAL ENGAGEMENT : ", personalEngagement);
+    const data = await new PEP().create(personalEngagement);
+
+    if (data?.error) {
+      console.log(data.error);
+    } else {
+      navigate(dashboardRoute.path);
+    }
   };
 
   return (
@@ -75,7 +58,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {strandData.strands.map((strand, i) => {
+                {strands?.map((strand, i) => {
                   return (
                     <FormRadioBtn
                       key={i}

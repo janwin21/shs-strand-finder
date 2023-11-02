@@ -13,12 +13,11 @@ class StrandSubject {
           subjectID,
           strandID,
         });
-
-        console.log("StrandSubject created successfully");
-        console.log("StrandSubject data:", response.data);
+        console.log("StrandSubject created successfully: ", response.data);
       });
     } catch (error) {
       console.error("Error creating StrandSubject:", error.message);
+      return error.response.data;
     }
   }
 }

@@ -1,15 +1,15 @@
+// import { subjectData } from "../../../js/json-structure/form/subject";
+// import Subject from "../../../js/model/Subject";
 import { useEffect, useState } from "react";
-import { subjectData } from "../../../js/json-structure/form/subject";
-import Subject from "../../../js/model/Subject";
 import FormRadioBtn from "../component/FormRadioBtn";
 import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
 import $ from "jquery";
 
-function Form() {
+function Form({ subjects }) {
   // UML
   const [question, setQuestion] = useState({
-    subjectID: "subject123",
+    subjectID: "",
     question: "This is a question?",
     questionImage: null,
     answerKeys: [
@@ -17,12 +17,9 @@ function Form() {
         value: "This is answer A",
         image: null,
         correct: true,
-        // (server) questionID: string
       },
     ],
   });
-
-  const [subjectDData, setSubjectDData] = useState(subjectData);
 
   const [uploadBtn, setUploadBtn] = useState(null);
 
@@ -53,23 +50,10 @@ function Form() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const subject = await new Subject().read();
-      console.log("RELOAD SUBJECT : ", subject);
-      setSubjectDData({ ...subjectData, subjectTypes: subject });
-
-      $(() => {
-        setUploadBtn($("#uploadBtn"));
-      });
-    };
-
-    fetchData();
+    $(() => {
+      setUploadBtn($("#uploadBtn"));
+    });
   }, []);
-
-  useEffect(() => {
-    // This will log the updated strandTypeData whenever it changes
-    console.log("Updated subjectTypeData:", subjectDData);
-  }, [subjectDData]);
 
   const submit = (ev) => {
     ev.preventDefault();
@@ -128,7 +112,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {subjectData?.subjects?.map((subject, i) => {
+                {subjects?.map((subject, i) => {
                   return (
                     <FormRadioBtn
                       key={i}

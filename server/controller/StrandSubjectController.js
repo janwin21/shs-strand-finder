@@ -6,6 +6,11 @@ class StrandSubjectController {
   async create(req, res) {
     const { strandID, subjectID } = req.body;
 
+    // Check if 'strand & subject' is missing
+    if (!strandID && !subjectID) {
+      throw new Error("Strand or Subject does not exist!");
+    }
+
     // INIT
     const newStrandSubject = new StrandSubject({
       strand: strandID,

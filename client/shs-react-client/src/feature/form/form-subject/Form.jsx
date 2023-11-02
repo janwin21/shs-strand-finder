@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
 // import { strandTypeData } from "../../../js/json-structure/form/strand-type";
 // import { subjectTypeData } from "../../../js/json-structure/form/subject-type";
-import SubjectType from "../../../js/model/SubjectType";
-import Strand from "../../../js/model/Strand";
+// import SubjectType from "../../../js/model/SubjectType";
+// import Strand from "../../../js/model/Strand";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { subjectRoute } from "../../../route/routes";
 import Subject from "../../../js/model/Subject";
 import StrandSubject from "../../../js/model/StrandSubject";
 import FormCheckBox from "../component/FormCheckBox";
@@ -10,7 +12,9 @@ import FormRadioBtn from "../component/FormRadioBtn";
 import subject1 from "../../../asset/subject/subject1.jpg";
 import $ from "jquery";
 
-function Form() {
+function Form({ strandTypes, strands }) {
+  const navigate = useNavigate();
+
   // UML
   const [subject, setSubject] = useState({
     strandTypeIDs: [],
@@ -18,15 +22,6 @@ function Form() {
     name: "Subject Name",
     description: "This is subject description",
     image: null,
-    // (server) subjectID: string
-  });
-
-  const [subjectTypeData, setSubjectTypeData] = useState({
-    subjectTypes: [],
-  });
-
-  const [strandData, setStrandData] = useState({
-    strands: [],
   });
 
   const [uploadBtn, setUploadBtn] = useState(null);
@@ -48,27 +43,10 @@ function Form() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      // console.log("RELOAD STRAND : ", strandData);
-      // console.log("RELOAD SUBJECT TYPE : ", subjectTypeData);
-      const subjectType = await new SubjectType().read();
-      const strand = await new Strand().read();
-      setSubjectTypeData(subjectType);
-      setStrandData(strand);
-
-      $(() => {
-        setUploadBtn($("#uploadBtn"));
-      });
-    };
-
-    fetchData();
+    $(() => {
+      setUploadBtn($("#uploadBtn"));
+    });
   }, []);
-
-  useEffect(() => {
-    // This will log the updated strandTypeData whenever it changes
-    console.log("Updated subjectTypeData:", subjectTypeData);
-    console.log("Updated strandTypeData:", strandData);
-  }, [subjectTypeData, strandData]);
 
   const onStrandChange = (ev) => {
     const { id, checked } = ev.target;
@@ -88,11 +66,13 @@ function Form() {
     const strandTypeIDs = subject.strandTypeIDs;
     const subjectModel = new Subject();
     const subjectID = await subjectModel.create(subject);
-    const strandSubject = await new StrandSubject().create(
-      subjectID,
-      strandTypeIDs
-    );
-    console.log("ADD NEW STRAND ID: ", strandSubject);
+
+    if (subjectID?.error) {
+      console.log(subjectID.error);
+    } else {
+      await new StrandSubject().create(subjectID, strandTypeIDs);
+      navigate(subjectRoute.path);
+    }
   };
 
   return (
@@ -163,7 +143,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {subjectTypeData?.subjectTypes.map((subjectType, i) => {
+                {strandTypes?.map((subjectType, i) => {
                   return (
                     <FormRadioBtn
                       key={i}
@@ -189,7 +169,7 @@ function Form() {
                 role="group"
                 aria-label="Basic checkbox toggle button group"
               >
-                {strandData.strands.map((strand, i) => {
+                {strands?.map((strand, i) => {
                   return (
                     <FormCheckBox
                       key={i}

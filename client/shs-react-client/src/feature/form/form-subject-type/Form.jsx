@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { subjectRoute } from "../../../route/routes";
 import SubjectType from "../../../js/model/SubjectType";
 
 function Form() {
+  const navigate = useNavigate();
+
   // UML
   const [subjectType, setSubjectType] = useState({
     name: "Subject Name 1",
@@ -10,8 +14,13 @@ function Form() {
   const submit = async (ev) => {
     ev.preventDefault();
     const subjectTypeModel = new SubjectType();
-    await subjectTypeModel.create(subjectType);
-    // console.log("ADD NEW SUBJECT TYPE : ", subjectType);
+    const data = await subjectTypeModel.create(subjectType);
+
+    if (data?.error) {
+      console.log(data.error);
+    } else {
+      navigate(subjectRoute.path);
+    }
   };
 
   return (

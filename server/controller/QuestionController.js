@@ -1,5 +1,7 @@
+const Subject = require("../model/subjects");
 const Question = require("../model/questions");
 const AnswerKey = require("../model/answer_keys");
+const Answer = require("../model/answers");
 const fs = require("fs");
 const path = require("path");
 
@@ -8,11 +10,16 @@ class QuestionController {
   // CREATE
   async create(req, res) {
     const { subjectID, question } = req.body;
-    const questionImagePath = req.file.path;
+    let questionImagePath = null;
 
     // Check if 'name' is missing
     if (!question) {
       throw new Error("Name field should be fill up!");
+    }
+
+    // Check if 'subject' is missing
+    if (!subjectID) {
+      throw new Error("Select a subject first!");
     }
 
     // INIT
@@ -21,6 +28,11 @@ class QuestionController {
       question,
       questionImagePath,
     });
+
+    // Check if an image was uploaded
+    if (req.file) {
+      questionImagePath = req.file.path;
+    }
 
     // SAVE
     newQuestion.save();
@@ -31,8 +43,11 @@ class QuestionController {
 
   // AUTH
   async auth(req, res) {
+    const subjects = await Subject.find({}).exec();
+
     res.json({
       user: req.user,
+      subjects,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,
@@ -143,8 +158,32 @@ class QuestionController {
     // DELETE SINGLE DATA
     const deletedQuestion = await Question.deleteOne({ _id: questionID });
 
+    // DELETE ALL ANSWERS & ANSWER KEYS
+    const dataToDelete = await AnswerKey.find({ question: questionID });
+    const mappedDeletedData = dataToDelete.map((d) => d._id.toString());
+
+    let deleteResult = null;
+    let deleteAnswerResult = null;
+
+    // Delete the found data
+    if (dataToDelete.length !== 0) {
+      const dataDeleteAnsweyKeys = await Answer.find({
+        answerKey: { $in: mappedDeletedData },
+      });
+
+      if (dataDeleteAnsweyKeys.length !== 0) {
+        deleteAnswerResult = await Answer.deleteMany({
+          answerKey: { $in: mappedDeletedData },
+        });
+      }
+
+      deleteResult = await AnswerKey.deleteMany({
+        question: questionID,
+      });
+    }
+
     // RESPONSE
-    res.json(deletedQuestion);
+    res.json({ deletedQuestion, deleteResult, deleteAnswerResult });
   }
 
   // DELETE ALL

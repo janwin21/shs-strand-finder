@@ -50,6 +50,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
         fetchAccess({
           ...data,
           user: dataD.user,
+          strandTypes: dataD.strandTypes,
+          strands: dataD.strands,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
@@ -90,7 +92,10 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                       eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
-                  <Form />
+                  <Form
+                    strandTypes={data?.strandTypes}
+                    strands={data?.strands}
+                  />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -116,7 +121,10 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
-                    <Form />
+                    <Form
+                      strandTypes={data?.strandTypes}
+                      strands={data?.strands}
+                    />
                   </>
                 ) : (
                   <>

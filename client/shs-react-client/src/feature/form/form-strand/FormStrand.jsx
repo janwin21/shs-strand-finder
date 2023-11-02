@@ -50,6 +50,7 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
         fetchAccess({
           ...data,
           user: dataD.user,
+          strandTypes: dataD.strandTypes,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
@@ -90,7 +91,7 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                       eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
-                  <Form />
+                  <Form strandTypes={data?.strandTypes} />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -116,7 +117,7 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
-                    <Form />
+                    <Form strandTypes={data?.strandTypes} />
                   </>
                 ) : (
                   <>

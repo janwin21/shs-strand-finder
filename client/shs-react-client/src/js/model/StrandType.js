@@ -9,7 +9,6 @@ class StrandType {
     try {
       // Send a POST request to create the StrandType
       const response = await axios.post(StrandType.endPoint, data);
-
       console.log("StrandType created successfully");
       return response.data;
     } catch (error) {

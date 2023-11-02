@@ -5,11 +5,21 @@ class AnswerKeyController {
   // CREATE
   async create(req, res) {
     const { questionID, value, correct } = req.body;
-    const imagePath = req.file.path;
+    let imagePath = null;
 
     // Check if 'value' is missing
     if (!value) {
       throw new Error("Value field should be fill up!");
+    }
+
+    // Check if 'correct' is missing
+    if (!correct) {
+      throw new Error("Answer key should be fill up!");
+    }
+
+    // Check if 'question' is missing
+    if (!questionID) {
+      throw new Error("Select a question first!");
     }
 
     // INIT
@@ -19,6 +29,11 @@ class AnswerKeyController {
       imagePath,
       correct,
     });
+
+    // Check if an image was uploaded
+    if (req.file) {
+      imagePath = req.file.path;
+    }
 
     // SAVE
     newAnswerKey.save();

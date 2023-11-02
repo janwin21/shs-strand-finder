@@ -11,11 +11,11 @@ class Subject {
       const response = await axios.post(Subject.endPoint, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       console.log("Subject created successfully");
       return response.data.subjectID;
     } catch (error) {
       console.error("Error creating Subject:", error.message);
+      return error.response.data;
     }
   }
 
