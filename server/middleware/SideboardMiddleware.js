@@ -82,12 +82,15 @@ class SideboardMiddleware {
           let corrects = 0;
           let mistakes = 0;
           let totalNoOfUnVisit = 0;
+
           const totalQuestions = await Question.find({
             subject: subject._id,
           }).exec();
+
           const subjectQuestions = questions.filter(
             (question) => subject._id.toString() === question.subject.toString()
           );
+
           subjectQuestions.forEach((question) => {
             if (!question.correct) mistakes++;
             else corrects++;

@@ -7,6 +7,8 @@ const reducer = (
     type,
     user,
     test,
+    loading,
+
     // SIDEBAR
     viewableSidebar,
 
@@ -37,6 +39,8 @@ const reducer = (
       return { ...state, user: user };
     case action.LOGOUT_USER:
       return { ...state, user: null };
+    case action.LOAD:
+      return { ...state, loading };
 
     // SIDEBAR
     case action.VIEW_SIDEBAR:

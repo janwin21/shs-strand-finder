@@ -24,6 +24,10 @@ import FormSubject from "../feature/form/form-subject/FormSubject";
 import FormPersonalEngagement from "../feature/form/form-personal-engagement/FormPersonalEngagement";
 import FormAssessment from "../feature/form/form-assessment/FormAssessment";
 
+/* VIEW */
+import ViewPE from "../feature/viewable/ViewPE";
+import ViewSubject from "../feature/viewable/ViewSubject";
+
 const indexRoute = new RouteLink("/", <Index />);
 const registerRoute = new RouteLink("/register", <Register />);
 const dashboardRoute = new RouteLink("/dashboard", <Dashboard />);
@@ -71,6 +75,10 @@ const formAssessmentRoute = new RouteLink(
 );
 const accessRoute = new RouteLink("/admin/access", <Access />);
 
+/* VIEW */
+const viewPERoute = new RouteLink("/view/personal-engagement", <ViewPE />);
+const viewSubjectRoute = new RouteLink("/view/subject", <ViewSubject />);
+
 export {
   indexRoute,
   registerRoute,
@@ -94,4 +102,8 @@ export {
   formSubjectRoute,
   formPersonalEngagementRoute,
   formAssessmentRoute,
+
+  /* VIEW */
+  viewPERoute,
+  viewSubjectRoute,
 };

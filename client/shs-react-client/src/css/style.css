@@ -11970,6 +11970,19 @@ body .auto-overflow {
     height: 50%;
   }
 }
+.fa-spinner {
+  rotate: 0deg;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
 .poppins {
   font-family: "Poppins", sans-serif;
 }

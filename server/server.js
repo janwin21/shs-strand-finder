@@ -38,6 +38,7 @@ const loginRoute = require("./router/page/loginRoute");
 const forgotRoute = require("./router/page/forgotRoute");
 const resetRoute = require("./router/page/resetRoute");
 const adminRoute = require("./router/page/adminRoute");
+const viewableRoute = require("./router/viewRoute");
 
 // IMPORT DB TEST
 const User = require("./model/users");
@@ -97,6 +98,7 @@ app.use("/shs-strand-finder/api/V1.0.0/blocklistToken", blocklistTokenRoute);
 app.use("/shs-strand-finder/api/V1.0.0/answer", answerRoute);
 app.use("/shs-strand-finder/api/V1.0.0/answerKey", answerKeyRoute);
 app.use("/shs-strand-finder/api/V1.0.0/admin", adminRoute);
+app.use("/shs-strand-finder/api/V1.0.0/view", viewableRoute);
 
 // MIDDLEWARE => PAGES
 app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);

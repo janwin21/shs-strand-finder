@@ -11,22 +11,8 @@ import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
 import $ from "jquery";
 
-function Form({ subjects }) {
+function Form({ question, cb, subjects }) {
   const navigate = useNavigate();
-
-  // UML
-  const [question, setQuestion] = useState({
-    subjectID: "",
-    question: "",
-    questionImage: null,
-    answerKeys: [
-      {
-        value: ".",
-        image: null,
-        correct: true,
-      },
-    ],
-  });
 
   const [uploadBtn, setUploadBtn] = useState(null);
 
@@ -36,7 +22,7 @@ function Form({ subjects }) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setQuestion({ ...question, questionImage: e.target.result });
+        cb({ ...question, questionImage: e.target.result });
       };
       reader.readAsDataURL(file);
     }
@@ -50,7 +36,7 @@ function Form({ subjects }) {
       const reader = new FileReader();
       reader.onload = (e) => {
         tempAnswerKeys[i].image = e.target.result;
-        setQuestion({ ...question, answerKeys: tempAnswerKeys });
+        cb({ ...question, answerKeys: tempAnswerKeys });
       };
       reader.readAsDataURL(file);
     }
@@ -74,7 +60,6 @@ function Form({ subjects }) {
         question.answerKeys.forEach(async (key) => {
           const keyForm = key;
           keyForm.questionID = questionData._id;
-          console.log(keyForm);
           const keyData = await new AnswerKeyP().create(keyForm);
           console.log(keyData);
         });
@@ -115,8 +100,9 @@ function Form({ subjects }) {
                   className="form-control shs-textarea shadow w-100"
                   id="text"
                   placeholder="Type your question here"
+                  value={question.question}
                   onChange={(ev) => {
-                    setQuestion({ ...question, question: ev.target.value });
+                    cb({ ...question, question: ev.target.value });
                   }}
                 ></textarea>
               </div>
@@ -142,8 +128,9 @@ function Form({ subjects }) {
                     <FormRadioBtn
                       key={i}
                       onChangeCb={(ev) => {
-                        setQuestion({ ...question, subjectID: ev.target.id });
+                        cb({ ...question, subjectID: ev.target.id });
                       }}
+                      checked={question.subjectID === subject._id}
                       name={"subject"}
                       subjectType={subject}
                     />
@@ -164,7 +151,7 @@ function Form({ subjects }) {
                         alt="file img input"
                       />
                       <button
-                        type="submit"
+                        type="button"
                         className="btn btn-dark w-100 fs-6 px-4 rounded-0 rounded-bottom text-uppercase text-light fw-semibold fs-6"
                         onClick={() => {
                           $(() => {
@@ -190,7 +177,7 @@ function Form({ subjects }) {
                           onClick={(ev) => {
                             const tempAnswerKeys = question.answerKeys;
                             tempAnswerKeys.splice(i, 1);
-                            setQuestion({
+                            cb({
                               ...question,
                               answerKeys: tempAnswerKeys,
                             });
@@ -208,10 +195,11 @@ function Form({ subjects }) {
                           className="form-control shs-textarea shadow w-100"
                           id="text"
                           placeholder="Type your question here"
+                          value={answerKey.value}
                           onChange={(ev) => {
                             const tempAnswerKeys = question.answerKeys;
                             tempAnswerKeys[i].value = ev.target.value;
-                            setQuestion({
+                            cb({
                               ...question,
                               answerKeys: tempAnswerKeys,
                             });
@@ -231,10 +219,11 @@ function Form({ subjects }) {
                           id={"btncheck" + i}
                           name={"yes" + i}
                           autoComplete="off"
+                          checked={answerKey.correct == true}
                           onChange={() => {
                             const tempAnswerKeys = question.answerKeys;
                             tempAnswerKeys[i].correct = true;
-                            setQuestion({
+                            cb({
                               ...question,
                               answerKeys: tempAnswerKeys,
                             });
@@ -253,10 +242,11 @@ function Form({ subjects }) {
                           id={"btncheck" + i + "a"}
                           name={"yes" + i}
                           autoComplete="off"
+                          checked={answerKey.correct == false}
                           onChange={() => {
                             const tempAnswerKeys = question.answerKeys;
                             tempAnswerKeys[i].correct = false;
-                            setQuestion({
+                            cb({
                               ...question,
                               answerKeys: tempAnswerKeys,
                             });
@@ -289,7 +279,7 @@ function Form({ subjects }) {
                     image: null,
                     correct: true,
                   });
-                  setQuestion({
+                  cb({
                     ...question,
                     answerKeys: tempAnswerKeys,
                   });

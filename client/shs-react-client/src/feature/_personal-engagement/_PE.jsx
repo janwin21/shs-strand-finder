@@ -9,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { assessmentData } from "../../js/json-structure/assessment";
 import { indexRoute, dashboardRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -20,10 +22,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
+function _Assessment({
+  loading,
+  viewableSidebar,
+  viewablePE,
+  loginUser,
+  load,
+}) {
   const navigate = useNavigate();
 
   // FETCH
@@ -43,6 +52,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
 
   useEffect(() => {
     async function fetchData() {
+      load(true);
       const token = Localhost.sessionKey("user");
       const dataD = await new PEP().findByIdNav("none", token);
       console.log(dataD);
@@ -66,9 +76,9 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
           strandTypes: dataD.strandTypes,
         });
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
-
-      console.log(pe);
+      // console.log(pe);
     }
 
     fetchData();
@@ -78,6 +88,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
 
   // FUNCTION
   const prevCall = async () => {
+    load(true);
     const token = Localhost.sessionKey("user");
     const dataD = await new PEP().findByIdNav(pe.prev, token);
 
@@ -90,11 +101,14 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
       pendingSubjects: dataD.pendingSubjects,
       strandTypes: dataD.strandTypes,
     });
+
     setSelectedStrand(dataD.selectedStrand);
+    load(false);
   };
 
   const nextCall = async () => {
     // ANSWER
+    load(true);
     const pep = new PEP();
 
     if (choice.length != 0) {
@@ -120,7 +134,9 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
       pendingSubjects: dataD.pendingSubjects,
       strandTypes: dataD.strandTypes,
     });
+
     setSelectedStrand(dataD.selectedStrand);
+    load(false);
   };
 
   const submit = async () => {
@@ -137,7 +153,9 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
     navigate(dashboardRoute.path);
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main

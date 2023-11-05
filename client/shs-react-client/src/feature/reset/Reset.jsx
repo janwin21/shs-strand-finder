@@ -10,9 +10,11 @@ import { connect } from "react-redux";
 import { formData } from "../../js/json-structure/form";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -21,10 +23,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Reset({ viewableSidebar, viewablePE, loginUser }) {
+function Reset({ loading, viewableSidebar, viewablePE, loginUser, load }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -43,6 +46,8 @@ function Reset({ viewableSidebar, viewablePE, loginUser }) {
   });
 
   useEffect(() => {
+    load(true);
+
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
       const dataD = await new ResetD().auth(token);
@@ -61,6 +66,7 @@ function Reset({ viewableSidebar, viewablePE, loginUser }) {
           strandTypes: dataD.strandTypes,
         });
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
     };
 
@@ -70,7 +76,9 @@ function Reset({ viewableSidebar, viewablePE, loginUser }) {
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main

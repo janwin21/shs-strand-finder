@@ -11,9 +11,11 @@ import { formData } from "../../js/json-structure/form";
 import { accessData } from "../../js/json-structure/access";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -22,10 +24,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Access({ viewableSidebar, viewablePE, loginUser }) {
+function Access({ loading, viewableSidebar, viewablePE, loginUser, load }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -50,6 +53,8 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
   });
 
   useEffect(() => {
+    load(true);
+
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
       const dataD = await new FormAuth().adminAuth(token);
@@ -58,17 +63,20 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
         navigate(indexRoute.path);
       } else {
         loginUser(dataD.user);
-        fetchAccess(accessData);
+        fetchAccess({ ...accessData, users: dataD.users });
         fetchAuth({
           ...data,
           user: dataD.user,
+          users: dataD.users,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
         });
+
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
     };
 
@@ -78,12 +86,25 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
 
-  const allow = (i) => {
-    access.users[i].isAdmin = !access.users[i].isAdmin;
-    fetchAccess({ ...access });
+  const allow = async (i) => {
+    const tempUser = access.users[i];
+    console.log(tempUser);
+    const dataD = await new FormAuth().setAccess(
+      tempUser._id,
+      !tempUser.isAdmin
+    );
+
+    if (dataD?.response?.data?.error) {
+      console.log(dataD.response.data.error);
+    } else {
+      access.users[i].isAdmin = !tempUser.isAdmin;
+      fetchAccess({ ...access });
+    }
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -98,8 +119,12 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <AccessHeader />
-                  <AccessTable accessData={access} cb={(i) => allow(i)} />
+                  <AccessHeader email={data?.user?.email} />
+                  <AccessTable
+                    mainUser={data?.user}
+                    accessData={access}
+                    cb={(i) => allow(i)}
+                  />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -110,14 +135,18 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (
                   <>
-                    <AccessHeader />
-                    <AccessTable accessData={access} cb={(i) => allow(i)} />
+                    <AccessHeader email={data?.user?.email} />
+                    <AccessTable
+                      mainUser={data?.user}
+                      accessData={access}
+                      cb={(i) => allow(i)}
+                    />
                   </>
                 ) : (
                   <>

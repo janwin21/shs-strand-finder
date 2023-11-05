@@ -80,7 +80,7 @@ function PEResult({ viewPE, preferredStrand = null, personalEngagements }) {
             </div>
           </div>
 
-          {/*-- CONTAINER --*/}
+          {/*-- PE CONTAINER --*/}
           <section className="row w-100 p-4">
             {personalEngagements.map((pe, index) => (
               <PEAnswered key={index} peNo={index + 1} pe={pe} />

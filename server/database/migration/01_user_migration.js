@@ -28,7 +28,7 @@ const user_migrate = async () => {
     await new UserFactory(new User()).make(
       Faker.email(),
       hashedPassword,
-      Faker.boolean()
+      false
     );
   }
 };

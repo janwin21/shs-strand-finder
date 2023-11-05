@@ -20,5 +20,6 @@ adminRoute.get(
   sideboardMiddleware.middleware,
   adminController.auth
 );
+adminRoute.patch("/access/:userID", adminController.access);
 
 module.exports = adminRoute;

@@ -1,16 +1,14 @@
-import Loading from "../loading/Loading";
-import DashboardHeader from "./DashboardHeader";
-import DashboardSidebar from "./DashboardSidebar";
-import DashboardStrandType from "./DashboardStrandType";
-import PEResult from "../layout/PEResult";
-import DashboardD from "../../js/model/Dashboard";
+import DashboardSidebar from "../dashboard/DashboardSidebar";
 import Localhost from "../../js/model/LocalHost";
-import SelectedStrand from "../../js/model/SelectedStrand";
+import ViewD from "../../js/model/View";
+import Loading from "../loading/Loading";
+import ViewPEAnswered from "./component/ViewPEAnswered";
+import PEResult from "../layout/PEResult";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dashboardData } from "../../js/json-structure/dashboard";
 import { indexRoute } from "../../route/routes";
+import { dashboardData } from "../../js/json-structure/dashboard";
 import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
@@ -28,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -42,33 +40,12 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     accessToken: "access-token",
   });
 
-  const [logoutUser, setLogoutUser] = useState({
-    accessToken: "access-token",
-  });
-
-  // FUNCTION
-  const setStrand = async (strand) => {
-    // VALIDATION
-    const user = data?.user;
-
-    if (user.isAdmin) {
-      console.log("Student can only use this feature!");
-    } else {
-      const selectedStrand = new SelectedStrand();
-      await selectedStrand.create(data.user.id, strand._id);
-      setSelectedStrand({
-        ...strand,
-        userID: data.user.id,
-      });
-    }
-  };
-
   useEffect(() => {
     load(true);
 
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
-      const dataD = await new DashboardD().read(token);
+      const dataD = await new ViewD().viewPE(token);
 
       if (dataD?.response?.data?.error) {
         navigate(indexRoute.path);
@@ -77,6 +54,7 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
         setData({
           ...data,
           user: dataD.user,
+          pes: dataD.pes,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
@@ -86,15 +64,15 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
         setSelectedStrand(dataD.selectedStrand);
         load(false);
         /*
-        console.log(
-          dataD.pendingSubjects.length,
-          dataD.personalEngagements.length,
-          dataD.pendingSubjects.length == 0,
-          dataD.personalEngagements.length != 0,
-          dataD.pendingSubjects.length == 0 &&
-            dataD.personalEngagements.length != 0
-        );
-        */
+          console.log(
+            dataD.pendingSubjects.length,
+            dataD.personalEngagements.length,
+            dataD.pendingSubjects.length == 0,
+            dataD.personalEngagements.length != 0,
+            dataD.pendingSubjects.length == 0 &&
+              dataD.personalEngagements.length != 0
+          );
+          */
       }
     };
 
@@ -110,7 +88,7 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     <>
       {/*-- MAIN --*/}
       <main
-        className={`login container-fluid ${
+        className={`login bg-dark container-fluid ${
           !viewableSidebar ? "auto-overflow" : "position-relative"
         }`}
         style={{ height: "94vh" }}
@@ -121,20 +99,16 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
-                  <DashboardHeader
-                    user={data.user}
-                    finish={
-                      data.pendingSubjects.length == 0 &&
-                      data.personalEngagements.length != 0
-                    }
-                  />
-                  {data.strandTypes.map((strandType, i) => (
-                    <DashboardStrandType
-                      key={i}
-                      strandType={strandType}
-                      strandCb={setStrand}
-                    />
-                  ))}
+                  <h6 className="roboto border-bottom border-light text-light position-relative px-4 py-3">
+                    Personal Engagement Result
+                  </h6>
+
+                  {/*-- PE CONTAINER --*/}
+                  <section className="row w-100 p-4">
+                    {data.pes.map((pe, index) => (
+                      <ViewPEAnswered key={index} peNo={index + 1} pe={pe} />
+                    ))}
+                  </section>
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -151,17 +125,16 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
               >
                 {!viewablePE ? (
                   <>
-                    <DashboardHeader
-                      user={data.user}
-                      finish={data.pendingSubjects.length == 0}
-                    />
-                    {data.strandTypes.map((strandType, i) => (
-                      <DashboardStrandType
-                        key={i}
-                        strandType={strandType}
-                        strandCb={setStrand}
-                      />
-                    ))}
+                    <h6 className="roboto border-bottom border-light text-light position-relative px-4 py-3">
+                      Personal Engagement Result
+                    </h6>
+
+                    {/*-- PE CONTAINER --*/}
+                    <section className="row w-100 p-4">
+                      {data.pes.map((pe, index) => (
+                        <ViewPEAnswered key={index} peNo={index + 1} pe={pe} />
+                      ))}
+                    </section>
                   </>
                 ) : (
                   <>
@@ -187,4 +160,4 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewPE);

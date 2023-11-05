@@ -56,7 +56,13 @@ class LoginController {
 
       // Create a JWT token
       const token = jwt.sign(
-        { user: { id: user._id.toString(), email: user.email } },
+        {
+          user: {
+            id: user._id.toString(),
+            email: user.email,
+            isAdmin: user.isAdmin,
+          },
+        },
         process.env.SHS_JWT_SECRET,
         {
           expiresIn: "1h",

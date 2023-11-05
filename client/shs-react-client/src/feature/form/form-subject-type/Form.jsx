@@ -1,15 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { subjectRoute } from "../../../route/routes";
 import SubjectType from "../../../js/model/SubjectType";
 
-function Form() {
+function Form({ subjectType, cb }) {
   const navigate = useNavigate();
-
-  // UML
-  const [subjectType, setSubjectType] = useState({
-    name: "Subject Name 1",
-  });
 
   const submit = async (ev) => {
     ev.preventDefault();
@@ -40,8 +34,9 @@ function Form() {
               id="text"
               autoComplete="off"
               placeholder="Subject Group Name"
+              value={subjectType.name}
               onChange={(ev) => {
-                setSubjectType({ name: ev.target.value });
+                cb({ name: ev.target.value });
               }}
             />
           </div>

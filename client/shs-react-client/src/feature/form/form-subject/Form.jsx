@@ -12,18 +12,10 @@ import FormRadioBtn from "../component/FormRadioBtn";
 import subject1 from "../../../asset/subject/subject1.jpg";
 import $ from "jquery";
 
-function Form({ strandTypes, strands }) {
+function Form({ subject, cb, strandTypes, strands }) {
   const navigate = useNavigate();
 
   // UML
-  const [subject, setSubject] = useState({
-    strandTypeIDs: [],
-    subjectTypeID: null,
-    name: "Subject Name",
-    description: "This is subject description",
-    image: null,
-  });
-
   const [uploadBtn, setUploadBtn] = useState(null);
 
   const handleFileInputChange = (e) => {
@@ -32,7 +24,7 @@ function Form({ strandTypes, strands }) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSubject({
+        cb({
           ...subject,
           image: file,
           display: e.target.result,
@@ -54,10 +46,10 @@ function Form({ strandTypes, strands }) {
 
     if (checked) {
       tempStrandTypeIDs.push(id);
-      setSubject({ ...subject, strandTypeIDs: tempStrandTypeIDs });
+      cb({ ...subject, strandTypeIDs: tempStrandTypeIDs });
     } else {
       const updatedValues = subject.strandTypeIDs.filter((item) => item !== id);
-      setSubject({ ...subject, strandTypeIDs: updatedValues });
+      cb({ ...subject, strandTypeIDs: updatedValues });
     }
   };
 
@@ -107,8 +99,9 @@ function Form({ strandTypes, strands }) {
                   id="text"
                   autoComplete="off"
                   placeholder="Subject Name"
+                  value={subject.name}
                   onChange={(ev) => {
-                    setSubject({ ...subject, name: ev.target.value });
+                    cb({ ...subject, name: ev.target.value });
                   }}
                 />
               </div>
@@ -119,8 +112,9 @@ function Form({ strandTypes, strands }) {
                   className="form-control shs-textarea shadow w-100"
                   id="text"
                   placeholder="Description"
+                  value={subject.description}
                   onChange={(ev) => {
-                    setSubject({ ...subject, description: ev.target.value });
+                    cb({ ...subject, description: ev.target.value });
                   }}
                 ></textarea>
               </div>
@@ -148,11 +142,12 @@ function Form({ strandTypes, strands }) {
                     <FormRadioBtn
                       key={i}
                       onChangeCb={() =>
-                        setSubject({
+                        cb({
                           ...subject,
                           subjectTypeID: subjectType._id,
                         })
                       }
+                      checked={subject.subjectTypeID === subjectType._id}
                       name={"subjectType"}
                       subjectType={subjectType}
                     />
@@ -170,9 +165,11 @@ function Form({ strandTypes, strands }) {
                 aria-label="Basic checkbox toggle button group"
               >
                 {strands?.map((strand, i) => {
+                  console.log("CALL 1", subject.strandTypeIDs, strand._id);
                   return (
                     <FormCheckBox
                       key={i}
+                      checked={subject.strandTypeIDs.includes(strand._id)}
                       onChangeCb={onStrandChange}
                       strandType={strand}
                     />

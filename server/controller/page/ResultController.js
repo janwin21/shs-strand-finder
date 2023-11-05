@@ -79,7 +79,7 @@ class ResultController {
 
       return {
         subject: question.subject,
-        createdAt: question.createdAt,
+        createdAt: userAnswers[0].createdAt,
         updatedAt: question.updatedAt,
         correct: userAnswers[0].correct,
         noOfUnVisit: userAnswers[0].noOfUnVisit,
@@ -88,43 +88,62 @@ class ResultController {
 
     // FIND ALL SUBJECT DATA
     const subjects = await Subject.find({}).exec();
-    const mappedSubjects = subjects.map((subject) => {
-      let corrects = 0;
-      let mistakes = 0;
-      let totalNoOfUnVisit = 0;
-      const subjectQuestions = questions.filter(
-        (question) => subject._id.toString() === question.subject.toString()
-      );
+    const mappedSubjects = await await Promise.all(
+      subjects.map(async (subject) => {
+        let corrects = 0;
+        let mistakes = 0;
+        let totalNoOfUnVisit = 0;
 
-      subjectQuestions.forEach((question) => {
-        if (!question.correct) mistakes++;
-        else corrects++;
-        totalNoOfUnVisit += question.noOfUnVisit;
-      });
+        const totalQuestions = await Question.find({
+          subject: subject._id,
+        }).exec();
 
-      const orderedQuestions = _.orderBy(
-        subjectQuestions,
-        ["createdAt"],
-        ["asc"]
-      );
+        const subjectQuestions = questions.filter(
+          (question) => subject._id.toString() === question.subject.toString()
+        );
 
-      const oldestQuestion = orderedQuestions[0];
-      const latestQuestion = orderedQuestions[orderedQuestions.length - 1];
-      const oldestDate = new Date(oldestQuestion.createdAt);
-      const latestDate = new Date(latestQuestion.createdAt);
+        subjectQuestions.forEach((question) => {
+          if (!question.correct) mistakes++;
+          else corrects++;
+          totalNoOfUnVisit += question.noOfUnVisit;
+        });
 
-      const differenceInMilliseconds = latestDate - oldestDate;
+        let orderedQuestions = [];
 
-      return {
-        _id: subject._id,
-        name: subject.name,
-        // counts: subjectQuestions.length,
-        // corrects,
-        mistakes,
-        duration: differenceInMilliseconds,
-        noOfUnVisit: totalNoOfUnVisit,
-      };
-    });
+        if (subjectQuestions.length) {
+          orderedQuestions = _.orderBy(
+            subjectQuestions,
+            ["createdAt"],
+            ["asc"]
+          );
+        }
+
+        const oldestQuestion = orderedQuestions.length
+          ? orderedQuestions[0]
+          : null;
+        const latestQuestion = orderedQuestions.length
+          ? orderedQuestions[orderedQuestions.length - 1]
+          : null;
+        const oldestDate = orderedQuestions.length
+          ? new Date(oldestQuestion.createdAt)
+          : null;
+        const latestDate = orderedQuestions.length
+          ? new Date(latestQuestion.createdAt)
+          : null;
+
+        const differenceInMilliseconds = latestDate - oldestDate;
+
+        return {
+          ...subject.toObject(),
+          totalScore: subjectQuestions.length,
+          answered: totalQuestions.length == subjectQuestions.length,
+          score: corrects,
+          mistakes,
+          duration: (differenceInMilliseconds / 60000).toFixed(2), // convert to min
+          noOfUnVisit: totalNoOfUnVisit,
+        };
+      })
+    );
 
     // KNN ALGORITHM
     const referencePoint = [0, 0, 0]; // STARTING reference point

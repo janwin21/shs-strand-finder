@@ -6,12 +6,10 @@ import { dashboardRoute } from "../../../route/routes";
 import PEP from "../../../js/model/PEP";
 import FormRadioBtn from "../component/FormRadioBtn";
 
-function Form({ strands }) {
+function Form({ personalEngagement, cb, strands }) {
   const navigate = useNavigate();
 
   // UML
-  const [personalEngagement, setPersonalEngagement] = useState({});
-
   const submit = async (ev) => {
     ev.preventDefault();
     const data = await new PEP().create(personalEngagement);
@@ -40,8 +38,9 @@ function Form({ strands }) {
                   className="form-control shs-textarea shadow w-100"
                   id="text"
                   placeholder="Type your question here"
+                  value={personalEngagement.question}
                   onChange={(ev) => {
-                    setPersonalEngagement({
+                    cb({
                       ...personalEngagement,
                       question: ev.target.value,
                     });
@@ -63,11 +62,12 @@ function Form({ strands }) {
                     <FormRadioBtn
                       key={i}
                       onChangeCb={(ev) => {
-                        setPersonalEngagement({
+                        cb({
                           ...personalEngagement,
                           strandID: ev.target.id,
                         });
                       }}
+                      checked={personalEngagement.strandID === strand._id}
                       name={"strand"}
                       subjectType={strand}
                     />

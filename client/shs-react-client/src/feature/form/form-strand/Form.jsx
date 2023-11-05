@@ -8,17 +8,10 @@ import FormRadioBtn from "../component/FormRadioBtn";
 import strand2 from "../../../asset/strand/strand2.jpg";
 import $ from "jquery";
 
-function Form({ strandTypes }) {
+function Form({ strand, cb, strandTypes }) {
   const navigate = useNavigate();
 
   // UML
-  const [strand, setStrand] = useState({
-    strandTypeID: null,
-    name: "Subject Name",
-    description: "This is subject description",
-    image: null,
-  });
-
   const [uploadBtn, setUploadBtn] = useState(null);
 
   const handleFileInputChange = (e) => {
@@ -27,7 +20,7 @@ function Form({ strandTypes }) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setStrand({ ...strand, image: file, display: e.target.result });
+        cb({ ...strand, image: file, display: e.target.result });
       };
       reader.readAsDataURL(file);
     }
@@ -83,8 +76,9 @@ function Form({ strandTypes }) {
                   id="text"
                   autoComplete="off"
                   placeholder="Strand Name"
+                  value={strand.name}
                   onChange={(ev) => {
-                    setStrand({ ...strand, name: ev.target.value });
+                    cb({ ...strand, name: ev.target.value });
                   }}
                 />
               </div>
@@ -95,8 +89,9 @@ function Form({ strandTypes }) {
                   className="form-control shs-textarea shadow w-100"
                   id="text"
                   placeholder="Description"
+                  value={strand.description}
                   onChange={(ev) => {
-                    setStrand({ ...strand, description: ev.target.value });
+                    cb({ ...strand, description: ev.target.value });
                   }}
                 ></textarea>
               </div>
@@ -124,9 +119,10 @@ function Form({ strandTypes }) {
                     <FormRadioBtn
                       key={i}
                       onChangeCb={(ev) => {
-                        setStrand({ ...strand, strandTypeID: ev.target.id });
+                        cb({ ...strand, strandTypeID: ev.target.id });
                       }}
                       name={"strandType"}
+                      checked={strand.strandTypeID === strandType._id}
                       subjectType={strandType}
                     />
                   );

@@ -1,15 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dashboardRoute } from "../../../route/routes";
 import StrandType from "../../../js/model/StrandType";
 
-function Form() {
+function Form({ strandtype, cb }) {
   const navigate = useNavigate();
-
-  // UML
-  const [strandtype, setStrandType] = useState({
-    name: "Strand Name 1",
-  });
 
   const submit = async (ev) => {
     ev.preventDefault();
@@ -40,8 +34,9 @@ function Form() {
               id="text"
               autoComplete="off"
               placeholder="Strand Group Name"
+              value={strandtype.name}
               onChange={(ev) => {
-                setStrandType({ name: ev.target.value });
+                cb({ name: ev.target.value });
               }}
             />
           </div>

@@ -10,9 +10,11 @@ import { useState, useEffect } from "react";
 import { formData } from "../../../js/json-structure/form";
 import { indexRoute } from "../../../route/routes";
 import { action } from "../../../redux/action";
+import Loading from "../../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -21,16 +23,36 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
+function FormAssessment({
+  loading,
+  viewableSidebar,
+  viewablePE,
+  loginUser,
+  load,
+}) {
   const navigate = useNavigate();
 
   // FETCH
   const [data, fetchAccess] = useState(formData);
 
   // UML
+  const [question, setQuestion] = useState({
+    subjectID: "",
+    question: "",
+    questionImage: null,
+    answerKeys: [
+      {
+        value: ".",
+        image: null,
+        correct: true,
+      },
+    ],
+  });
+
   const [selectedStrand, setSelectedStrand] = useState({
     userID: "user123",
     id: "strand123",
@@ -39,6 +61,8 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
   });
 
   useEffect(() => {
+    load(true);
+
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
       const dataD = await new FormAuth().questionAuth(token);
@@ -57,7 +81,9 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
         });
+
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
     };
 
@@ -67,7 +93,9 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -91,7 +119,11 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                       eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
-                  <Form subjects={data?.subjects} />
+                  <Form
+                    question={question}
+                    cb={setQuestion}
+                    subjects={data?.subjects}
+                  />
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
               </div>
@@ -102,8 +134,8 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (
@@ -117,7 +149,11 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
-                    <Form subjects={data?.subjects} />
+                    <Form
+                      question={question}
+                      cb={setQuestion}
+                      subjects={data?.subjects}
+                    />
                   </>
                 ) : (
                   <>

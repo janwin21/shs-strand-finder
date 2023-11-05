@@ -1,4 +1,4 @@
-function FormCheckbox({ strandType, onChangeCb }) {
+function FormCheckbox({ strandType, onChangeCb, checked }) {
   return (
     <>
       <input
@@ -6,6 +6,7 @@ function FormCheckbox({ strandType, onChangeCb }) {
         className="btn-check"
         onChange={onChangeCb}
         id={strandType._id}
+        checked={checked}
         autoComplete="off"
       />
       <label className="btn btn-outline-primary" htmlFor={strandType._id}>

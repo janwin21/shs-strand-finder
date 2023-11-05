@@ -12,9 +12,11 @@ import { resultData } from "../../js/json-structure/result/";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import "../../js/result";
+import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -23,10 +25,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Result({ viewableSidebar, viewablePE, loginUser }) {
+function Result({ loading, viewableSidebar, viewablePE, loginUser, load }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -41,6 +44,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
   });
 
   useEffect(() => {
+    load(true);
+
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
       const dataD = await new ResultD().read(token);
@@ -63,7 +68,9 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
         });
+
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
     };
 
@@ -73,7 +80,9 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -108,8 +117,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (

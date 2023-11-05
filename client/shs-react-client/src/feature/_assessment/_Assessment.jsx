@@ -10,9 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { assessmentData } from "../../js/json-structure/assessment";
 import { indexRoute, dashboardRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
     subjectForPreparation: state.store.subjectForPreparation,
@@ -22,14 +24,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
 function _Assessment({
+  loading,
   viewableSidebar,
   viewablePE,
   subjectForPreparation,
   loginUser,
+  load,
 }) {
   const navigate = useNavigate();
 
@@ -53,6 +58,7 @@ function _Assessment({
   });
 
   const callAccess = async () => {
+    load(true);
     const token = Localhost.sessionKey("user");
     const dataD = await new SubjectP().readAssessment(subjectID, token);
 
@@ -78,6 +84,7 @@ function _Assessment({
         strandTypes: dataD.strandTypes,
       });
       setSelectedStrand(dataD.selectedStrand);
+      load(false);
     }
   };
 
@@ -98,7 +105,9 @@ function _Assessment({
     await callAccess();
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -138,8 +147,8 @@ function _Assessment({
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (

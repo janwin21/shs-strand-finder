@@ -16,6 +16,8 @@ class FormAuth {
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/question/auth/user";
   static adminEndPoint =
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/auth";
+  static accessEndPoint =
+    "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/access";
 
   // STRAND TYPE
   async strandTypeAuth(token) {
@@ -118,7 +120,25 @@ class FormAuth {
       });
       return response.data;
     } catch (error) {
-      return error;
+      return error.response.data;
+    }
+  }
+
+  // ACCESS
+  async setAccess(userID, isAccess) {
+    console.log(userID, isAccess);
+    try {
+      // Send a PATCH to update User access
+      const response = await axios.patch(
+        FormAuth.accessEndPoint + "/" + userID,
+        { isAccess }
+      );
+      console.log(response);
+      console.log("User access successfully updated.");
+      return response.data;
+    } catch (error) {
+      console.log("error: ", error);
+      return error.response.data;
     }
   }
 }

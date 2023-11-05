@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
-  personalEngagementRoute,
+  // personalEngagementRoute,
   _personalEngagementRoute,
   subjectRoute,
   resultRoute,
+  viewPERoute,
+  viewSubjectRoute,
 } from "../../route/routes";
 
 function DashboardHeader({ user, finish }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {/*-- PANEL DISPLAY --*/}
@@ -22,19 +27,30 @@ function DashboardHeader({ user, finish }) {
             adipisicing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua.
           </p>
-          <Link
-            to={_personalEngagementRoute.path}
+          <a
+            onClick={(ev) => {
+              ev.preventDefault();
+              if (user.isAdmin) navigate(viewPERoute.path);
+              else navigate(_personalEngagementRoute.path);
+            }}
             className="nav-link d-inline"
           >
             <button className="btn btn-dark roboto px-4 fs-6 fw-semibold">
               PERSONAL ENGAGEMENT
             </button>
-          </Link>
-          <Link to={subjectRoute.path} className="nav-link d-inline">
+          </a>
+          <a
+            onClick={(ev) => {
+              ev.preventDefault();
+              if (user.isAdmin) navigate(viewSubjectRoute.path);
+              else navigate(subjectRoute.path);
+            }}
+            className="nav-link d-inline"
+          >
             <button className="btn btn-primary text-light roboto px-4 ms-3 fs-6 fw-semibold">
               TAKE ASSESSMENT
             </button>
-          </Link>
+          </a>
           {finish ? (
             <Link to={resultRoute.path} className="nav-link d-inline">
               <button className="btn btn-success text-light roboto px-4 ms-3 fs-6 fw-semibold">

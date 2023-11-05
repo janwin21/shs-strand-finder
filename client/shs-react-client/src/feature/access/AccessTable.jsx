@@ -1,4 +1,4 @@
-function AccessTable({ accessData, cb }) {
+function AccessTable({ mainUser, accessData, cb }) {
   return (
     <>
       {/*-- FORM CONTAINER --*/}
@@ -19,9 +19,11 @@ function AccessTable({ accessData, cb }) {
           </thead>
           <tbody>
             {accessData.users.map((user, i) => {
-              return (
-                <tr key={user.id}>
-                  <th scope="row">{user.id}</th>
+              return mainUser.id === user._id ? (
+                <></>
+              ) : (
+                <tr key={user._id}>
+                  <th scope="row">{user._id}</th>
                   <td>{user.email}</td>
                   <td>{user.isAdmin ? "ACCESS" : "PROHIBITED"}</td>
                   <td className="text-end">

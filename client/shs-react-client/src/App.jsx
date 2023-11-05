@@ -23,6 +23,10 @@ import {
   formSubjectRoute,
   formPersonalEngagementRoute,
   formAssessmentRoute,
+
+  /* VIEW */
+  viewPERoute,
+  viewSubjectRoute,
 } from "./route/routes";
 import { action } from "./redux/action";
 import { modalType } from "./feature/modal/modalType";
@@ -116,6 +120,13 @@ function App({
         <Route
           path={formAssessmentRoute.path}
           element={formAssessmentRoute.element}
+        />
+
+        {/*-- VIEW --*/}
+        <Route path={viewPERoute.path} element={viewPERoute.element} />
+        <Route
+          path={viewSubjectRoute.path}
+          element={viewSubjectRoute.element}
         />
       </Routes>
 

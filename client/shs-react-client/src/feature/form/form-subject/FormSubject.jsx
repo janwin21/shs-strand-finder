@@ -10,9 +10,11 @@ import { useState, useEffect } from "react";
 import { formData } from "../../../js/json-structure/form";
 import { indexRoute } from "../../../route/routes";
 import { action } from "../../../redux/action";
+import Loading from "../../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -21,16 +23,32 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
+function FormSubject({
+  loading,
+  viewableSidebar,
+  viewablePE,
+  loginUser,
+  load,
+}) {
   const navigate = useNavigate();
 
   // FETCH
   const [data, fetchAccess] = useState(formData);
 
   // UML
+  const [subject, setSubject] = useState({
+    strandTypeIDs: [],
+    subjectTypeID: null,
+    name: "Subject Name",
+    description: "This is subject description",
+    image: null,
+    display: null,
+  });
+
   const [selectedStrand, setSelectedStrand] = useState({
     userID: "user123",
     id: "strand123",
@@ -39,6 +57,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
   });
 
   useEffect(() => {
+    load(true);
+
     const fetchData = async () => {
       const token = Localhost.sessionKey("user");
       const dataD = await new FormAuth().subjectAuth(token);
@@ -58,7 +78,9 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
         });
+
         setSelectedStrand(dataD.selectedStrand);
+        load(false);
       }
     };
 
@@ -68,7 +90,14 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
 
-  return (
+  // FUNCTION
+  const change = (obj) => {
+    setSubject(obj);
+  };
+
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -93,6 +122,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
                       eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                   />
                   <Form
+                    subject={subject}
+                    cb={change}
                     strandTypes={data?.strandTypes}
                     strands={data?.strands}
                   />
@@ -106,8 +137,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 auto-overflow position-relative ${
-                  !viewablePE ? "pb-4 px-5" : "p-0"
+                className={`col-9 h-100 position-relative ${
+                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >
                 {!viewablePE ? (
@@ -122,6 +153,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
                         eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
                     />
                     <Form
+                      subject={subject}
+                      cb={change}
                       strandTypes={data?.strandTypes}
                       strands={data?.strands}
                     />

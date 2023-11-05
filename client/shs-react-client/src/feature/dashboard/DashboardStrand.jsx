@@ -30,7 +30,6 @@ function DashboardStrand({
             strandCb();
           }
           viewSidebar(true);
-          console.log("SELECTED STRAND : ", strand);
         }}
         className="card col-2 position-relative text-bg-dark p-0 m-3"
         style={{ height: "350px", cursor: "pointer" }}
