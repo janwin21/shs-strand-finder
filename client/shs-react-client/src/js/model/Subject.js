@@ -28,6 +28,16 @@ class Subject {
       return error;
     }
   }
+
+  async delete(subjectID) {
+    try {
+      // Send a DELETE request to delete the Subject
+      const response = await axios.delete(Subject.endPoint + "/" + subjectID);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default Subject;

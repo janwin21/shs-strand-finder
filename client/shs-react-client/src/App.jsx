@@ -36,6 +36,14 @@ import AssessmentModal from "./feature/modal/AssessmentModal";
 import NotifModal from "./feature/modal/NotifModal";
 import Localhost from "./js/model/LocalHost";
 import Login from "./js/model/Login";
+import $ from "jquery";
+
+// MODEL
+import Strand from "./js/model/Strand.js";
+import StrandType from "./js/model/StrandType.js";
+import Subject from "./js/model/Subject.js";
+import SubjectType from "./js/model/SubjectType.js";
+import QuestionP from "./js/model/Question.js";
 
 const mapStateToProps = (state) => {
   return {
@@ -51,6 +59,31 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    deleteStrand: (strand) =>
+      dispatch({
+        type: action.DELETE_STRAND,
+        strandForDeletion: strand,
+      }),
+    deleteStrandType: (strandType) =>
+      dispatch({
+        type: action.DELETE_STRAND_TYPE,
+        strandTypeForDeletion: strandType,
+      }),
+    deleteSubjectType: (subjectType) =>
+      dispatch({
+        type: action.DELETE_SUBJECT_TYPE,
+        subjectTypeForDeletion: subjectType,
+      }),
+    deleteSubject: (subject) =>
+      dispatch({
+        type: action.DELETE_SUBJECT,
+        subjectForDeletion: subject,
+      }),
+    deleteAssessmentQuestion: (question) =>
+      dispatch({
+        type: action.DELETE_ASSESSMENT_QUESTION,
+        assessmentQuestionForDeletion: question,
+      }),
     logoutUser: () => dispatch({ type: action.LOGOUT_USER }),
   };
 };
@@ -63,6 +96,11 @@ function App({
   peQuestionForDeletion,
   assessmentQuestionForDeletion,
   subjectForPreparation,
+  deleteStrand,
+  deleteStrandType,
+  deleteSubject,
+  deleteSubjectType,
+  deleteAssessmentQuestion,
   logoutUser,
 }) {
   return (
@@ -158,9 +196,13 @@ function App({
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() =>
-          console.log(strandTypeForDeletion.name + " has been deleted...")
-        }
+        cb={async () => {
+          const result = await new StrandType().delete(
+            strandTypeForDeletion.id
+          );
+          deleteStrandType(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
       {/* STRAND DELETION */}
@@ -175,7 +217,11 @@ function App({
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() => console.log(strandForDeletion.name + " has been deleted...")}
+        cb={async () => {
+          const result = await new Strand().delete(strandForDeletion._id);
+          deleteStrand(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
       {/* SUBJECT TYPE DELETION */}
@@ -190,9 +236,13 @@ function App({
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() =>
-          console.log(subjectTypeForDeletion.name + " has been deleted...")
-        }
+        cb={async () => {
+          const result = await new SubjectType().delete(
+            subjectTypeForDeletion.id
+          );
+          deleteSubjectType(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
       {/* STRAND DELETION */}
@@ -207,7 +257,11 @@ function App({
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() => console.log(subjectForDeletion.name + " has been deleted...")}
+        cb={async () => {
+          const result = await new Subject().delete(subjectForDeletion._id);
+          deleteSubject(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
       {/* PERSONAL ENGAGEMENT QUESTION DELETION */}
@@ -230,25 +284,29 @@ function App({
       {/* ASSESSMENT QUESTION DELETION */}
       <SimpleModal
         id={modalType.ASSESSMENT_QUESTION_DELETION}
-        path={assessmentRoute.path}
+        path={null}
         title={`Delete Assessment Question ${
           assessmentQuestionForDeletion
-            ? assessmentQuestionForDeletion.id
+            ? assessmentQuestionForDeletion._id
             : "UNKNOWN"
         }`}
-        body={`Do you want to delete ${
+        body={`Do you want to delete Question ${
           assessmentQuestionForDeletion
-            ? assessmentQuestionForDeletion.id
+            ? assessmentQuestionForDeletion._id
             : "UNKNOWN"
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() =>
-          console.log(assessmentQuestionForDeletion.id + " has been deleted...")
-        }
+        cb={async () => {
+          const result = await new QuestionP().delete(
+            assessmentQuestionForDeletion._id
+          );
+          deleteAssessmentQuestion(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
-      {/* ASSESSMENT QUESTION DELETION */}
+      {/* ASSESSMENT QUESTION PREPARATION */}
       <AssessmentModal
         id={modalType.ASSESSMENT_PREPARATION}
         path={_assessmentRoute.path}

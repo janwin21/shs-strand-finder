@@ -16,7 +16,6 @@ import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -25,11 +24,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Result({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function Result({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -42,6 +40,7 @@ function Result({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     imagePath: null,
     accessToken: "access-token",
   });
+  const [loading, load] = useState(true);
 
   useEffect(() => {
     load(true);

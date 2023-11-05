@@ -13,7 +13,6 @@ import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -22,11 +21,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function ViewPE({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -39,11 +37,11 @@ function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     imagePath: null,
     accessToken: "access-token",
   });
+  const [loading, load] = useState(true);
 
   useEffect(() => {
-    load(true);
-
     const fetchData = async () => {
+      load(true);
       const token = Localhost.sessionKey("user");
       const dataD = await new ViewD().viewPE(token);
 
@@ -63,16 +61,7 @@ function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
         });
         setSelectedStrand(dataD.selectedStrand);
         load(false);
-        /*
-          console.log(
-            dataD.pendingSubjects.length,
-            dataD.personalEngagements.length,
-            dataD.pendingSubjects.length == 0,
-            dataD.personalEngagements.length != 0,
-            dataD.pendingSubjects.length == 0 &&
-              dataD.personalEngagements.length != 0
-          );
-          */
+        console.log(loading);
       }
     };
 
@@ -105,7 +94,7 @@ function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
 
                   {/*-- PE CONTAINER --*/}
                   <section className="row w-100 p-4">
-                    {data.pes.map((pe, index) => (
+                    {data?.pes?.map((pe, index) => (
                       <ViewPEAnswered key={index} peNo={index + 1} pe={pe} />
                     ))}
                   </section>
@@ -131,7 +120,7 @@ function ViewPE({ loading, viewableSidebar, viewablePE, loginUser, load }) {
 
                     {/*-- PE CONTAINER --*/}
                     <section className="row w-100 p-4">
-                      {data.pes.map((pe, index) => (
+                      {data?.pes?.map((pe, index) => (
                         <ViewPEAnswered key={index} peNo={index + 1} pe={pe} />
                       ))}
                     </section>

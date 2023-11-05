@@ -15,20 +15,26 @@ import { action } from "../../redux/action";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    strandForDeletion: state.store.strandForDeletion,
+    strandTypeForDeletion: state.store.strandTypeForDeletion,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function Dashboard({
+  viewableSidebar,
+  viewablePE,
+  strandForDeletion,
+  strandTypeForDeletion,
+  loginUser,
+}) {
   const navigate = useNavigate();
 
   // FETCH
@@ -41,6 +47,7 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     imagePath: null,
     accessToken: "access-token",
   });
+  const [loading, load] = useState(true);
 
   const [logoutUser, setLogoutUser] = useState({
     accessToken: "access-token",
@@ -63,46 +70,57 @@ function Dashboard({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     }
   };
 
-  useEffect(() => {
+  const fetchData = async () => {
     load(true);
+    console.log("LOADING: ", loading);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new DashboardD().read(token);
 
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new DashboardD().read(token);
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      setData({
+        ...data,
+        user: dataD.user,
+        preferredStrand: dataD.preferredStrand,
+        personalEngagements: dataD.personalEngagements,
+        subjects: dataD.subjects,
+        pendingSubjects: dataD.pendingSubjects,
+        strandTypes: dataD.strandTypes,
+      });
+      setSelectedStrand(dataD.selectedStrand);
+      load(false);
+      console.log(loading);
+      /*
+      console.log(
+        dataD.pendingSubjects.length,
+        dataD.personalEngagements.length,
+        dataD.pendingSubjects.length == 0,
+        dataD.personalEngagements.length != 0,
+        dataD.pendingSubjects.length == 0 &&
+          dataD.personalEngagements.length != 0
+      );
+      */
+    }
+  };
 
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        setData({
-          ...data,
-          user: dataD.user,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-        });
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-        /*
-        console.log(
-          dataD.pendingSubjects.length,
-          dataD.personalEngagements.length,
-          dataD.pendingSubjects.length == 0,
-          dataD.personalEngagements.length != 0,
-          dataD.pendingSubjects.length == 0 &&
-            dataD.personalEngagements.length != 0
-        );
-        */
-      }
-    };
-
+  useEffect(() => {
     fetchData();
   }, []);
 
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (strandForDeletion == null) {
+      fetchData();
+    }
+  }, [strandForDeletion]);
+  useEffect(() => {
+    if (strandTypeForDeletion == null) {
+      fetchData();
+    }
+  }, [strandTypeForDeletion]);
 
   return loading ? (
     <Loading />

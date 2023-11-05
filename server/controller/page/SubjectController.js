@@ -15,12 +15,16 @@ class SubjectPController {
     const subjectTypes = await SubjectType.find({}).exec();
     const subjects = await Subject.find({}).exec();
 
-    const mappedSubjects = subjects.map((subject) => {
-      return {
-        ...subject.toObject(),
-        subjectType: subject.subjectType.toString(),
-      };
-    });
+    const mappedSubjects = await Promise.all(
+      subjects.map(async (subject) => {
+        const count = await Question.countDocuments({ subject: subject._id });
+        return {
+          ...subject.toObject(),
+          count,
+          subjectType: subject.subjectType.toString(),
+        };
+      })
+    );
 
     // Populate the 'subjects' field for each SubjectType
     const resultSubjectTypes = subjectTypes.map((subjectType) => {

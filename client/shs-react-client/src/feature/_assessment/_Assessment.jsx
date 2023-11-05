@@ -8,13 +8,16 @@ import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { assessmentData } from "../../js/json-structure/assessment";
-import { indexRoute, dashboardRoute } from "../../route/routes";
+import {
+  indexRoute,
+  dashboardRoute,
+  viewSubjectRoute,
+} from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
     subjectForPreparation: state.store.subjectForPreparation,
@@ -24,17 +27,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
 function _Assessment({
-  loading,
   viewableSidebar,
   viewablePE,
   subjectForPreparation,
   loginUser,
-  load,
 }) {
   const navigate = useNavigate();
 
@@ -49,6 +49,7 @@ function _Assessment({
     imagePath: null,
     accessToken: "access-token",
   });
+  const [loading, load] = useState(true);
 
   const [choice, setChoice] = useState({
     user: "123",

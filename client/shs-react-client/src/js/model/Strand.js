@@ -27,6 +27,16 @@ class Strand {
       return error;
     }
   }
+
+  async delete(strandID) {
+    try {
+      // Send a DELETE request to delete the Strand
+      const response = await axios.delete(Strand.endPoint + "/" + strandID);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default Strand;

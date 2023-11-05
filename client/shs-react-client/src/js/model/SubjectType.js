@@ -26,6 +26,18 @@ class SubjectType {
       return error;
     }
   }
+
+  async delete(subjectTypeID) {
+    try {
+      // Send a DELETE request to delete the Subject Type
+      const response = await axios.delete(
+        SubjectType.endPoint + "/" + subjectTypeID
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default SubjectType;

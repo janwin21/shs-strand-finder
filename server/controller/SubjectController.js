@@ -119,7 +119,7 @@ class SubjectController {
     }
 
     // DELETE IMAGE
-    if (subject.imagePath) {
+    if (subject.imagePath && !subject.imagePath.includes("uploads\\sample")) {
       const imagePath = path.join(__dirname, "../", subject.imagePath);
       fs.unlinkSync(imagePath);
     }

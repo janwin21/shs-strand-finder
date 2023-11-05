@@ -1,5 +1,9 @@
 const Strand = require("../model/strands");
 const StrandType = require("../model/strand_types");
+const StrandSubject = require("../model/strand_subjects");
+const SelectedStrand = require("../model/selected_strands");
+const PersonalEngagement = require("../model/personal_engagements");
+const SelectedPE = require("../model/selected_personal_engagements");
 const fs = require("fs");
 const path = require("path");
 
@@ -110,16 +114,46 @@ class StrandController {
     }
 
     // DELETE IMAGE
-    if (strand.imagePath) {
+    if (strand.imagePath && !strand.imagePath.includes("uploads\\sample")) {
       const imagePath = path.join(__dirname, "../", strand.imagePath);
       fs.unlinkSync(imagePath);
     }
 
+    const dataToDelete = await PersonalEngagement.find({ strand: strandID });
+    let mappedDeletedData = null;
+    let deleteResult = null;
+    let deleteSPEResult = null;
+
     // DELETE SINGLE DATA
     const deletedStrand = await Strand.deleteOne({ _id: strandID });
+    const deletedStrandSubject = await StrandSubject.deleteMany({
+      strand: strandID,
+    });
+    const deletedSelectedStrand = await SelectedStrand.deleteMany({
+      strand: strandID,
+    });
+
+    // Delete the found data
+    if (dataToDelete.length !== 0) {
+      mappedDeletedData = dataToDelete.map((d) => d._id.toString());
+
+      deleteSPEResult = await SelectedPE.deleteMany({
+        pe: { $in: mappedDeletedData },
+      });
+
+      deleteResult = await PersonalEngagement.deleteMany({
+        strand: strandID,
+      });
+    }
 
     // RESPONSE
-    res.json(deletedStrand);
+    res.json({
+      deletedStrand,
+      deletedStrandSubject,
+      deletedSelectedStrand,
+      deleteResult,
+      deleteSPEResult,
+    });
   }
 
   // DELETE ALL

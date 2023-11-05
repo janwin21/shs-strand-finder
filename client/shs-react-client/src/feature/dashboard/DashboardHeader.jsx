@@ -6,7 +6,6 @@ import {
   subjectRoute,
   resultRoute,
   viewPERoute,
-  viewSubjectRoute,
 } from "../../route/routes";
 
 function DashboardHeader({ user, finish }) {
@@ -42,8 +41,7 @@ function DashboardHeader({ user, finish }) {
           <a
             onClick={(ev) => {
               ev.preventDefault();
-              if (user.isAdmin) navigate(viewSubjectRoute.path);
-              else navigate(subjectRoute.path);
+              navigate(subjectRoute.path);
             }}
             className="nav-link d-inline"
           >

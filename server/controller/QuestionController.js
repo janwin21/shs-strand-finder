@@ -4,6 +4,7 @@ const AnswerKey = require("../model/answer_keys");
 const Answer = require("../model/answers");
 const fs = require("fs");
 const path = require("path");
+const { devNull } = require("os");
 
 class QuestionController {
   /* CRUD ----------------------------------------------------------- */
@@ -150,7 +151,10 @@ class QuestionController {
     }
 
     // DELETE IMAGE
-    if (existingQuestion.imagePath) {
+    if (
+      existingQuestion.imagePath &&
+      !existingQuestion.imagePath.includes("uploads\\sample")
+    ) {
       const imagePath = path.join(__dirname, "../", existingQuestion.imagePath);
       fs.unlinkSync(imagePath);
     }
@@ -160,13 +164,15 @@ class QuestionController {
 
     // DELETE ALL ANSWERS & ANSWER KEYS
     const dataToDelete = await AnswerKey.find({ question: questionID });
-    const mappedDeletedData = dataToDelete.map((d) => d._id.toString());
+    let mappedDeletedData = null;
 
     let deleteResult = null;
     let deleteAnswerResult = null;
 
     // Delete the found data
     if (dataToDelete.length !== 0) {
+      mappedDeletedData = dataToDelete.map((d) => d._id.toString());
+
       const dataDeleteAnsweyKeys = await Answer.find({
         answerKey: { $in: mappedDeletedData },
       });
@@ -176,6 +182,16 @@ class QuestionController {
           answerKey: { $in: mappedDeletedData },
         });
       }
+
+      dataToDelete.forEach((answerKey) => {
+        if (
+          answerKey.imagePath &&
+          !answerKey.imagePath.includes("uploads\\sample")
+        ) {
+          const imagePath = path.join(__dirname, "../", answerKey.imagePath);
+          fs.unlinkSync(imagePath);
+        }
+      });
 
       deleteResult = await AnswerKey.deleteMany({
         question: questionID,

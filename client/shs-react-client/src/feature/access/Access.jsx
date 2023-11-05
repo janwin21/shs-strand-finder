@@ -15,7 +15,6 @@ import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -24,11 +23,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Access({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function Access({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -40,6 +38,7 @@ function Access({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     userID: "user456",
     isAdmin: true,
   });
+  const [loading, load] = useState(true);
 
   const { targetUser, setTargetUser } = useState({
     email: "user@email.com",

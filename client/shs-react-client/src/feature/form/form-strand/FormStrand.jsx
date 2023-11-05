@@ -14,7 +14,6 @@ import Loading from "../../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
   };
@@ -23,11 +22,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function FormStrand({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -41,6 +39,7 @@ function FormStrand({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     image: null,
     display: null,
   });
+  const [loading, load] = useState(true);
 
   const [selectedStrand, setSelectedStrand] = useState({
     userID: "user123",

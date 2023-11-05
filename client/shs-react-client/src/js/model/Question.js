@@ -17,6 +17,18 @@ class QuestionP {
       return error.response.data;
     }
   }
+
+  async delete(questionID) {
+    try {
+      // Send a DELETE request to delete the Question
+      const response = await axios.delete(
+        QuestionP.endPoint + "/" + questionID
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default QuestionP;

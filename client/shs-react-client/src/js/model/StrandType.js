@@ -26,6 +26,18 @@ class StrandType {
       return error;
     }
   }
+
+  async delete(strandTypeID) {
+    try {
+      // Send a DELETE request to delete the Strand Type
+      const response = await axios.delete(
+        StrandType.endPoint + "/" + strandTypeID
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default StrandType;

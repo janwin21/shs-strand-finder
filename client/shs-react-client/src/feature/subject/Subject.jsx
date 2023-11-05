@@ -7,26 +7,32 @@ import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { subjectData } from "../../js/json-structure/subject";
-import { indexRoute } from "../../route/routes";
+import { indexRoute, viewSubjectRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.store.loading,
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    subjectTypeForDeletion: state.store.subjectTypeForDeletion,
+    subjectForDeletion: state.store.subjectForDeletion,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    load: (loading) => dispatch({ type: action.LOAD, loading }),
   };
 };
 
-function Subject({ loading, viewableSidebar, viewablePE, loginUser, load }) {
+function Subject({
+  viewableSidebar,
+  viewablePE,
+  subjectTypeForDeletion,
+  subjectForDeletion,
+  loginUser,
+}) {
   const navigate = useNavigate();
 
   // FETCH
@@ -39,38 +45,48 @@ function Subject({ loading, viewableSidebar, viewablePE, loginUser, load }) {
     imagePath: null,
     accessToken: "access-token",
   });
+  const [loading, load] = useState(true);
+
+  const fetchData = async () => {
+    load(true);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new SubjectP().read(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      setData({
+        ...data,
+        user: dataD.user,
+        subjectTypes: dataD.subjectTypes,
+        preferredStrand: dataD.preferredStrand,
+        personalEngagements: dataD.personalEngagements,
+        subjects: dataD.subjects,
+        pendingSubjects: dataD.pendingSubjects,
+        strandTypes: dataD.strandTypes,
+      });
+      setSelectedStrand(dataD.selectedStrand);
+      load(false);
+    }
+  };
 
   useEffect(() => {
-    load(true);
-
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new SubjectP().read(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        setData({
-          ...data,
-          user: dataD.user,
-          subjectTypes: dataD.subjectTypes,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-        });
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-      }
-    };
-
     fetchData();
   }, []);
 
   // UPDATE subject data
   useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (subjectTypeForDeletion == null) {
+      fetchData();
+    }
+  }, [subjectTypeForDeletion]);
+  useEffect(() => {
+    if (subjectForDeletion == null) {
+      fetchData();
+    }
+  }, [subjectForDeletion]);
 
   return loading ? (
     <Loading />
@@ -89,6 +105,21 @@ function Subject({ loading, viewableSidebar, viewablePE, loginUser, load }) {
             <div className="container">
               <div className="row">
                 <section className="col-12 pb-4">
+                  {data?.user?.isAdmin == true ? (
+                    <a
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        navigate(viewSubjectRoute.path);
+                      }}
+                      className="nav-link d-inline"
+                    >
+                      <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
+                        TAKE ASSESSMENT
+                      </button>
+                    </a>
+                  ) : (
+                    <></>
+                  )}
                   {data.subjectTypes.map((subjectType, i) => {
                     return <SubjectType key={i} subjectType={subjectType} />;
                   })}
@@ -108,6 +139,21 @@ function Subject({ loading, viewableSidebar, viewablePE, loginUser, load }) {
               >
                 {!viewablePE ? (
                   <>
+                    {data?.user?.isAdmin == true ? (
+                      <a
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          navigate(viewSubjectRoute.path);
+                        }}
+                        className="nav-link d-inline"
+                      >
+                        <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
+                          VIEWABLE QUESTIONS
+                        </button>
+                      </a>
+                    ) : (
+                      <></>
+                    )}
                     {data.subjectTypes.map((subjectType, i) => {
                       return <SubjectType key={i} subjectType={subjectType} />;
                     })}

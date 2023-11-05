@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Localhost from "../../js/model/LocalHost";
 
-function AssessmentModal({ id, path, subject = null, cb = () => {} }) {
+function AssessmentModal({ id, path = null, subject = null, cb = () => {} }) {
   const navigate = useNavigate();
   const [closeBtn, setCloseBtn] = useState(null);
 
@@ -84,7 +84,7 @@ function AssessmentModal({ id, path, subject = null, cb = () => {} }) {
                     type="button"
                     onClick={() => {
                       cb(subject._id);
-                      navigate(path);
+                      if (path) navigate(path);
                     }}
                     className="roboto fw-semibold btn btn-dark w-100"
                     data-bs-dismiss="modal"
