@@ -40,6 +40,7 @@ function _Assessment({
 
   // FETCH
   const [data, setData] = useState(assessmentData);
+  const [leaveCount, setLeaveCount] = useState(0);
   const [subjectID, setSubjectID] = useState(subjectForPreparation._id);
 
   // UML
@@ -52,14 +53,15 @@ function _Assessment({
   const [loading, load] = useState(true);
 
   const [choice, setChoice] = useState({
-    user: "123",
-    answerKey: "321",
+    user: "",
+    answerKey: "",
     correct: true,
-    noOfUnVisit: 6,
+    noOfUnVisit: leaveCount,
   });
 
   const callAccess = async () => {
     load(true);
+    setLeaveCount(0);
     const token = Localhost.sessionKey("user");
     const dataD = await new SubjectP().readAssessment(subjectID, token);
 
@@ -94,11 +96,44 @@ function _Assessment({
   }, []);
 
   // UPDATE assessment data
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // User has switched to a different tab or performed an action outside the tab
+        // Place your code here to handle the user's inactivity
+        setLeaveCount(leaveCount + 1);
+        console.log(
+          "USER WAS DETECTED OUTSIDE THE SYSTEM WHILE DOING AN ASSESSMENT: " +
+            leaveCount
+        );
+      } else {
+        // User has returned to the tab
+        // Place your code here to handle the user's return
+        console.log("USER IS DOING AN ASSESSMENT");
+      }
+    };
+
+    // Add event listener for visibility change
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange,
+      false
+    );
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange,
+        false
+      );
+    };
+  }, [leaveCount]);
   useEffect(() => {}, [data]);
 
   // FUNCTION
-  const select = (user, answerKey, correct, noOfUnVisit) => {
-    setChoice({ user, answerKey, correct, noOfUnVisit });
+  const select = (user, answerKey, correct, leaveCount) => {
+    setChoice({ user, answerKey, correct, noOfUnVisit: leaveCount });
   };
 
   const submit = async () => {
@@ -162,8 +197,8 @@ function _Assessment({
                             user={data.user}
                             subject={data.subject}
                             question={data.question}
-                            cb={(user, answerKey, correct, noOfUnVisit) =>
-                              select(user, answerKey, correct, noOfUnVisit)
+                            cb={(user, answerKey, correct) =>
+                              select(user, answerKey, correct, leaveCount)
                             }
                           />
                           {/*-- NEXT --*/}

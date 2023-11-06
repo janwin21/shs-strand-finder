@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { action } from "../../../redux/action";
 import { modalType } from "../../modal/modalType";
 import Localhost from "../../../js/model/LocalHost";
+import { useState } from "react";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -14,6 +15,35 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
+  const [letter] = useState([
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ]);
+
   return (
     <>
       {/*-- ANSWERED --*/}
@@ -54,11 +84,11 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
           <p className="card-text roboto text-light">{question.question}</p>
 
           {/*-- ANSWER KEYS --*/}
-          {question?.answerKeys?.map((answerKey) => {
+          {question?.answerKeys?.map((answerKey, i) => {
             return (
               <button
                 key={answerKey._id}
-                className={`btn btn-dark text-start roboto w-100 mb-2 px-2 fs-6 fw-semibold`}
+                className={`btn btn-dark text-start roboto w-100 mb-2 px-2 fs-6`}
               >
                 {answerKey?.imagePath ? (
                   <img
@@ -70,17 +100,19 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
                 ) : (
                   <></>
                 )}
-                {answerKey.value}
+                {letter[i].toUpperCase()}. {answerKey.value}
               </button>
             );
           })}
 
           {/*-- DELETE QUESTIONS --*/}
+          {/*
           <button
             className={`btn btn-danger roboto w-100 mb-2 px-4 fs-6 fw-semibold`}
           >
             DELETE QUESTION
           </button>
+          */}
         </div>
       </div>
     </>

@@ -11,11 +11,12 @@ function AssessmentPanel({ user, subject, question, cb }) {
         </h5>
       </section>
       <AssessmentQuestion question={question} />
-      {question?.answerKeys?.map((answerKey) => (
+      {question?.answerKeys?.map((answerKey, i) => (
         <AssessmentChoices
           key={answerKey._id}
           user={user}
           answerKey={answerKey}
+          index={i}
           cb={cb}
         />
       ))}

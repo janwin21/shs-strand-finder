@@ -31,7 +31,9 @@ function SidebarSubject({ subject }) {
                   : subject.duration}{" "}
                 {subject.duration < 1 ? "sec" : "min"}
               </p>
-              <p className="card-text text-light mb-0">leave count: 3</p>
+              <p className="card-text text-light mb-0">
+                leave count: {subject.noOfUnVisit}
+              </p>
             </div>
           </div>
         </div>
