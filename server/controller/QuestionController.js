@@ -23,17 +23,17 @@ class QuestionController {
       throw new Error("Select a subject first!");
     }
 
+    // Check if an image was uploaded
+    if (req.file) {
+      questionImagePath = req.file.path;
+    }
+
     // INIT
     const newQuestion = new Question({
       subject: subjectID,
       question,
       questionImagePath,
     });
-
-    // Check if an image was uploaded
-    if (req.file) {
-      questionImagePath = req.file.path;
-    }
 
     // SAVE
     newQuestion.save();

@@ -17,6 +17,11 @@ class AnswerKeyController {
       throw new Error("Select a question first!");
     }
 
+    // Check if an image was uploaded
+    if (req.file) {
+      imagePath = req.file.path;
+    }
+
     // INIT
     const newAnswerKey = new AnswerKey({
       question: questionID,
@@ -24,11 +29,6 @@ class AnswerKeyController {
       imagePath,
       correct,
     });
-
-    // Check if an image was uploaded
-    if (req.file) {
-      imagePath = req.file.path;
-    }
 
     // SAVE
     newAnswerKey.save();

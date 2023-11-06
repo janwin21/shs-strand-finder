@@ -31,6 +31,11 @@ class StrandController {
       throw new Error("This strand has already existed!");
     }
 
+    // Check if an image was uploaded
+    if (req.file) {
+      imagePath = req.file.path;
+    }
+
     // INIT
     const newStrand = new Strand({
       strandType: strandTypeID,
@@ -38,11 +43,6 @@ class StrandController {
       description,
       imagePath,
     });
-
-    // Check if an image was uploaded
-    if (req.file) {
-      imagePath = req.file.path;
-    }
 
     // SAVE
     newStrand.save();

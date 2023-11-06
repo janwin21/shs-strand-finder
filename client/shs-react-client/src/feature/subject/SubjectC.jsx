@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function SubjectC({ deleteSubject, prepareSubject, subject }) {
+function SubjectC({ deleteSubject, prepareSubject, user, subject }) {
   return (
     <>
       {/*-- SUBJECT CONTAINER --*/}

@@ -29,6 +29,11 @@ class SubjectController {
       throw new Error("This subject has already existed!");
     }
 
+    // Check if an image was uploaded
+    if (req.file) {
+      imagePath = req.file.path;
+    }
+
     // INIT
     const newSubject = new Subject({
       subjectType: subjectTypeID,
@@ -36,11 +41,6 @@ class SubjectController {
       description,
       imagePath,
     });
-
-    // Check if an image was uploaded
-    if (req.file) {
-      imagePath = req.file.path;
-    }
 
     // SAVE
     newSubject.save();
