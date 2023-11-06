@@ -149,6 +149,7 @@ function Dashboard({
                   {data.strandTypes.map((strandType, i) => (
                     <DashboardStrandType
                       key={i}
+                      user={data.user}
                       strandType={strandType}
                       strandCb={setStrand}
                     />
@@ -171,11 +172,15 @@ function Dashboard({
                   <>
                     <DashboardHeader
                       user={data.user}
-                      finish={data.pendingSubjects.length == 0}
+                      finish={
+                        data.pendingSubjects.length == 0 &&
+                        data.personalEngagements.length != 0
+                      }
                     />
                     {data.strandTypes.map((strandType, i) => (
                       <DashboardStrandType
                         key={i}
+                        user={data.user}
                         strandType={strandType}
                         strandCb={setStrand}
                       />

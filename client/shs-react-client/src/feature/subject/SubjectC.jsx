@@ -47,7 +47,7 @@ function SubjectC({ deleteSubject, prepareSubject, subject }) {
           data-bs-target={"#" + modalType.SUBJECT_DELETION}
           className="nav-link"
         >
-          {subject.count == 0 ? (
+          {subject.count == 0 && user.isAdmin == true ? (
             <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
           ) : (
             <></>

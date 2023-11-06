@@ -3,18 +3,24 @@ import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { forgotRoute } from "../../route/routes";
 import Login from "../../js/model/Login";
 import Localhost from "../../js/model/LocalHost";
+import $ from "jquery";
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
   };
 };
 
-function LoginForm({ loginUser }) {
+function LoginForm({ loginUser, setNotif }) {
   const navigate = useNavigate();
 
   // UML
@@ -22,14 +28,23 @@ function LoginForm({ loginUser }) {
     email: "user@email.com",
     password: "password",
   });
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
     const login = new Login();
     const err = await login.auth(validateUser);
 
     if (err?.error) {
-      console.log(err.error);
+      setNotif({ title: "Authentication Failed", body: err.error });
+      notifBtn.click();
     } else {
       loginUser(validateUser);
       Localhost.session("user", err.token);

@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
 function DashboardStrand({
   deleteStrand,
   viewSidebar,
+  user,
   strand,
   strandCb = null,
 }) {
@@ -39,18 +40,22 @@ function DashboardStrand({
           className="card-img h-100"
           alt="strand img"
         />
-        <a
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            deleteStrand(strand);
-          }}
-          data-bs-toggle="modal"
-          data-bs-target={"#" + modalType.STRAND_DELETION}
-          className="nav-link"
-        >
-          <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
-        </a>
+        {user.isAdmin == true ? (
+          <a
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              deleteStrand(strand);
+            }}
+            data-bs-toggle="modal"
+            data-bs-target={"#" + modalType.STRAND_DELETION}
+            className="nav-link"
+          >
+            <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
+          </a>
+        ) : (
+          <></>
+        )}
         <div className="bg-dark position-absolute p-2 bottom-0 w-100">
           <h5 className="card-title roboto">{strand.name}</h5>
         </div>

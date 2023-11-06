@@ -170,13 +170,6 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
                     cb2={() => setChoice("b")}
                   />
                   {/*-- NEXT --*/}
-                  <button
-                    className="btn btn-dark float-start roboto px-4"
-                    onClick={prevCall}
-                    disabled={!pe.prev}
-                  >
-                    PREV
-                  </button>
                   {choice.length != 0 ? (
                     <button
                       className="btn btn-dark float-end roboto px-4"
@@ -214,13 +207,6 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser }) {
                             cb2={() => setChoice("b")}
                           />
                           {/*-- NEXT --*/}
-                          <button
-                            className="btn btn-dark float-start roboto px-4"
-                            onClick={prevCall}
-                            disabled={!pe.prev}
-                          >
-                            PREV
-                          </button>
                           {choice.length != 0 ? (
                             <button
                               className="btn btn-dark float-end roboto px-4"

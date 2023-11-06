@@ -1,21 +1,48 @@
 // import { strandData } from "../../../js/json-structure/form/strand";
 // import Strand from "../../../js/model/Strand";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import { dashboardRoute } from "../../../route/routes";
 import PEP from "../../../js/model/PEP";
 import FormRadioBtn from "../component/FormRadioBtn";
+import $ from "jquery";
 
-function Form({ personalEngagement, cb, strands }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, personalEngagement, cb, strands }) {
   const navigate = useNavigate();
 
   // UML
+  const [notifBtn, setNotifBtn] = useState(null);
+
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (ev) => {
     ev.preventDefault();
     const data = await new PEP().create(personalEngagement);
 
     if (data?.error) {
       console.log(data.error);
+      setNotif({
+        title: "Personal Engagement Failed",
+        body: data.error,
+      });
+      notifBtn.click();
     } else {
       navigate(dashboardRoute.path);
     }
@@ -88,4 +115,4 @@ function Form({ personalEngagement, cb, strands }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

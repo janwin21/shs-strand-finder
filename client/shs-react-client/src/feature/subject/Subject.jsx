@@ -114,14 +114,20 @@ function Subject({
                       className="nav-link d-inline"
                     >
                       <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
-                        TAKE ASSESSMENT
+                        VIEWABLE QUESTIONS
                       </button>
                     </a>
                   ) : (
                     <></>
                   )}
                   {data.subjectTypes.map((subjectType, i) => {
-                    return <SubjectType key={i} subjectType={subjectType} />;
+                    return (
+                      <SubjectType
+                        key={i}
+                        user={data.user}
+                        subjectType={subjectType}
+                      />
+                    );
                   })}
                 </section>
                 {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
@@ -155,7 +161,13 @@ function Subject({
                       <></>
                     )}
                     {data.subjectTypes.map((subjectType, i) => {
-                      return <SubjectType key={i} subjectType={subjectType} />;
+                      return (
+                        <SubjectType
+                          key={i}
+                          user={data.user}
+                          subjectType={subjectType}
+                        />
+                      );
                     })}
                   </>
                 ) : (

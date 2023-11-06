@@ -3,6 +3,8 @@
 // import DashboardD from "../../../js/model/Dashboard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import { dashboardRoute } from "../../../route/routes";
 import QuestionP from "../../../js/model/Question";
 import AnswerKeyP from "../../../js/model/AnswerKey";
@@ -11,7 +13,17 @@ import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
 import $ from "jquery";
 
-function Form({ question, cb, subjects }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, question, cb, subjects }) {
   const navigate = useNavigate();
 
   const [uploadBtn, setUploadBtn] = useState(null);
@@ -47,15 +59,27 @@ function Form({ question, cb, subjects }) {
       setUploadBtn($("#uploadBtn"));
     });
   }, []);
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (ev) => {
     ev.preventDefault();
     if (question.answerKeys.length != 0) {
       const questionData = await new QuestionP().create(question);
-      console.log(questionData);
 
       if (questionData?.error) {
         console.log(questionData.error);
+        setNotif({
+          title: "Creation of Assessment Failed",
+          body: questionData.error,
+        });
+        notifBtn.click();
       } else {
         question.answerKeys.forEach(async (key) => {
           const keyForm = key;
@@ -296,4 +320,4 @@ function Form({ question, cb, subjects }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

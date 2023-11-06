@@ -32,6 +32,9 @@ const reducer = (
 
     // CURRENT ANSWER KEY
     currentQuestion,
+
+    // NOTIF
+    notifMessage,
   }
 ) => {
   switch (type) {
@@ -75,6 +78,10 @@ const reducer = (
     // CURRENT QUESTION
     case action.SET_CURRENT_QUESTION:
       return { ...state, currentQuestion };
+
+    // NOTIF
+    case action.SET_NOTIF:
+      return { ...state, notifMessage };
 
     // TEST
     case action.TEST:

@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function SubjectType({ deleteSubjectType, subjectType }) {
+function SubjectType({ deleteSubjectType, user, subjectType }) {
   return (
     <>
       {/*-- SUBJECT TYPE CONTAINER --*/}
@@ -28,7 +28,7 @@ function SubjectType({ deleteSubjectType, subjectType }) {
           data-bs-target={"#" + modalType.SUBJECT_TYPE_DELETION}
           className="nav-link"
         >
-          {subjectType.subjects.length == 0 ? (
+          {subjectType.subjects.length == 0 && user.isAdmin == true ? (
             <i className="fa-solid fa-rectangle-xmark text-dark fs-3 position-absolute top-0 end-0"></i>
           ) : (
             <></>
@@ -39,7 +39,7 @@ function SubjectType({ deleteSubjectType, subjectType }) {
         </h5>
         <section className="row">
           {subjectType.subjects.map((subject, i) => {
-            return <SubjectC key={i} subject={subject} />;
+            return <SubjectC key={i} user={user} subject={subject} />;
           })}
         </section>
       </section>

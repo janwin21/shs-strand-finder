@@ -33,14 +33,14 @@ function FormStrandType({ viewableSidebar, viewablePE, loginUser }) {
 
   // UML
   const [strandtype, setStrandType] = useState({
-    name: "Strand Name 1",
+    name: "",
   });
 
   const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
+    userID: "",
+    id: "",
     imagePath: null,
-    accessToken: "access-token",
+    accessToken: "",
   });
   const [loading, load] = useState(true);
 

@@ -45,6 +45,16 @@ class PEP {
       console.error("Error creating PE:", error.message);
     }
   }
+
+  async delete(peID) {
+    try {
+      // Send a DELETE request to delete the Personla Engagement
+      const response = await axios.delete(PEP.endPoint + "/" + peID);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default PEP;

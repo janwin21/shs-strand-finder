@@ -12,6 +12,10 @@ const dataStructure = {
   assessmentQuestionForDeletion: null,
   subjectForPreparation: null,
   currentQuestion: null,
+  notifMessage: {
+    title: "notif title",
+    body: "This is the message!",
+  },
 };
 
 export { dataStructure };

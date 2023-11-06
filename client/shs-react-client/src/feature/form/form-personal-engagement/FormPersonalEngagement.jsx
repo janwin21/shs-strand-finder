@@ -35,10 +35,10 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
   const [personalEngagement, setPersonalEngagement] = useState({});
 
   const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
+    userID: "",
+    id: "",
     imagePath: null,
-    accessToken: "access-token",
+    accessToken: "",
   });
   const [loading, load] = useState(true);
 

@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    peQuestionForDeletion: state.store.peQuestionForDeletion,
   };
 };
 
@@ -24,7 +25,12 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function ViewPE({ viewableSidebar, viewablePE, loginUser }) {
+function ViewPE({
+  viewableSidebar,
+  viewablePE,
+  peQuestionForDeletion,
+  loginUser,
+}) {
   const navigate = useNavigate();
 
   // FETCH
@@ -39,37 +45,42 @@ function ViewPE({ viewableSidebar, viewablePE, loginUser }) {
   });
   const [loading, load] = useState(true);
 
+  const fetchData = async () => {
+    load(true);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new ViewD().viewPE(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      setData({
+        ...data,
+        user: dataD.user,
+        pes: dataD.pes,
+        preferredStrand: dataD.preferredStrand,
+        personalEngagements: dataD.personalEngagements,
+        subjects: dataD.subjects,
+        pendingSubjects: dataD.pendingSubjects,
+        strandTypes: dataD.strandTypes,
+      });
+      setSelectedStrand(dataD.selectedStrand);
+      load(false);
+      console.log(loading);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      load(true);
-      const token = Localhost.sessionKey("user");
-      const dataD = await new ViewD().viewPE(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        setData({
-          ...data,
-          user: dataD.user,
-          pes: dataD.pes,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-        });
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-        console.log(loading);
-      }
-    };
-
     fetchData();
   }, []);
 
   // UPDATE dashboard data
   useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (peQuestionForDeletion == null) {
+      fetchData();
+    }
+  }, [peQuestionForDeletion]);
 
   return loading ? (
     <Loading />

@@ -2,25 +2,39 @@ import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Register from "../../js/model/Register";
+import $ from "jquery";
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
   };
 };
 
-function RegisterForm({ loginUser }) {
+function RegisterForm({ loginUser, setNotif }) {
   const navigate = useNavigate();
 
   // UML
   const [newUser, setNewUser] = useState({
-    email: "user@email.com",
-    password: "password",
-    confirmPassword: "password",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
     const register = new Register();
@@ -29,7 +43,11 @@ function RegisterForm({ loginUser }) {
     const err = await register.register(newUser);
 
     if (err?.error) {
-      console.log(err.error);
+      setNotif({
+        title: "Registration Failed",
+        body: err.error,
+      });
+      notifBtn.click();
     } else {
       navigate(dashboardRoute.path);
     }

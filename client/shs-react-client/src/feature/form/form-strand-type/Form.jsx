@@ -1,10 +1,32 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import { dashboardRoute } from "../../../route/routes";
 import StrandType from "../../../js/model/StrandType";
+import $ from "jquery";
 
-function Form({ strandtype, cb }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, strandtype, cb }) {
   const navigate = useNavigate();
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (ev) => {
     ev.preventDefault();
     const strandTypeModel = new StrandType();
@@ -12,6 +34,11 @@ function Form({ strandtype, cb }) {
 
     if (data?.error) {
       console.log(data.error);
+      setNotif({
+        title: "Strand Type Failed",
+        body: data.error,
+      });
+      notifBtn.click();
     } else {
       navigate(dashboardRoute.path);
     }
@@ -52,4 +79,4 @@ function Form({ strandtype, cb }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

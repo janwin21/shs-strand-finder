@@ -1,9 +1,30 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import { subjectRoute } from "../../../route/routes";
 import SubjectType from "../../../js/model/SubjectType";
+import $ from "jquery";
 
-function Form({ subjectType, cb }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, subjectType, cb }) {
   const navigate = useNavigate();
+  const [notifBtn, setNotifBtn] = useState(null);
+
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
 
   const submit = async (ev) => {
     ev.preventDefault();
@@ -12,6 +33,11 @@ function Form({ subjectType, cb }) {
 
     if (data?.error) {
       console.log(data.error);
+      setNotif({
+        title: "Subject Type Failed",
+        body: data.error,
+      });
+      notifBtn.click();
     } else {
       navigate(subjectRoute.path);
     }
@@ -52,4 +78,4 @@ function Form({ subjectType, cb }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

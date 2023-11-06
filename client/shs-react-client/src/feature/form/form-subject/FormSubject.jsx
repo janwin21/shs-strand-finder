@@ -35,17 +35,17 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
   const [subject, setSubject] = useState({
     strandTypeIDs: [],
     subjectTypeID: null,
-    name: "Subject Name",
-    description: "This is subject description",
+    name: "",
+    description: "",
     image: null,
     display: null,
   });
 
   const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
+    userID: "",
+    id: "",
     imagePath: null,
-    accessToken: "access-token",
+    accessToken: "",
   });
   const [loading, load] = useState(true);
 

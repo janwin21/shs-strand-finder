@@ -156,9 +156,16 @@ class PEController {
 
     // DELETE SINGLE DATA
     const pe = await PE.deleteOne({ _id: peID });
+    const dataToDelete = await SelectedPE.find({ pe: peID });
+    let deleteResult = null;
+
+    // Delete the found data
+    if (dataToDelete.length !== 0) {
+      deleteResult = await SelectedPE.deleteMany({ pe: peID });
+    }
 
     // RESPONSE
-    res.json(pe);
+    res.json({ pe, deleteResult });
   }
 
   // DELETE ALL

@@ -15,6 +15,7 @@ const mapDispatchToProps = (dispatch) => {
 
 function DashboardStrandType({
   deleteStrandType,
+  user,
   strandType,
   strandCb = null,
 }) {
@@ -31,7 +32,7 @@ function DashboardStrandType({
           data-bs-target={"#" + modalType.STRAND_TYPE_DELETION}
           className="nav-link"
         >
-          {strandType.strands.length == 0 ? (
+          {strandType.strands.length == 0 && user.isAdmin == true ? (
             <i className="fa-solid fa-rectangle-xmark text-dark fs-3 position-absolute top-0 end-0"></i>
           ) : (
             <></>
@@ -44,6 +45,7 @@ function DashboardStrandType({
           {strandType.strands.map((strand, i) => (
             <DashboardStrand
               key={i}
+              user={user}
               strand={strand}
               strandCb={() => strandCb(strand)}
             />

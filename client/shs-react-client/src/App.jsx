@@ -44,6 +44,7 @@ import StrandType from "./js/model/StrandType.js";
 import Subject from "./js/model/Subject.js";
 import SubjectType from "./js/model/SubjectType.js";
 import QuestionP from "./js/model/Question.js";
+import PEP from "./js/model/PEP.js";
 
 const mapStateToProps = (state) => {
   return {
@@ -54,6 +55,7 @@ const mapStateToProps = (state) => {
     peQuestionForDeletion: state.store.peQuestionForDeletion,
     assessmentQuestionForDeletion: state.store.assessmentQuestionForDeletion,
     subjectForPreparation: state.store.subjectForPreparation,
+    notifMessage: state.store.notifMessage,
   };
 };
 
@@ -84,6 +86,11 @@ const mapDispatchToProps = (dispatch) => {
         type: action.DELETE_ASSESSMENT_QUESTION,
         assessmentQuestionForDeletion: question,
       }),
+    deletePEQuestion: (peQuestion) =>
+      dispatch({
+        type: action.DELETE_PE_QUESTION,
+        peQuestionForDeletion: peQuestion,
+      }),
     logoutUser: () => dispatch({ type: action.LOGOUT_USER }),
   };
 };
@@ -101,6 +108,8 @@ function App({
   deleteSubject,
   deleteSubjectType,
   deleteAssessmentQuestion,
+  deletePEQuestion,
+  notifMessage,
   logoutUser,
 }) {
   return (
@@ -267,18 +276,20 @@ function App({
       {/* PERSONAL ENGAGEMENT QUESTION DELETION */}
       <SimpleModal
         id={modalType.PE_QUESTION_DELETION}
-        path={personalEngagementRoute.path}
+        path={null}
         title={`Delete Personal Engagement Question ${
-          peQuestionForDeletion ? peQuestionForDeletion.id : "UNKNOWN"
+          peQuestionForDeletion ? peQuestionForDeletion._id : "UNKNOWN"
         }`}
         body={`Do you want to delete ${
-          peQuestionForDeletion ? peQuestionForDeletion.id : "UNKNOWN"
+          peQuestionForDeletion ? peQuestionForDeletion._id : "UNKNOWN"
         }? This will not be recover once deleted.`}
         yes="DELETE"
         no="CANCEL"
-        cb={() =>
-          console.log(peQuestionForDeletion.id + " has been deleted...")
-        }
+        cb={async () => {
+          const result = await new PEP().delete(peQuestionForDeletion._id);
+          deletePEQuestion(null);
+          console.log("DELETION: ", result);
+        }}
       />
 
       {/* ASSESSMENT QUESTION DELETION */}
@@ -318,10 +329,19 @@ function App({
 
       {/* NOTIFICATION */}
       {/* QUESTION NOT YET SUBMIT */}
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target={"#" + modalType.NOTIFICATION}
+        id="notif-modal"
+        className="nav-link d-none"
+      >
+        ...
+      </button>
       <NotifModal
-        id={modalType.QUESTION_NOT_SUBMIT_YET}
-        title="Question not Submit Yet"
-        body="The current QUESTION has not yet submitted. Please submit the current answered question FIRST before answering the other one."
+        id={modalType.NOTIFICATION}
+        title={notifMessage.title}
+        body={notifMessage.body}
       />
     </Router>
   );

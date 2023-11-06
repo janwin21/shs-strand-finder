@@ -1,25 +1,51 @@
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { action } from "../../redux/action";
 import { dashboardRoute } from "../../route/routes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResetD from "../../js/model/Reset";
+import $ from "jquery";
 
-function Form() {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif }) {
   const navigate = useNavigate();
 
   // UML
   const [resetUser, setResetUser] = useState({
-    currentEmail: "user@email.com",
-    oldPassword: "oldPassword",
-    password: "newPassword",
-    confirmPassword: "newPassword",
+    currentEmail: "",
+    oldPassword: "",
+    password: "",
+    confirmPassword: "",
   });
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
     const error = await new ResetD().reset(resetUser);
 
     if (error?.response?.data?.error) {
       console.log(error?.response?.data?.error);
+      setNotif({
+        title: "Reset Authentication Failed",
+        body: error?.response?.data?.error,
+      });
+      notifBtn.click();
     } else {
       console.log(error);
       navigate(dashboardRoute.path);
@@ -106,4 +132,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

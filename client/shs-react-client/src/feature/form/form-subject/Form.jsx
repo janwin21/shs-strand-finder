@@ -5,6 +5,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { subjectRoute } from "../../../route/routes";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import Subject from "../../../js/model/Subject";
 import StrandSubject from "../../../js/model/StrandSubject";
 import FormCheckBox from "../component/FormCheckBox";
@@ -12,7 +14,17 @@ import FormRadioBtn from "../component/FormRadioBtn";
 import subject1 from "../../../asset/subject/subject1.jpg";
 import $ from "jquery";
 
-function Form({ subject, cb, strandTypes, strands }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, subject, cb, strandTypes, strands }) {
   const navigate = useNavigate();
 
   // UML
@@ -33,6 +45,13 @@ function Form({ subject, cb, strandTypes, strands }) {
       reader.readAsDataURL(file);
     }
   };
+  const [notifBtn, setNotifBtn] = useState(null);
+
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
 
   useEffect(() => {
     $(() => {
@@ -61,6 +80,11 @@ function Form({ subject, cb, strandTypes, strands }) {
 
     if (subjectID?.error) {
       console.log(subjectID.error);
+      setNotif({
+        title: "Subject Failed",
+        body: subjectID.error,
+      });
+      notifBtn.click();
     } else {
       await new StrandSubject().create(subjectID, strandTypeIDs);
       navigate(subjectRoute.path);
@@ -190,4 +214,4 @@ function Form({ subject, cb, strandTypes, strands }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

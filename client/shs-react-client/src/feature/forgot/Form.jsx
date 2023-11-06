@@ -1,25 +1,50 @@
 import { useNavigate } from "react-router-dom";
 import { indexRoute } from "../../route/routes";
-import { useState } from "react";
+import { connect } from "react-redux";
+import { action } from "../../redux/action";
+import { useEffect, useState } from "react";
 import Forgot from "../../js/model/Forgot";
+import $ from "jquery";
 
-function Form() {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif }) {
   const navigate = useNavigate();
 
   // UML
   const [forgotUser, setForgotUser] = useState({
-    email: "user@email.com",
-    password: "newPassword",
-    confirmPassword: "newPassword",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
+  const [notifBtn, setNotifBtn] = useState(null);
 
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
+
+  // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
     const forgot = new Forgot();
     const error = await forgot.forgot(forgotUser);
 
     if (error?.response?.data?.error) {
-      console.log(error?.response?.data?.error);
+      setNotif({
+        title: "Reset Authentication Error",
+        body: error?.response?.data?.error,
+      });
+      notifBtn.click();
     } else {
       console.log(error);
       navigate(indexRoute.path);
@@ -95,4 +120,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);

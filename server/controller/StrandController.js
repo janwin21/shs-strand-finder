@@ -12,7 +12,7 @@ class StrandController {
   // CREATE
   async create(req, res) {
     const { strandTypeID, name, description } = req.body;
-    const imagePath = req.file.path;
+    let imagePath = null;
 
     // Check if 'name' is missing
     if (!name) {
@@ -38,6 +38,11 @@ class StrandController {
       description,
       imagePath,
     });
+
+    // Check if an image was uploaded
+    if (req.file) {
+      imagePath = req.file.path;
+    }
 
     // SAVE
     newStrand.save();

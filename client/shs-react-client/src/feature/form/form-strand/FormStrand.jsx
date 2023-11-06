@@ -34,18 +34,18 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
   // UML
   const [strand, setStrand] = useState({
     strandTypeID: null,
-    name: "Subject Name",
-    description: "This is subject description",
+    name: "",
+    description: "",
     image: null,
     display: null,
   });
   const [loading, load] = useState(true);
 
   const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
+    userID: "",
+    id: "",
     imagePath: null,
-    accessToken: "access-token",
+    accessToken: "",
   });
 
   useEffect(() => {

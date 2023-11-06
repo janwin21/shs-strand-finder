@@ -138,7 +138,7 @@ function DashboardSidebar({
             );
           })}
         </section>
-        <SidebarGroup />
+        <SidebarGroup user={user} />
       </section>
     </>
   );

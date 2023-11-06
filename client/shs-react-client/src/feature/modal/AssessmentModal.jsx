@@ -62,10 +62,13 @@ function AssessmentModal({ id, path = null, subject = null, cb = () => {} }) {
                       {subject ? subject.name : "UNKNOWN"}
                     </h6>
                     <p className="card-text mb-3">
-                      Before taking an assessment, you should read first all the
+                      Please review before answering the assessment. Good luck
+                      to your assessment.
+                      {/* Before taking an assessment, you should read first all the
                       rules while taking assessments. Click the button below to
-                      read all the rules during the assessment.
+                      read all the rules during the assessment. */}
                     </p>
+                    {/* 
                     <button
                       type="button"
                       className="roboto fw-semibold btn btn-dark w-100"
@@ -73,6 +76,7 @@ function AssessmentModal({ id, path = null, subject = null, cb = () => {} }) {
                     >
                       READ ASSESSMENT RULES
                     </button>
+                    */}
                   </div>
                 </div>
               </div>

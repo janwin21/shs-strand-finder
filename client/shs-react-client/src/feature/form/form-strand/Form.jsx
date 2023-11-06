@@ -2,13 +2,25 @@
 // import StrandType from "../../../js/model/StrandType";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { action } from "../../../redux/action";
 import { dashboardRoute } from "../../../route/routes";
 import Strand from "../../../js/model/Strand";
 import FormRadioBtn from "../component/FormRadioBtn";
 import strand2 from "../../../asset/strand/strand2.jpg";
 import $ from "jquery";
 
-function Form({ strand, cb, strandTypes }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
+  };
+};
+
+function Form({ setNotif, strand, cb, strandTypes }) {
   const navigate = useNavigate();
 
   // UML
@@ -25,6 +37,13 @@ function Form({ strand, cb, strandTypes }) {
       reader.readAsDataURL(file);
     }
   };
+  const [notifBtn, setNotifBtn] = useState(null);
+
+  useEffect(() => {
+    $(() => {
+      setNotifBtn($("#notif-modal"));
+    });
+  }, []);
 
   useEffect(() => {
     $(() => {
@@ -39,6 +58,11 @@ function Form({ strand, cb, strandTypes }) {
 
     if (data?.error) {
       console.log(data.error);
+      setNotif({
+        title: "Strand Creation Failed",
+        body: data.error,
+      });
+      notifBtn.click();
     } else {
       navigate(dashboardRoute.path);
     }
@@ -142,4 +166,4 @@ function Form({ strand, cb, strandTypes }) {
   );
 }
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);
