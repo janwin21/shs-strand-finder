@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MARKETING = require("../subjectType/MARKETING");
+
 const BusinessFinance = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MARKETING.name,
+  associatedStrands: [ABM.name],
 
   name: "Business Finance",
   description:
     "A specialized area of finance that focuses on the financial management and decision-making aspects of businesses and organizations. It deals with the acquisition, allocation, and management of financial resources to achieve the goals and objectives of a business.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\02.jpg",
 
   questions: [
     // question no. 1

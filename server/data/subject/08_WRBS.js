@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const WRBS = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Introduction to World Religions and Belief Systems",
   description:
     "Overview of the major religions and belief systems practiced around the world. It aims to promote a deeper understanding of the diversity of religious and philosophical traditions and their impact on culture, society, and individual beliefs.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\08.jpg",
 
   questions: [
     // question no. 1

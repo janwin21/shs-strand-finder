@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const CESC = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Community Engagement, Solidarity, and Citizenship",
   description:
     "Focuses on the principles of active citizenship, community involvement, and social responsibility. This course encourages students to become engaged, responsible, and empathetic members of their communities and society as a whole.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\11.png",
 
   questions: [
     // question no. 1

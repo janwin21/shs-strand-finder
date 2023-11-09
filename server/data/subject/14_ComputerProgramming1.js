@@ -1,12 +1,15 @@
 const ICT = require("../strand/ICT");
 
+const PROGRAMMING = require("../subjectType/PROGRAMMING");
+
 const ComputerProgramming1 = {
-  associatedSubjects: [ICT.name],
+  associatedSubjectType: PROGRAMMING.name,
+  associatedStrands: [ICT.name],
 
   name: "Computer Programming 1 (JAVA)",
   description:
     "Foundational course that equips students with the knowledge and skills to write, test, and debug Java programs. It serves as a stepping stone for students who want to pursue further studies in computer science, software engineering, or other related fields and prepares them to tackle more complex programming challenges in the future.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\14.jpg",
 
   questions: [
     // question no. 1

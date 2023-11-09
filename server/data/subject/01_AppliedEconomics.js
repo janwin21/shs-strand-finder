@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MARKETING = require("../subjectType/MARKETING");
+
 const AppliedEconomics = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MARKETING.name,
+  associatedStrands: [ABM.name],
 
   name: "Applied Economics",
   description:
     "A subfield of economics that focuses on the practical application of economic theories and principles to real-world issues and problems. It involves the use of economic analysis and tools to understand and address various economic and policy-related challenges.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\01.webp",
 
   questions: [
     // question no. 1

@@ -24,6 +24,18 @@ class SubjectFactory {
     // SAVE
     await this.subject.save();
   }
+
+  async prodMake(subjectType, name, description, imagePath) {
+    // INIT
+    this.subject.subjectType = subjectType;
+    this.subject.name = name;
+    this.subject.description = description;
+    this.subject.imagePath = imagePath;
+
+    // SAVE
+    const data = await this.subject.save();
+    return data;
+  }
 }
 
 module.exports = SubjectFactory;

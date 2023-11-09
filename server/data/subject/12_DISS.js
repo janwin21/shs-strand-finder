@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const DISS = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Disciplines and Ideas in the Social Sciences",
   description:
     "Overview of the diverse disciplines within the social sciences, as well as the fundamental ideas, theories, and methodologies that underpin these fields. It offers a multidisciplinary approach to understanding the complexities of human societies and behavior.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\12.jpg",
 
   questions: [
     // question no. 1

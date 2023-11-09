@@ -1,12 +1,15 @@
 const STEM = require("../strand/STEM");
 
+const SCIENCE = require("../subjectType/SCIENCE");
+
 const GeneralBiology = {
-  associatedSubjects: [STEM.name],
+  associatedSubjectType: SCIENCE.name,
+  associatedStrands: [STEM.name],
 
   name: "General Biology",
   description:
     "Provides students with a comprehensive overview of the fundamental principles and concepts in biology. It serves as the foundation for more advanced studies in the life sciences and covers a wide range of topics related to living organisms, their structure, function, and interactions with the environment.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\21.jpg",
 
   questions: [
     // question no. 1

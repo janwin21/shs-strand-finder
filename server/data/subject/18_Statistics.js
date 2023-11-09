@@ -1,13 +1,16 @@
 const STEM = require("../strand/STEM");
 const ABM = require("../strand/ABM");
 
+const MATH = require("../subjectType/MATH");
+
 const Statistics = {
-  associatedSubjects: [STEM.name, ABM.name],
+  associatedSubjectType: MATH.name,
+  associatedStrands: [STEM.name, ABM.name],
 
   name: "Statistics",
   description:
     "Provide students with the tools to analyze and interpret data, make informed decisions, and contribute to research and problem-solving in a wide range of fields. It is an essential subject for students pursuing careers in data analysis, research, business, economics, social sciences, and various scientific disciplines.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\18.jpg",
 
   questions: [
     // question no. 1

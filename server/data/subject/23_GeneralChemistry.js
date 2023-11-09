@@ -1,12 +1,15 @@
 const STEM = require("../strand/STEM");
 
+const SCIENCE = require("../subjectType/SCIENCE");
+
 const GeneralChemistry = {
-  associatedSubjects: [STEM.name],
+  associatedSubjectType: SCIENCE.name,
+  associatedStrands: [STEM.name],
 
   name: "General Chemistry",
   description:
     "Provides students with a comprehensive understanding of the fundamental principles and concepts of chemistry. It serves as a foundation for more advanced studies in chemistry and related scientific fields.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\23.jpg",
 
   questions: [
     // question no. 1

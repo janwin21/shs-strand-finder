@@ -1,12 +1,15 @@
 const STEM = require("../strand/STEM");
 
+const MATH = require("../subjectType/MATH");
+
 const Statistics = {
-  associatedSubjects: [STEM.name],
+  associatedSubjectType: MATH.name,
+  associatedStrands: [STEM.name],
 
   name: "Pre-Calculus",
   description:
     "An academic subject designed to prepare students for more advanced courses in calculus and other mathematical disciplines. It covers a range of mathematical topics and concepts that serve as foundational knowledge for higher-level math courses.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\19.jpg",
 
   questions: [
     // question no. 1

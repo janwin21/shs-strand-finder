@@ -153,7 +153,8 @@ class QuestionController {
     // DELETE IMAGE
     if (
       existingQuestion.imagePath &&
-      !existingQuestion.imagePath.includes("uploads\\sample")
+      !existingQuestion.imagePath.includes("uploads\\sample") &&
+      !existingQuestion.imagePath.includes("uploads\\prod")
     ) {
       const imagePath = path.join(__dirname, "../", existingQuestion.imagePath);
       fs.unlinkSync(imagePath);
@@ -186,7 +187,8 @@ class QuestionController {
       dataToDelete.forEach((answerKey) => {
         if (
           answerKey.imagePath &&
-          !answerKey.imagePath.includes("uploads\\sample")
+          !answerKey.imagePath.includes("uploads\\sample") &&
+          !answerKey.imagePath.includes("uploads\\prod")
         ) {
           const imagePath = path.join(__dirname, "../", answerKey.imagePath);
           fs.unlinkSync(imagePath);

@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MARKETING = require("../subjectType/MARKETING");
+
 const OrganizationAndManagement = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MARKETING.name,
+  associatedStrands: [ABM.name],
 
   name: "Organization and Management",
   description:
     "A field of study and practice that focuses on understanding, designing, and effectively running organizations, including businesses, government agencies, non-profit organizations, and various institutions. It involves the planning, coordination, and supervision of resources, processes, and people to achieve the goals and objectives of the organization.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\05.jpg",
 
   questions: [
     // question no. 1

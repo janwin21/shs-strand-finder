@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const ENGLISHST = require("../subjectType/ENGLISH");
+
 const CreativeWriting = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: ENGLISHST.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Creative Writing",
   description:
     "Focuses on developing students' abilities to express themselves creatively through the written word. It encourages imagination, self-expression, and the exploration of various writing styles and techniques.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\07.jpg",
 
   questions: [
     // question no. 1

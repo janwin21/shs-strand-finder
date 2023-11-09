@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MATH = require("../subjectType/MATH");
+
 const FundamentalABM = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MATH.name,
+  associatedStrands: [ABM.name],
 
   name: "Fundamentals of Accountancy, Business and Management",
   description:
     "A set of subjects or courses commonly offered as part of the academic curriculum in the Philippines, particularly in the Senior High School (SHS) program. These courses are designed to provide students with a foundational understanding of key concepts related to accounting, business, and management.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\04.jpg",
 
   questions: [
     // question no. 1

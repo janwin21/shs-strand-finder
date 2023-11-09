@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MATH = require("../subjectType/MATH");
+
 const BusinessMath = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MATH.name,
+  associatedStrands: [ABM.name],
 
   name: "Business Math",
   description:
     "A specialized branch of mathematics that focuses on mathematical concepts and techniques that are commonly used in various business and financial contexts. This field of mathematics is specifically tailored to meet the quantitative needs of businesses, organizations, and individuals involved in commerce, finance, and economics.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\03.jpg",
 
   questions: [
     // question no. 1

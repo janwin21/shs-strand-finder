@@ -1,12 +1,15 @@
 const STEM = require("../strand/STEM");
 
+const MATH = require("../subjectType/MATH");
+
 const BasicCalculus = {
-  associatedSubjects: [STEM.name],
+  associatedSubjectType: MATH.name,
+  associatedStrands: [STEM.name],
 
   name: "Basic Calculus",
   description:
     "An introductory course that provides students with a fundamental understanding of the principles and techniques of calculus. It covers the foundational concepts in differential and integral calculus, which are essential for various fields of science, engineering, mathematics, and economics.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\20.webp",
 
   questions: [
     // question no. 1

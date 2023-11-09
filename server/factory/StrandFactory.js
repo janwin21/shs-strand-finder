@@ -22,6 +22,17 @@ class StrandFactory {
     // SAVE
     await this.strand.save();
   }
+
+  async prodMake(strandType, name, description, imagePath) {
+    // INIT
+    this.strand.strandType = strandType;
+    this.strand.name = name;
+    this.strand.description = description;
+    this.strand.imagePath = imagePath;
+
+    // SAVE
+    await this.strand.save();
+  }
 }
 
 module.exports = StrandFactory;

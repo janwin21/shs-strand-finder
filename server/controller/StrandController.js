@@ -12,7 +12,13 @@ class StrandController {
   // CREATE
   async create(req, res) {
     const { strandTypeID, name, description } = req.body;
-    let imagePath = null;
+
+    // Check if an image was uploaded
+    if (!req.file) {
+      throw new Error("Set an image first!");
+    }
+
+    const imagePath = req.file.path;
 
     // Check if 'name' is missing
     if (!name) {
@@ -29,11 +35,6 @@ class StrandController {
 
     if (existingStrand) {
       throw new Error("This strand has already existed!");
-    }
-
-    // Check if an image was uploaded
-    if (req.file) {
-      imagePath = req.file.path;
     }
 
     // INIT
@@ -119,7 +120,11 @@ class StrandController {
     }
 
     // DELETE IMAGE
-    if (strand.imagePath && !strand.imagePath.includes("uploads\\sample")) {
+    if (
+      strand.imagePath &&
+      !strand.imagePath.includes("uploads\\sample") &&
+      !strand.imagePath.includes("uploads\\prod")
+    ) {
       const imagePath = path.join(__dirname, "../", strand.imagePath);
       fs.unlinkSync(imagePath);
     }

@@ -10,7 +10,13 @@ class SubjectController {
   // CREATE
   async create(req, res) {
     const { subjectTypeID, name, description } = req.body;
-    let imagePath = null;
+
+    // Check if an image was uploaded
+    if (!req.file) {
+      throw new Error("Set an image first!");
+    }
+
+    const imagePath = req.file.path;
 
     // Check if 'name' is missing
     if (!name) {
@@ -27,11 +33,6 @@ class SubjectController {
 
     if (existingSubject) {
       throw new Error("This subject has already existed!");
-    }
-
-    // Check if an image was uploaded
-    if (req.file) {
-      imagePath = req.file.path;
     }
 
     // INIT
@@ -124,7 +125,11 @@ class SubjectController {
     }
 
     // DELETE IMAGE
-    if (subject.imagePath && !subject.imagePath.includes("uploads\\sample")) {
+    if (
+      subject.imagePath &&
+      !subject.imagePath.includes("uploads\\sample") &&
+      !subject.imagePath.includes("uploads\\prod")
+    ) {
       const imagePath = path.join(__dirname, "../", subject.imagePath);
       fs.unlinkSync(imagePath);
     }

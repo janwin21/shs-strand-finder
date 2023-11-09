@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const TNCT = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Trends, Networks, and Critical Thinking in the 21st Century Culture",
   description:
     "Interdisciplinary subject or course that examines the contemporary cultural, social, and technological landscape. It focuses on the analysis of current trends, the impact of networks and connectivity, and the development of critical thinking skills to navigate the complex challenges and opportunities of the 21st century.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\09.jpg",
 
   questions: [
     // question no. 1

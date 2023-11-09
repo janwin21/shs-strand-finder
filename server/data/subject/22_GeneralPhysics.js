@@ -1,12 +1,15 @@
 const STEM = require("../strand/STEM");
 
+const SCIENCE = require("../subjectType/SCIENCE");
+
 const GeneralPhysics = {
-  associatedSubjects: [STEM.name],
+  associatedSubjectType: SCIENCE.name,
+  associatedStrands: [STEM.name],
 
   name: "General Physics",
   description:
     "An essential course for students pursuing careers in physics, engineering, astronomy, and related scientific fields. It equips students with the knowledge and problem-solving skills necessary to address physical questions and challenges in various contexts. The course provides a strong foundation for advanced studies in physics and related disciplines.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\22.jpg",
 
   questions: [
     // question no. 1

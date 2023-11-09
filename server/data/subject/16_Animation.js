@@ -1,12 +1,15 @@
 const ICT = require("../strand/ICT");
 
+const PROGRAMMING = require("../subjectType/PROGRAMMING");
+
 const Animation = {
-  associatedSubjects: [ICT.name],
+  associatedSubjectType: PROGRAMMING.name,
+  associatedStrands: [ICT.name],
 
   name: "Animation",
   description:
     "Provide students with the skills and knowledge to create compelling and visually engaging animations for various applications, from film and television to video games and web design. They emphasize both the technical aspects of animation and the artistic and creative elements that make animations captivating and memorable.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\16.webp",
 
   questions: [
     // question no. 1

@@ -1,12 +1,15 @@
 const ABM = require("../strand/ABM");
 
+const MARKETING = require("../subjectType/MARKETING");
+
 const PrinciplesOfMarketing = {
-  associatedSubjects: [ABM.name],
+  associatedSubjectType: MARKETING.name,
+  associatedStrands: [ABM.name],
 
   name: "Principles of Marketing",
   description:
     "A foundational course or subject in the field of marketing. It provides an introduction to the fundamental concepts, theories, and practices that underlie the discipline of marketing.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\06.jpg",
 
   questions: [
     // question no. 1

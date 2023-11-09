@@ -10,7 +10,8 @@ class QuestionFactory {
     this.question.questionImagePath = questionImagePath;
 
     // SAVE
-    await this.question.save();
+    const data = await this.question.save();
+    return data;
   }
 }
 

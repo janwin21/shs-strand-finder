@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const PPG = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Philippine Politics and Governance",
   description:
     "Examines the contemporary cultural, social, and technological landscape. It focuses on the analysis of current trends, the impact of networks and connectivity, and the development of critical thinking skills to navigate the complex challenges and opportunities of the 21st century.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\10.png",
 
   questions: [
     // question no. 1

@@ -1,12 +1,15 @@
 const HUMSS = require("../strand/HUMSS");
 
+const PHILOSOPHY = require("../subjectType/PHILOSOPHY");
+
 const DIASS = {
-  associatedSubjects: [HUMSS.name],
+  associatedSubjectType: PHILOSOPHY.name,
+  associatedStrands: [HUMSS.name],
 
   name: "Disciplines and Ideas in the Applied Social Sciences",
   description:
     "An academic subject or course that provides students with a comprehensive overview of the various disciplines within the applied social sciences. It explores the practical and real-world applications of social science knowledge and methodologies to address contemporary social issues and challenges.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\13.jpg",
 
   questions: [
     // question no. 1

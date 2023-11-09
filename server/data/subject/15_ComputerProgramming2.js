@@ -1,12 +1,15 @@
 const ICT = require("../strand/ICT");
 
+const PROGRAMMING = require("../subjectType/PROGRAMMING");
+
 const ComputerProgramming2 = {
-  associatedSubjects: [ICT.name],
+  associatedSubjectType: PROGRAMMING.name,
+  associatedStrands: [ICT.name],
 
   name: "Computer Programming 1 (.NET)",
   description:
     "An intermediate-level programming course that builds on the foundations established in Computer Programming 1 (often using Java or another language) and introduces students to programming concepts and techniques using the .NET framework. .NET is a software framework developed by Microsoft and includes a wide range of tools and libraries for building various types of applications, making it a valuable skill for software development.",
-  imagePath: "uploads\\sample\\img10.jpg",
+  imagePath: "uploads\\prod\\subject\\15.jpg",
 
   questions: [
     // question no. 1
