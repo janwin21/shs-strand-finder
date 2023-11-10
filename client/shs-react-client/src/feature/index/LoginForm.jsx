@@ -17,10 +17,11 @@ const mapDispatchToProps = (dispatch) => {
         type: action.SET_NOTIF,
         notifMessage: message,
       }),
+    welcome: (isWelcome) => dispatch({ type: action.SET_WELCOME, isWelcome }),
   };
 };
 
-function LoginForm({ loginUser, setNotif }) {
+function LoginForm({ loginUser, setNotif, welcome }) {
   const navigate = useNavigate();
 
   // UML
@@ -48,6 +49,7 @@ function LoginForm({ loginUser, setNotif }) {
     } else {
       loginUser(validateUser);
       Localhost.session("user", err.token);
+      welcome(true);
       navigate(dashboardRoute.path);
     }
   };

@@ -2,7 +2,7 @@ const dataStructure = {
   user: null,
   test: true,
   loading: true,
-  viewableSidebar: false,
+  viewableSidebar: true,
   viewablePE: false,
   strandTypeForDeletion: null,
   strandForDeletion: null,
@@ -16,6 +16,7 @@ const dataStructure = {
     title: "notif title",
     body: "This is the message!",
   },
+  isWelcome: false,
 };
 
 export { dataStructure };

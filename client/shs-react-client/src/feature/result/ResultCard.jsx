@@ -29,7 +29,7 @@ function ResultCard({ subject, donutChart }) {
             {subject.duration < 1 ? subject.duration * 100 : subject.duration}{" "}
             {subject.duration < 1 ? "sec" : "min"}
           </p>
-          <p className="card-text mb-0">leave count: 3</p>
+          <p className="card-text mb-0">leave count: {subject.noOfUnVisit}</p>
         </div>
       </div>
     </>

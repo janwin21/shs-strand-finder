@@ -9,6 +9,7 @@ const modalType = {
   ASSESSMENT_QUESTION_DELETION: "assessmentQuestionDeletion",
   QUESTION_NOT_SUBMIT_YET: "quesNotSubmitYet",
   NOTIFICATION: "notification",
+  WELCOME: "welcome",
 };
 
 export { modalType };

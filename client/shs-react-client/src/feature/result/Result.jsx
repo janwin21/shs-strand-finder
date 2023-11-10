@@ -61,7 +61,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
           orderedFinalResult: dataD.orderedFinalResult,
           peStrandResults: dataD.peStrandResults,
           subjectTypeResults: dataD.subjectTypeResults,
-          preferredStrand: dataD.predictedStrand, // PREDICTED STRAND
+          preferredStrand: dataD.preferredStrand,
+          predictedStrand: dataD.predictedStrand, // PREDICTED STRAND
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
@@ -146,7 +147,7 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
               <ResultSidebar
                 user={data?.user}
                 subjects={data?.subjects}
-                predictedStrand={data?.preferredStrand}
+                predictedStrand={data?.predictedStrand}
               />
             </div>
           </>

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { dashboardData } from "../../js/json-structure/dashboard";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import $ from "jquery";
 
 const mapStateToProps = (state) => {
   return {
@@ -19,12 +20,14 @@ const mapStateToProps = (state) => {
     viewablePE: state.store.viewablePE,
     strandForDeletion: state.store.strandForDeletion,
     strandTypeForDeletion: state.store.strandTypeForDeletion,
+    isWelcome: state.store.isWelcome,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    welcome: (isWelcome) => dispatch({ type: action.SET_WELCOME, isWelcome }),
   };
 };
 
@@ -33,7 +36,9 @@ function Dashboard({
   viewablePE,
   strandForDeletion,
   strandTypeForDeletion,
+  isWelcome,
   loginUser,
+  welcome,
 }) {
   const navigate = useNavigate();
 
@@ -72,7 +77,6 @@ function Dashboard({
 
   const fetchData = async () => {
     load(true);
-    console.log("LOADING: ", loading);
     const token = Localhost.sessionKey("user");
     const dataD = await new DashboardD().read(token);
 
@@ -91,7 +95,23 @@ function Dashboard({
       });
       setSelectedStrand(dataD.selectedStrand);
       load(false);
-      console.log(loading);
+
+      // SET WELCOME NOTIF IN FIRST VISIT
+      if (isWelcome == true) {
+        $(() => {
+          const welcomeDisplay = $("#welcome");
+
+          if (
+            !welcomeDisplay.hasClass("show") &&
+            !welcomeDisplay.hasClass("used")
+          ) {
+            $("#welcome-modal").click();
+            welcomeDisplay.addClass("used");
+          }
+        });
+      }
+
+      welcome(false);
       /*
       console.log(
         dataD.pendingSubjects.length,

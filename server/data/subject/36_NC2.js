@@ -9,7 +9,7 @@ const NC2 = {
   name: "Shielded Metal Arc Welding 2 (NC 2)",
   description:
     "An advanced level subject that builds upon the foundational knowledge and skills acquired in Shielded Metal Arc Welding 1 (NC 1). This course is typically part of vocational and technical education programs in welding and is designed for students who have already mastered the basics of Shielded Metal Arc Welding (SMAW).",
-  imagePath: "uploads\\prod\\subject\\36.avif",
+  imagePath: "uploads\\prod\\subject\\36.jpg",
 
   questions: [
     // question no. 1

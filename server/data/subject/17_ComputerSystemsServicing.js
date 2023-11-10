@@ -9,7 +9,7 @@ const ComputerSystemsServicing = {
   name: "Computer Systems Servicing",
   description:
     "A vocational or technical subject that focuses on the installation, maintenance, and repair of computer systems and their components. This course is typically part of vocational or technical education programs and prepares students for careers in computer hardware and IT support.",
-  imagePath: "uploads\\prod\\subject\\17.avif",
+  imagePath: "uploads\\prod\\subject\\17.jpg",
 
   questions: [
     // question no. 1

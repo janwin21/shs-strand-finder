@@ -35,6 +35,7 @@ const reducer = (
 
     // NOTIF
     notifMessage,
+    isWelcome,
   }
 ) => {
   switch (type) {
@@ -82,6 +83,8 @@ const reducer = (
     // NOTIF
     case action.SET_NOTIF:
       return { ...state, notifMessage };
+    case action.SET_WELCOME:
+      return { ...state, isWelcome };
 
     // TEST
     case action.TEST:

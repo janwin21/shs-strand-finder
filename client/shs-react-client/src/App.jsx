@@ -34,6 +34,7 @@ import Nav from "./feature/nav/Nav.jsx";
 import SimpleModal from "./feature/modal/SimpleModal";
 import AssessmentModal from "./feature/modal/AssessmentModal";
 import NotifModal from "./feature/modal/NotifModal";
+import WelcomeModal from "./feature/modal/WelcomeModal.jsx";
 import Localhost from "./js/model/LocalHost";
 import Login from "./js/model/Login";
 import $ from "jquery";
@@ -56,6 +57,7 @@ const mapStateToProps = (state) => {
     assessmentQuestionForDeletion: state.store.assessmentQuestionForDeletion,
     subjectForPreparation: state.store.subjectForPreparation,
     notifMessage: state.store.notifMessage,
+    user: state.store.user,
   };
 };
 
@@ -110,6 +112,7 @@ function App({
   deleteAssessmentQuestion,
   deletePEQuestion,
   notifMessage,
+  user,
   logoutUser,
 }) {
   return (
@@ -189,7 +192,10 @@ function App({
           logoutUser();
           const login = new Login();
           const data = await login.logout();
-          if (data.success) Localhost.deleteSession("user");
+          if (data.success) {
+            Localhost.deleteSession("user");
+            $("#welcome").removeClass("used");
+          }
         }}
       />
 
@@ -328,7 +334,7 @@ function App({
       />
 
       {/* NOTIFICATION */}
-      {/* QUESTION NOT YET SUBMIT */}
+      {/* POP-UP MESSAGES */}
       <button
         type="button"
         data-bs-toggle="modal"
@@ -343,6 +349,18 @@ function App({
         title={notifMessage.title}
         body={notifMessage.body}
       />
+
+      {/* WELCOME MESSAGE */}
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target={"#" + modalType.WELCOME}
+        id="welcome-modal"
+        className="nav-link d-none"
+      >
+        ...
+      </button>
+      <WelcomeModal id={modalType.WELCOME} email={user?.email} />
     </Router>
   );
 }
