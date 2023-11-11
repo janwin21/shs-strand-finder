@@ -65,21 +65,8 @@ class PEController {
 
   // READ BY ID w/ PREV & NEXT
   async findByIdNav(req, res) {
-    const { peID } = req.params;
-
-    // FIND SINGLE DATA
-    let currentPE;
-
-    if (peID !== "none") {
-      // Find the current document by ID
-      currentPE = await PE.findById(peID).exec();
-    } else {
-      // If no ID is provided, find the first PE document
-      currentPE = await PE.findOne().sort({ _id: 1 }).exec();
-    }
-
     const user = req.user;
-    const pes = await PE.find().sort({ _id: 1 }).exec();
+    let pes = await PE.find().sort({ _id: 1 }).exec();
     const selectedPEs = await SelectedPE.find({
       user: user.id.toString(),
     }).exec();
@@ -100,26 +87,18 @@ class PEController {
       });
     }
 
-    if (answeredSize != 0) {
-      currentPE = pes[answeredSize];
-    }
-
-    const currentIndex = pes.findIndex((pe) => pe._id.equals(currentPE._id));
-
-    // Find the previous and next documents based on _id
-    const prevPE = await PE.findOne({ _id: { $lt: currentPE._id } })
-      .sort({ _id: -1 })
-      .exec();
-    const nextPE = await PE.findOne({ _id: { $gt: currentPE._id } })
-      .sort({ _id: 1 })
-      .exec();
+    pes = pes.map((mp, index) => ({
+      ...mp.toObject(),
+      index: index + 1,
+    }));
+    const uniquePEs = selectedPEs.map((sp) => sp.pe.toString());
+    const filteredPes = pes.filter(
+      (pe) => !uniquePEs.includes(pe._id.toString())
+    );
 
     const result = {
       user: req.user,
-      prev: prevPE ? prevPE._id : null,
-      next: nextPE ? nextPE._id : null,
-      ...currentPE.toObject(),
-      index: currentIndex + 1,
+      filteredPes,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,

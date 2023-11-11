@@ -32,7 +32,8 @@ function DashboardStrand({
           }
           viewSidebar(true);
         }}
-        className="card col-2 position-relative text-bg-dark p-0 m-3"
+        className="strand-card-child card col-2 position-relative text-bg-dark p-0 m-3"
+        id={`strand-card-${strand._id}`}
         style={{ height: "350px", cursor: "pointer" }}
       >
         <img

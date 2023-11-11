@@ -1,5 +1,4 @@
 import { useState } from "react";
-import sampleImg from "../../asset/strand/strand1.jpg";
 
 function PEChoices() {
   const [choice, setChoice] = useState({

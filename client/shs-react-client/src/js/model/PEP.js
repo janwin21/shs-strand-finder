@@ -6,10 +6,10 @@ class PEP {
   static selectedPEendPoint =
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/selectedPE";
 
-  async findByIdNav(id = "none", token) {
+  async assess(token) {
     try {
       // Send a GET request to create the PE
-      const response = await axios.get(PEP.endPoint + "/nav/" + id, {
+      const response = await axios.get(PEP.endPoint + "/nav/assess", {
         headers: {
           Authorization: `Bearer ${token}`, // Add the token as a bearer token
         },

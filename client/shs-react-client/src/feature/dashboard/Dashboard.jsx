@@ -1,8 +1,9 @@
+// import DashboardHeader from "./DashboardHeader";
+// import DashboardSidebar from "./DashboardSidebar";
+// import DashboardStrandType from "./DashboardStrandType";
+// import PEResult from "../layout/PEResult";
 import Loading from "../loading/Loading";
-import DashboardHeader from "./DashboardHeader";
-import DashboardSidebar from "./DashboardSidebar";
-import DashboardStrandType from "./DashboardStrandType";
-import PEResult from "../layout/PEResult";
+import { DashboardNoSideBar, DashboardWithSidebar } from "./DashboardLayout";
 import DashboardD from "../../js/model/Dashboard";
 import Localhost from "../../js/model/LocalHost";
 import SelectedStrand from "../../js/model/SelectedStrand";
@@ -18,8 +19,6 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    strandForDeletion: state.store.strandForDeletion,
-    strandTypeForDeletion: state.store.strandTypeForDeletion,
     isWelcome: state.store.isWelcome,
   };
 };
@@ -34,29 +33,20 @@ const mapDispatchToProps = (dispatch) => {
 function Dashboard({
   viewableSidebar,
   viewablePE,
-  strandForDeletion,
-  strandTypeForDeletion,
   isWelcome,
   loginUser,
   welcome,
 }) {
+  console.log("RENDER TRIGGER: DASHBOARD");
   const navigate = useNavigate();
 
   // FETCH
   const [data, setData] = useState(dashboardData);
 
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
+  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
-
-  const [logoutUser, setLogoutUser] = useState({
-    accessToken: "access-token",
-  });
+  const [isFinish, finish] = useState(false);
 
   // FUNCTION
   const setStrand = async (strand) => {
@@ -77,6 +67,12 @@ function Dashboard({
 
   const fetchData = async () => {
     load(true);
+
+    // CHECK IF SESSION EXIST
+    if (!Localhost.has("user")) {
+      navigate(indexRoute.path);
+    }
+
     const token = Localhost.sessionKey("user");
     const dataD = await new DashboardD().read(token);
 
@@ -94,53 +90,25 @@ function Dashboard({
         strandTypes: dataD.strandTypes,
       });
       setSelectedStrand(dataD.selectedStrand);
+      finish(
+        dataD.pendingSubjects.length == 0 &&
+          dataD.personalEngagements.length != 0
+      );
       load(false);
 
       // SET WELCOME NOTIF IN FIRST VISIT
       if (isWelcome == true) {
         $(() => {
-          const welcomeDisplay = $("#welcome");
-
-          if (
-            !welcomeDisplay.hasClass("show") &&
-            !welcomeDisplay.hasClass("used")
-          ) {
-            $("#welcome-modal").click();
-            welcomeDisplay.addClass("used");
-          }
+          $("#welcome-modal").click();
         });
+        welcome(false);
       }
-
-      welcome(false);
-      /*
-      console.log(
-        dataD.pendingSubjects.length,
-        dataD.personalEngagements.length,
-        dataD.pendingSubjects.length == 0,
-        dataD.personalEngagements.length != 0,
-        dataD.pendingSubjects.length == 0 &&
-          dataD.personalEngagements.length != 0
-      );
-      */
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-  useEffect(() => {
-    if (strandForDeletion == null) {
-      fetchData();
-    }
-  }, [strandForDeletion]);
-  useEffect(() => {
-    if (strandTypeForDeletion == null) {
-      fetchData();
-    }
-  }, [strandTypeForDeletion]);
 
   return loading ? (
     <Loading />
@@ -154,76 +122,15 @@ function Dashboard({
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  <DashboardHeader
-                    user={data.user}
-                    finish={
-                      data.pendingSubjects.length == 0 &&
-                      data.personalEngagements.length != 0
-                    }
-                  />
-                  {data.strandTypes.map((strandType, i) => (
-                    <DashboardStrandType
-                      key={i}
-                      user={data.user}
-                      strandType={strandType}
-                      strandCb={setStrand}
-                    />
-                  ))}
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <DashboardNoSideBar data={data} isFinish={isFinish} cb={setStrand} />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    <DashboardHeader
-                      user={data.user}
-                      finish={
-                        data.pendingSubjects.length == 0 &&
-                        data.personalEngagements.length != 0
-                      }
-                    />
-                    {data.strandTypes.map((strandType, i) => (
-                      <DashboardStrandType
-                        key={i}
-                        user={data.user}
-                        strandType={strandType}
-                        strandCb={setStrand}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <DashboardWithSidebar
+            viewablePE={viewablePE}
+            data={data}
+            selectedStrand={selectedStrand}
+            isFinish={isFinish}
+            cb={setStrand}
+          />
         )}
       </main>
     </>

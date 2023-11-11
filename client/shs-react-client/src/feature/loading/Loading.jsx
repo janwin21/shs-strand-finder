@@ -3,7 +3,7 @@ function Loading() {
     <>
       <section className="position-absolute top-50 start-50 translate-middle text-center">
         <section>
-          <i class="fa-solid fa-spinner fs-1 text-primary"></i>
+          <i className="fa-solid fa-spinner fs-1 text-primary"></i>
         </section>
         <p className="roboto mt-4">Data are processing. Please wait...</p>
       </section>

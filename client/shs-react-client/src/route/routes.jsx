@@ -44,7 +44,9 @@ const _personalEngagementRoute = new RouteLink(
   <_PE />
 );
 const assessmentRoute = new RouteLink("/assessment", <Assessment />);
-const _assessmentRoute = new RouteLink("/_assessment", <_Assessment />);
+const _assessmentRoute = new RouteLink("/_assessment", <_Assessment />).with(
+  "subjectID"
+);
 const assessmentBurgerRoute = new RouteLink(
   "/assessment-burger",
   <AssessmentBurger />

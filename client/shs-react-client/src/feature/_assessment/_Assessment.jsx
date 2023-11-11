@@ -1,63 +1,56 @@
-import AssessmentPanel from "./AssessmentPanel";
-import DashboardSidebar from "../dashboard/DashboardSidebar";
-import PEResult from "../layout/PEResult";
+// import AssessmentPanel from "./AssessmentPanel";
+// import DashboardSidebar from "../dashboard/DashboardSidebar";
+// import PEResult from "../layout/PEResult";
 import Localhost from "../../js/model/LocalHost";
 import SubjectP from "../../js/model/SubjectP";
 import AnswerP from "../../js/model/Answer";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { assessmentData } from "../../js/json-structure/assessment";
 import {
   indexRoute,
   dashboardRoute,
-  viewSubjectRoute,
+  // viewSubjectRoute,
 } from "../../route/routes";
 import { action } from "../../redux/action";
+import { AssessmentNoSidebar, AssessmentWithSidebar } from "./AssessmentLayout";
 import Loading from "../loading/Loading";
+import $ from "jquery";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    subjectForPreparation: state.store.subjectForPreparation,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
   };
 };
 
-function _Assessment({
-  viewableSidebar,
-  viewablePE,
-  subjectForPreparation,
-  loginUser,
-}) {
+function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
+  console.log("RENDER TRIGGER: _ASSESSMENT");
   const navigate = useNavigate();
+  const { subjectID } = useParams();
 
   // FETCH
   const [data, setData] = useState(assessmentData);
   const [leaveCount, setLeaveCount] = useState(0);
-  const [subjectID, setSubjectID] = useState(subjectForPreparation._id);
 
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
+  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
-
-  const [choice, setChoice] = useState({
-    user: "",
-    answerKey: "",
-    correct: true,
-    noOfUnVisit: leaveCount,
-  });
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [currentIndex, nextIndex] = useState(0);
+  const [choice, setChoice] = useState(null);
 
   const callAccess = async () => {
     load(true);
@@ -66,20 +59,30 @@ function _Assessment({
     const dataD = await new SubjectP().readAssessment(subjectID, token);
 
     if (dataD?.error) {
-      console.log(dataD.error);
+      setNotif({
+        title: "Assessment Finished",
+        body: "This assessment was already answered. You can now check your result at your sidebar. After receiving this notification, you will be redirect to your Dashboard.",
+      });
+      $("#notif-modal").click();
       return navigate(dashboardRoute.path);
     }
 
     if (dataD?.response?.data?.error) {
+      setNotif({
+        title: "Server Problem Detected",
+        body: dataD?.response?.data?.error,
+      });
+      $("#notif-modal").click();
       navigate(indexRoute.path);
     } else {
       loginUser(dataD.user);
+      setCurrentQuestion(dataD.questions[currentIndex]);
       setData({
         ...data,
         user: dataD.user,
         isLast: dataD.isLast,
         subject: dataD.subject,
-        question: dataD.question,
+        questions: dataD.questions,
         preferredStrand: dataD.preferredStrand,
         personalEngagements: dataD.personalEngagements,
         subjects: dataD.subjects,
@@ -104,7 +107,7 @@ function _Assessment({
         setLeaveCount(leaveCount + 1);
         console.log(
           "USER WAS DETECTED OUTSIDE THE SYSTEM WHILE DOING AN ASSESSMENT: " +
-            leaveCount
+            (leaveCount + 1)
         );
       } else {
         // User has returned to the tab
@@ -129,16 +132,30 @@ function _Assessment({
       );
     };
   }, [leaveCount]);
-  useEffect(() => {}, [data]);
 
   // FUNCTION
-  const select = (user, answerKey, correct, leaveCount) => {
-    setChoice({ user, answerKey, correct, noOfUnVisit: leaveCount });
+  const select = (user, answerKey, correct, letter) => {
+    setChoice({ user, answerKey, correct, noOfUnVisit: leaveCount, letter });
   };
 
   const submit = async () => {
-    await new AnswerP().create(choice);
-    await callAccess();
+    if (choice.length != 0) {
+      await new AnswerP().create(choice);
+      setCurrentQuestion(data.questions[currentIndex + 1]);
+      nextIndex(currentIndex + 1);
+      setChoice(null);
+
+      if (currentIndex >= data.questions.length - 1) {
+        navigate(dashboardRoute.path);
+        return;
+      }
+
+      $(() => {
+        $(!viewableSidebar ? "main" : ".scrollable-section").animate({
+          scrollTop: 0,
+        });
+      });
+    }
   };
 
   return loading ? (
@@ -153,84 +170,25 @@ function _Assessment({
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  <AssessmentPanel
-                    user={data.user}
-                    subject={data.subject}
-                    question={data.question}
-                    cb={(user, answerKey, correct, noOfUnVisit) =>
-                      select(user, answerKey, correct, noOfUnVisit)
-                    }
-                  />
-                  {/*-- NEXT --*/}
-                  <button
-                    className="btn btn-dark float-end roboto px-4"
-                    onClick={submit}
-                  >
-                    {!data?.isLast ? "NEXT" : "SUBMIT"}
-                  </button>
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <AssessmentNoSidebar
+            data={data}
+            choice={choice}
+            currentQuestion={currentQuestion}
+            select={select}
+            submit={submit}
+            currentIndex={currentIndex}
+          />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    {/*-- NO SIDEBAR --*/}
-                    <div className="container">
-                      <div className="row">
-                        <section className="col-12 pb-4">
-                          <AssessmentPanel
-                            user={data.user}
-                            subject={data.subject}
-                            question={data.question}
-                            cb={(user, answerKey, correct) =>
-                              select(user, answerKey, correct, leaveCount)
-                            }
-                          />
-                          {/*-- NEXT --*/}
-                          <button
-                            className="btn btn-dark float-end roboto px-4"
-                            onClick={submit}
-                          >
-                            {!data?.isLast ? "NEXT" : "SUBMIT"}
-                          </button>
-                        </section>
-                        {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <AssessmentWithSidebar
+            viewablePE={viewablePE}
+            data={data}
+            choice={choice}
+            currentQuestion={currentQuestion}
+            select={select}
+            submit={submit}
+            currentIndex={currentIndex}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
     </>

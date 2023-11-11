@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { subjectData } from "../../js/json-structure/subject";
 import { indexRoute, viewSubjectRoute } from "../../route/routes";
 import { action } from "../../redux/action";
+import { SubjectNoSidebar, SubjectWithSidebar } from "./SubjectLayout";
 import Loading from "../loading/Loading";
+import SubjectHeader from "./SubjectHeader";
 
 const mapStateToProps = (state) => {
   return {
@@ -100,94 +102,13 @@ function Subject({
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  {data?.user?.isAdmin == true ? (
-                    <a
-                      onClick={(ev) => {
-                        ev.preventDefault();
-                        navigate(viewSubjectRoute.path);
-                      }}
-                      className="nav-link d-inline"
-                    >
-                      <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
-                        VIEWABLE QUESTIONS
-                      </button>
-                    </a>
-                  ) : (
-                    <></>
-                  )}
-                  {data.subjectTypes.map((subjectType, i) => {
-                    return (
-                      <SubjectType
-                        key={i}
-                        user={data.user}
-                        subjectType={subjectType}
-                      />
-                    );
-                  })}
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <SubjectNoSidebar data={data} />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    {data?.user?.isAdmin == true ? (
-                      <a
-                        onClick={(ev) => {
-                          ev.preventDefault();
-                          navigate(viewSubjectRoute.path);
-                        }}
-                        className="nav-link d-inline"
-                      >
-                        <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
-                          VIEWABLE QUESTIONS
-                        </button>
-                      </a>
-                    ) : (
-                      <></>
-                    )}
-                    {data.subjectTypes.map((subjectType, i) => {
-                      return (
-                        <SubjectType
-                          key={i}
-                          user={data.user}
-                          subjectType={subjectType}
-                        />
-                      );
-                    })}
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <SubjectWithSidebar
+            viewablePE={viewablePE}
+            data={data}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
     </>

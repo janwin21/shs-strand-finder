@@ -24,7 +24,7 @@ peRoute.get(
 peRoute.get("/", peController.findAll);
 peRoute.get("/:peID", peController.findById);
 peRoute.get(
-  "/nav/:peID",
+  "/nav/assess",
   authMiddleware.authorize,
   sideboardMiddleware.middleware,
   peController.findByIdNav

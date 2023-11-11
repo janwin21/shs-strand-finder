@@ -88,6 +88,7 @@ function AssessmentModal({ id, path = null, subject = null, cb = () => {} }) {
                     type="button"
                     onClick={() => {
                       cb(subject._id);
+                      console.log(path);
                       if (path) navigate(path);
                     }}
                     className="roboto fw-semibold btn btn-dark w-100"

@@ -1,6 +1,8 @@
 // MODEL
 const SubjectType = require("../../model/subject_types");
 const Subject = require("../../model/subjects");
+const Strand = require("../../model/strands");
+const StrandSubject = require("../../model/strand_subjects");
 const Question = require("../../model/questions");
 const AnswerKey = require("../../model/answer_keys");
 const Answer = require("../../model/answers");
@@ -14,6 +16,7 @@ class SubjectPController {
     // Find all SubjectType documents
     const subjectTypes = await SubjectType.find({}).exec();
     const subjects = await Subject.find({}).exec();
+    const strands = await Strand.find({}).exec();
 
     const mappedSubjects = await Promise.all(
       subjects.map(async (subject) => {
@@ -22,6 +25,27 @@ class SubjectPController {
           ...subject.toObject(),
           count,
           subjectType: subject.subjectType.toString(),
+        };
+      })
+    );
+
+    const mappedStrands = await Promise.all(
+      strands.map(async (strand) => {
+        const searchedStrandSubjects = await StrandSubject.find({
+          strand: strand._id,
+        });
+
+        const mappedStrandSubjects = searchedStrandSubjects.map((sss) => {
+          return sss.subject.toString();
+        });
+
+        let searchedSubjects = await Subject.find({
+          _id: { $in: mappedStrandSubjects },
+        }).exec();
+
+        return {
+          ...strand.toObject(),
+          subjects: searchedSubjects,
         };
       })
     );
@@ -42,6 +66,7 @@ class SubjectPController {
     res.json({
       user: req.user,
       subjectTypes: resultSubjectTypes,
+      strands: mappedStrands,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,
@@ -54,7 +79,7 @@ class SubjectPController {
     const { subjectID } = req.params;
     const user = req.user;
     const userSubject = await Subject.findOne({ _id: subjectID }).exec();
-    const currentQuestions = await Question.find({ subject: subjectID }).exec();
+    let currentQuestions = await Question.find({ subject: subjectID }).exec();
     const shuffledQuestions = _.shuffle(currentQuestions);
     let mappedQuestions = shuffledQuestions.map((ques) => ({
       ...ques.toObject(),
@@ -95,19 +120,31 @@ class SubjectPController {
       });
     }
 
-    // GET THE CURRENT POSITION
-    const currentQuestion = mappedQuestions[0];
-    currentQuestion.index = userAnsweredQuestion.length + 1;
+    mappedQuestions = mappedQuestions.map((mq, index) => ({
+      index: userAnsweredQuestion.length + index + 1,
+      ...mq,
+    }));
 
-    currentQuestion.answerKeys = await AnswerKey.find({
-      question: currentQuestion._id,
-    }).exec();
+    // GET THE CURRENT POSITION
+    currentQuestions = mappedQuestions;
+    currentQuestions = await Promise.all(
+      currentQuestions.map(async (cq, index) => {
+        let searchedAnswerKeys = await AnswerKey.find({
+          question: cq._id,
+        }).exec();
+
+        return {
+          ...cq,
+          answerKeys: searchedAnswerKeys,
+        };
+      })
+    );
 
     res.json({
       user: user,
       isLast: mappedQuestions.length == 1,
       subject: userSubject,
-      question: currentQuestion,
+      questions: currentQuestions,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,
       personalEngagements: req.pes,

@@ -23,7 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function Nav({
-  test,
   user,
   viewableSidebar,
   viewablePE,
@@ -35,7 +34,7 @@ function Nav({
 
   useEffect(() => {
     console.log(location.pathname);
-  }, [test, user]);
+  }, []);
 
   return (
     <>

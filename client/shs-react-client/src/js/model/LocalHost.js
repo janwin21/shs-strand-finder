@@ -16,6 +16,10 @@ class Localhost {
   static deleteSession(name) {
     localStorage.removeItem(Localhost.key + name);
   }
+
+  static has(name) {
+    return localStorage.getItem(Localhost.key + name) !== null;
+  }
 }
 
 export default Localhost;

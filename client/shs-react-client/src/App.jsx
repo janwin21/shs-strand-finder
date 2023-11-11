@@ -194,7 +194,6 @@ function App({
           const data = await login.logout();
           if (data.success) {
             Localhost.deleteSession("user");
-            $("#welcome").removeClass("used");
           }
         }}
       />
@@ -204,18 +203,29 @@ function App({
         id={modalType.STRAND_TYPE_DELETION}
         path={dashboardRoute.path}
         title={`Delete Strand Type ${
-          strandTypeForDeletion ? strandTypeForDeletion.name : "UNKNOWN"
+          strandTypeForDeletion ? strandTypeForDeletion.name : "FAILED"
         }`}
-        body={`Do you want to delete ${
-          strandTypeForDeletion ? strandTypeForDeletion.name : "UNKNOWN"
-        }? This will not be recover once deleted.`}
+        body={
+          strandTypeForDeletion
+            ? `Do you want to delete ${strandTypeForDeletion.name} ? This will not be recover once deleted.`
+            : "For security, you should delete all the subject first before deleting the Strand Type."
+        }
         yes="DELETE"
         no="CANCEL"
         cb={async () => {
+          if (!strandTypeForDeletion) return;
+
           const result = await new StrandType().delete(
             strandTypeForDeletion.id
           );
           deleteStrandType(null);
+
+          if (result?.acknowledged) {
+            $(() => {
+              $(`#strand-type-card-${strandTypeForDeletion.id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
@@ -235,6 +245,13 @@ function App({
         cb={async () => {
           const result = await new Strand().delete(strandForDeletion._id);
           deleteStrand(null);
+
+          if (result?.deletedStrand?.acknowledged) {
+            $(() => {
+              $(`#strand-card-${strandForDeletion._id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
@@ -326,7 +343,7 @@ function App({
       {/* ASSESSMENT QUESTION PREPARATION */}
       <AssessmentModal
         id={modalType.ASSESSMENT_PREPARATION}
-        path={_assessmentRoute.path}
+        path={_assessmentRoute.replace("subjectID", subjectForPreparation?._id)}
         subject={subjectForPreparation}
         cb={(subjectID) => {
           console.log(subjectID);

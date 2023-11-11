@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Localhost from "../../js/model/LocalHost";
 
-function AssessmentChoices({ user, answerKey, index, cb }) {
+function AssessmentChoices({ user, choice, answerKey, index, cb }) {
   const [letter] = useState([
     "a",
     "b",
@@ -35,8 +35,12 @@ function AssessmentChoices({ user, answerKey, index, cb }) {
     <>
       {/*-- CHOICES --*/}
       <button
-        className="btn btn-light w-100 p-3 my-2 d-flex flex-column"
-        onClick={() => cb(user.id, answerKey._id, answerKey.correct)}
+        className={`btn btn-${
+          choice?.letter === letter[index] ? "secondary" : "light"
+        } w-100 p-3 my-3 d-flex flex-column`}
+        onClick={() => {
+          cb(user.id, answerKey._id, answerKey.correct, letter[index]);
+        }}
       >
         {answerKey?.imagePath ? (
           <img
