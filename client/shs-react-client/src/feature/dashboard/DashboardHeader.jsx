@@ -34,8 +34,8 @@ function DashboardHeader({ user, finish }) {
             }}
             className="nav-link d-inline"
           >
-            <button className="btn btn-dark roboto px-4 fs-6 fw-semibold">
-              PERSONAL ENGAGEMENT
+            <button className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold">
+              PERSONAL ENGAGEMENTS
             </button>
           </a>
           <a
@@ -45,13 +45,13 @@ function DashboardHeader({ user, finish }) {
             }}
             className="nav-link d-inline"
           >
-            <button className="btn btn-primary text-light roboto px-4 ms-3 fs-6 fw-semibold">
+            <button className="btn btn-primary text-light roboto px-4 me-3 fs-6 fw-semibold">
               TAKE ASSESSMENT
             </button>
           </a>
           {finish ? (
             <Link to={resultRoute.path} className="nav-link d-inline">
-              <button className="btn btn-success text-light roboto px-4 ms-3 fs-6 fw-semibold">
+              <button className="btn btn-success text-light roboto px-4 me-3 fs-6 fw-semibold">
                 SEE RESULTS
               </button>
             </Link>

@@ -48,14 +48,14 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
     <>
       {/*-- ANSWERED --*/}
       <div
-        className="card bg-dark position-relative col-4 p-2"
+        className="card bg-dark position-relative col-6 col-md-12 col-lg-4 p-2"
         id={`question-card-${question._id}`}
       >
         <div
           className="card-body position-relative"
           style={{
             width: "100%",
-            height: "400px",
+            height: "250px",
             overflowY: "auto",
           }}
         >

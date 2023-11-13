@@ -36,7 +36,7 @@ function DashboardSidebar({
     <>
       {/*-- SIDEBAR --*/}
       <section
-        className="col-3 auto-overflow position-sticky top-0 end-0 justify-content-end bg-dark m-0 p-0"
+        className="col-12 col-md-6 col-lg-3 auto-overflow position-sticky top-0 end-0 justify-content-end bg-dark m-0 p-0"
         style={{ height: "94vh" }}
       >
         <h6 className="roboto text-light position-relative border-bottom border-light px-4 py-3">

@@ -34,57 +34,41 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
   const [access, fetchAccess] = useState(accessData);
 
   // UML
-  const { otherUser, setOtherUser } = useState({
-    userID: "user456",
-    isAdmin: true,
-  });
   const [loading, load] = useState(true);
+  const [selectedStrand, setSelectedStrand] = useState(null);
 
-  const { targetUser, setTargetUser } = useState({
-    email: "user@email.com",
-  });
-
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
-
-  useEffect(() => {
+  const fetchData = async () => {
     load(true);
 
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new FormAuth().adminAuth(token);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new FormAuth().adminAuth(token);
 
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        fetchAccess({ ...accessData, users: dataD.users });
-        fetchAuth({
-          ...data,
-          user: dataD.user,
-          users: dataD.users,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-        });
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      fetchAccess({ ...accessData, users: dataD.users });
+      fetchAuth({
+        ...data,
+        user: dataD.user,
+        users: dataD.users,
+        preferredStrand: dataD.preferredStrand,
+        personalEngagements: dataD.personalEngagements,
+        subjects: dataD.subjects,
+        pendingSubjects: dataD.pendingSubjects,
+        strandTypes: dataD.strandTypes,
+      });
 
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-      }
-    };
+      setSelectedStrand(dataD.selectedStrand);
+      load(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-
+  // FUNCTION
   const allow = async (i) => {
     const tempUser = access.users[i];
     console.log(tempUser);
@@ -134,7 +118,7 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 position-relative ${
+                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
                   !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >

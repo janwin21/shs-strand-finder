@@ -1,18 +1,34 @@
+// import { loginData } from "../../js/json-structure/login";
 import LoginForm from "./LoginForm";
 import login1 from "../../asset/login/login1.png";
 import login2 from "../../asset/login/login2.png";
+import Localhost from "../../js/model/LocalHost";
 import { useState, useEffect } from "react";
-import { loginData } from "../../js/json-structure/login";
+import { dashboardRoute } from "../../route/routes";
+import { useNavigate } from "react-router-dom";
 import Loading from "../loading/Loading";
+import FormAuth from "../../js/model/FormAuth";
 
 function Index() {
-  // FETCH
-  const [data, fetchData] = useState(loginData);
+  const navigate = useNavigate();
+
+  // UML
   const [loading, load] = useState(true);
 
-  useEffect(() => {
+  const fetchData = async () => {
     load(true);
+    const token = Localhost.sessionKey("user");
+
+    if (token) {
+      const dataD = await new FormAuth().authAccess(token);
+      if (!dataD?.response?.data?.error) navigate(dashboardRoute.path);
+    }
+
     load(false);
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return loading ? (

@@ -23,7 +23,7 @@ function DashboardStrand({
   strandCb = null,
 }) {
   return (
-    <>
+    <section className="col-6 col-lg-3 m-0 p-2">
       {/*-- STRAND CONTAINER --*/}
       <div
         onClick={() => {
@@ -32,7 +32,7 @@ function DashboardStrand({
           }
           viewSidebar(true);
         }}
-        className="strand-card-child card col-2 position-relative text-bg-dark p-0 m-3"
+        className="strand-card-child card position-relative text-bg-dark p-0"
         id={`strand-card-${strand._id}`}
         style={{ height: "350px", cursor: "pointer" }}
       >
@@ -61,7 +61,7 @@ function DashboardStrand({
           <h6 className="card-title poppins">{strand.name}</h6>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

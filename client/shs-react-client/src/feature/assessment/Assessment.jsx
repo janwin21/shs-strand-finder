@@ -103,7 +103,7 @@ function Assessment({
           <>
             {/*-- W/ SIDEBAR --*/}
             <div className="row h-100">
-              <section className="col-9 h-100 auto-overflow position-relative pb-4 px-5">
+              <section className="col-12 col-md-6 col-lg-9 h-100 auto-overflow position-relative pb-4 px-5">
                 {/*-- STRAND TYPE CONTAINER --*/}
                 <section className="strand-type-container mt-5">
                   <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">

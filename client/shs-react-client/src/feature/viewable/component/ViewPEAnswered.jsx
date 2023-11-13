@@ -17,7 +17,7 @@ function ViewPEAnswered({ deletePEQuestion, pe, peNo }) {
     <>
       {/*-- ANSWERED --*/}
       <div
-        className="card bg-dark position-relative col-3 p-2 g-3"
+        className="card bg-dark position-relative col-6 col-md-12 col-lg-3 g-2"
         id={`pe-card-${pe._id}`}
       >
         <div className="card-body position-relative">

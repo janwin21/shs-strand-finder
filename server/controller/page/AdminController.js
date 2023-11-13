@@ -16,6 +16,12 @@ class AdminController {
     });
   }
 
+  async authAccess(req, res) {
+    res.json({
+      user: req.user,
+    });
+  }
+
   // edit access
   async access(req, res) {
     const { userID } = req.params;

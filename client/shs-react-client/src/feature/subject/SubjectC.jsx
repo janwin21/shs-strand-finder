@@ -20,14 +20,14 @@ const mapDispatchToProps = (dispatch) => {
 
 function SubjectC({ deleteSubject, prepareSubject, user, subject }) {
   return (
-    <>
+    <section className="col-6 col-lg-3 m-0 p-2">
       {/*-- SUBJECT CONTAINER --*/}
       <div
         data-bs-toggle="modal"
         data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
-        className="subject-card-child card col-2 position-relative text-bg-dark p-0 m-3"
+        className="subject-card-child card position-relative text-bg-dark"
         id={`subject-card-${subject._id}`}
-        style={{ height: "350px", cursor: "pointer" }}
+        style={{ height: "250px", cursor: "pointer" }}
         onClick={(event) => {
           event.preventDefault();
           prepareSubject(subject);
@@ -58,7 +58,7 @@ function SubjectC({ deleteSubject, prepareSubject, user, subject }) {
           <h6 className="card-title poppins">{subject.name}</h6>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

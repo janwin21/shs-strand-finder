@@ -1,16 +1,32 @@
+// import { registerData } from "../../js/json-structure/register";
 import RegisterForm from "./RegisterForm";
 import Loading from "../loading/Loading";
+import Localhost from "../../js/model/LocalHost";
+import { dashboardRoute } from "../../route/routes";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { registerData } from "../../js/json-structure/register";
+import FormAuth from "../../js/model/FormAuth";
 
 function Register() {
-  // FETCH
-  const [data, fetchData] = useState(registerData);
+  const navigate = useNavigate();
+
+  // UML
   const [loading, load] = useState(true);
 
-  useEffect(() => {
+  const fetchData = async () => {
     load(true);
+    const token = Localhost.sessionKey("user");
+
+    if (token) {
+      const dataD = await new FormAuth().authAccess(token);
+      if (!dataD?.response?.data?.error) navigate(dashboardRoute.path);
+    }
+
     load(false);
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return loading ? (

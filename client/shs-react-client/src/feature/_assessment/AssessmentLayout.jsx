@@ -58,7 +58,7 @@ function AssessmentWithSidebar({
       {/*-- W/ SIDEBAR --*/}
       <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
         <section
-          className={`scrollable-section col-9 h-100 position-relative ${
+          className={`scrollable-section col-12 col-md-6 col-lg-9 h-100 position-relative ${
             !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
           }`}
         >

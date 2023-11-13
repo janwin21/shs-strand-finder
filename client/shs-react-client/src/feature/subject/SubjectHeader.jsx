@@ -33,7 +33,7 @@ function SubjectHeader({ user, setType }) {
                 }}
                 className="nav-link d-inline"
               >
-                <button className="btn btn-dark roboto px-4 fs-6 fw-semibold">
+                <button className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold">
                   BY SUBJECT TYPE
                 </button>
               </a>
@@ -44,7 +44,7 @@ function SubjectHeader({ user, setType }) {
                 }}
                 className="nav-link d-inline"
               >
-                <button className="btn btn-dark text-light roboto px-4 ms-3 fs-6 fw-semibold">
+                <button className="btn btn-dark text-light roboto px-4 me-3 fs-6 fw-semibold">
                   BY STRAND
                 </button>
               </a>

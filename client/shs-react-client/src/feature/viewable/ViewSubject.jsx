@@ -95,7 +95,7 @@ function ViewSubject({ viewableSidebar, viewablePE, loginUser }) {
             {/*-- W/ SIDEBAR --*/}
             <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
               <section
-                className={`col-9 h-100 position-relative ${
+                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
                   !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
                 }`}
               >

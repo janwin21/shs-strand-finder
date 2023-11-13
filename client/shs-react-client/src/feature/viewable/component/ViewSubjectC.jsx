@@ -9,15 +9,15 @@ function ViewSubjectC({ subjects }) {
           {subject.name}
         </h5>
         <section className="row">
-          <section className="col-2">
+          <section className="col-12 col-lg-2">
             <img
               src={Localhost.path() + subject.imagePath}
               className="card-img h-100"
               alt="strand img"
-              style={{ height: "300px", maxHeight: "300px", cursor: "pointer" }}
+              style={{ height: "250px", maxHeight: "250px", cursor: "pointer" }}
             />
           </section>
-          <section className="col-10">
+          <section className="col-12 col-lg-10">
             <section className="row">
               {subject?.questions?.map((question, i) => (
                 <ViewAssessment

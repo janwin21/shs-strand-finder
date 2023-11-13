@@ -16,6 +16,8 @@ class FormAuth {
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/question/auth/user";
   static adminEndPoint =
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/auth";
+  static authAccessEndPoint =
+    "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/auth/access";
   static accessEndPoint =
     "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/access";
 
@@ -114,6 +116,21 @@ class FormAuth {
     try {
       // Send a POST request to create the Dashboard
       const response = await axios.get(FormAuth.adminEndPoint, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the token as a bearer token
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  // USER AUTH
+  async authAccess(token) {
+    try {
+      // Send a GET request for Authrization
+      const response = await axios.get(FormAuth.authAccessEndPoint, {
         headers: {
           Authorization: `Bearer ${token}`, // Add the token as a bearer token
         },

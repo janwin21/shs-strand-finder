@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { connect } from "react-redux";
 import {
   indexRoute,
@@ -15,6 +20,7 @@ import {
   resultRoute,
   forgotRoute,
   resetRoute,
+  errorRoute,
 
   /* FORM */
   formStrandTypeRoute,
@@ -149,6 +155,7 @@ function App({
         <Route exact path={resultRoute.path} element={resultRoute.element} />
         <Route exact path={forgotRoute.path} element={forgotRoute.element} />
         <Route exact path={resetRoute.path} element={resetRoute.element} />
+        <Route exact path={errorRoute.path} element={errorRoute.element} />
 
         {/*-- FORM --*/}
         <Route
@@ -179,6 +186,9 @@ function App({
           path={viewSubjectRoute.path}
           element={viewSubjectRoute.element}
         />
+
+        {/*-- REDIRECT --*/}
+        <Route path="*" element={<Navigate to={errorRoute.path} />} />
       </Routes>
 
       {/* LOGOUT */}
