@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 import { action } from "../../../redux/action";
 import Subject from "../../../js/model/Subject";
 import StrandSubject from "../../../js/model/StrandSubject";
-import FormCheckBox from "../component/FormCheckBox";
-import FormRadioBtn from "../component/FormRadioBtn";
+import FormCheckBox from "../component/FormCheckbox.jsx";
+import FormRadioBtn from "../component/FormRadioBtn.jsx";
 import subject1 from "../../../asset/subject/subject1.jpg";
 import $ from "jquery";
 
