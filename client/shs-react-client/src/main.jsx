@@ -31,7 +31,7 @@ const renderApp = () => {
   );
 };
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV == "development") {
   renderApp();
 } else {
   // PRODUCTION

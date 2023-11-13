@@ -54,7 +54,8 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
       } else {
         loginUser(dataD.user);
         fetchAccess({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           strands: dataD.strands,
           preferredStrand: dataD.preferredStrand,
@@ -62,6 +63,7 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

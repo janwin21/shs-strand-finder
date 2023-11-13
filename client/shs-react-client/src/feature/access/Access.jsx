@@ -49,6 +49,8 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
       loginUser(dataD.user);
       fetchAccess({ ...accessData, users: dataD.users });
       fetchAuth({
+        ...dataD,
+        /*
         ...data,
         user: dataD.user,
         users: dataD.users,
@@ -57,6 +59,7 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
         subjects: dataD.subjects,
         pendingSubjects: dataD.pendingSubjects,
         strandTypes: dataD.strandTypes,
+        */
       });
 
       setSelectedStrand(dataD.selectedStrand);

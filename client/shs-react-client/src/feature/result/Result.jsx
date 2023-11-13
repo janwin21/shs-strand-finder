@@ -53,7 +53,8 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
           orderedFinalResult: dataD.orderedFinalResult,
         });
         setData({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           count: dataD.count,
           orderedSubjects: dataD.orderedSubjects,
@@ -66,6 +67,7 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

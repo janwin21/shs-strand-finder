@@ -65,7 +65,8 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
       } else {
         loginUser(dataD.user);
         fetchAccess({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           subjects: dataD.subjects,
           preferredStrand: dataD.preferredStrand,
@@ -73,6 +74,7 @@ function FormAssessment({ viewableSidebar, viewablePE, loginUser }) {
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

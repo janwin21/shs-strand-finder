@@ -60,7 +60,8 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
       } else {
         loginUser(dataD.user);
         fetchAccess({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           strandTypes: dataD.strandTypes,
           preferredStrand: dataD.preferredStrand,
@@ -68,6 +69,7 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

@@ -56,13 +56,15 @@ function FormStrandType({ viewableSidebar, viewablePE, loginUser }) {
       } else {
         loginUser(dataD.user);
         fetchAccess({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           preferredStrand: dataD.preferredStrand,
           personalEngagements: dataD.personalEngagements,
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

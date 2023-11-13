@@ -47,7 +47,8 @@ function Subject({ viewableSidebar, viewablePE, loginUser }) {
     } else {
       loginUser(dataD.user);
       setData({
-        ...data,
+        ...dataD,
+        /*
         user: dataD.user,
         subjectTypes: dataD.subjectTypes,
         strands: dataD.strands,
@@ -56,6 +57,7 @@ function Subject({ viewableSidebar, viewablePE, loginUser }) {
         subjects: dataD.subjects,
         pendingSubjects: dataD.pendingSubjects,
         strandTypes: dataD.strandTypes,
+        */
       });
       setSelectedStrand(dataD.selectedStrand);
       load(false);

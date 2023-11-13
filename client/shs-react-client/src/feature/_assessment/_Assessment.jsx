@@ -78,6 +78,8 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
       loginUser(dataD.user);
       setCurrentQuestion(dataD.questions[currentIndex]);
       setData({
+        ...dataD,
+        /*
         ...data,
         user: dataD.user,
         isLast: dataD.isLast,
@@ -88,6 +90,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
         subjects: dataD.subjects,
         pendingSubjects: dataD.pendingSubjects,
         strandTypes: dataD.strandTypes,
+        */
       });
       setSelectedStrand(dataD.selectedStrand);
       load(false);

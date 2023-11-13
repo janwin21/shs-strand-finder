@@ -61,7 +61,8 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
       } else {
         loginUser(dataD.user);
         fetchAccess({
-          ...data,
+          ...dataD,
+          /*
           user: dataD.user,
           strandTypes: dataD.strandTypes,
           strands: dataD.strands,
@@ -70,6 +71,7 @@ function FormSubject({ viewableSidebar, viewablePE, loginUser }) {
           subjects: dataD.subjects,
           pendingSubjects: dataD.pendingSubjects,
           strandTypes: dataD.strandTypes,
+          */
         });
 
         setSelectedStrand(dataD.selectedStrand);

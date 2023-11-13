@@ -71,6 +71,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
       setCurrentPE(dataD.filteredPes[currentIndex]);
       setPE({
         ...dataD,
+        /*
         user: dataD.user,
         filteredPes: dataD.filteredPes,
         preferredStrand: dataD.preferredStrand,
@@ -78,6 +79,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
         subjects: dataD.subjects,
         pendingSubjects: dataD.pendingSubjects,
         strandTypes: dataD.strandTypes,
+        */
       });
       setSelectedStrand(dataD.selectedStrand);
       load(false);

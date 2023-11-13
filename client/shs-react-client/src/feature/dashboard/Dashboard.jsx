@@ -81,6 +81,8 @@ function Dashboard({
     } else {
       loginUser(dataD.user);
       setData({
+        ...dataD,
+        /*
         ...data,
         user: dataD.user,
         preferredStrand: dataD.preferredStrand,
@@ -88,6 +90,7 @@ function Dashboard({
         subjects: dataD.subjects,
         pendingSubjects: dataD.pendingSubjects,
         strandTypes: dataD.strandTypes,
+        */
       });
       setSelectedStrand(dataD.selectedStrand);
       finish(
