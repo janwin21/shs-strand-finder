@@ -25,7 +25,8 @@ function SubjectC({ deleteSubject, prepareSubject, user, subject }) {
       <div
         data-bs-toggle="modal"
         data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
-        className="card col-2 position-relative text-bg-dark p-0 m-3"
+        className="subject-card-child card col-2 position-relative text-bg-dark p-0 m-3"
+        id={`subject-card-${subject._id}`}
         style={{ height: "350px", cursor: "pointer" }}
         onClick={(event) => {
           event.preventDefault();
@@ -54,7 +55,7 @@ function SubjectC({ deleteSubject, prepareSubject, user, subject }) {
           )}
         </a>
         <div className="bg-dark position-absolute p-2 bottom-0 w-100">
-          <h6 className="card-title roboto">{subject.name}</h6>
+          <h6 className="card-title poppins">{subject.name}</h6>
         </div>
       </div>
     </>

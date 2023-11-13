@@ -39,7 +39,10 @@ function ResultAssessment({ subjectTypes = [] }) {
     const outputSt = subjectTypes.map((st) => (
       <>
         {/*-- COL --*/}
-        <section key={st._id} className="col-3 pt-3 g-2">
+        <section
+          key={st._id}
+          className="col-3 pt-3 g-2 justify-content-center align-items-center"
+        >
           <h5 className="w-100 text-center poppins text-uppercase fw-semibold">
             {st.name}
           </h5>
@@ -61,9 +64,9 @@ function ResultAssessment({ subjectTypes = [] }) {
     <>
       {/*-- ASSESSMENT SCORE CONTAINER --*/}
       <section className="strand-type-container position-relative mt-5">
-        <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
+        <h4 className="w-100 text-primary poppins border-bottom border-dark text-uppercase fw-semibold">
           ASSESSMENT SCORES
-        </h5>
+        </h4>
         <section className="row mt-3 g-2">
           {/*-- USE MODULUS FOR ORGANIZATION --*/}
           {displayAssessmentChart()}

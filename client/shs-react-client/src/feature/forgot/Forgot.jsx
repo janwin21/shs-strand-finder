@@ -1,9 +1,20 @@
 import login1 from "../../asset/login/login1.png";
 import login2 from "../../asset/login/login2.png";
+import Loading from "../loading/Loading";
 import Form from "./Form";
+import { useState, useEffect } from "react";
 
 function Forgot() {
-  return (
+  const [loading, load] = useState(true);
+
+  useEffect(() => {
+    load(true);
+    load(false);
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -12,7 +23,7 @@ function Forgot() {
       >
         <div className="row w-100">
           <section className="col-8">
-            <Form />
+            <Form load={load} />
           </section>
           <section className="col-4 d-flex justify-content-end pe-0">
             {/*-- IMAGE DESIGN --*/}

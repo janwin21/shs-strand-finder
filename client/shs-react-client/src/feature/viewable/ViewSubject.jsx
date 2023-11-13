@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    assessmentQuestionForDeletion: state.store.assessmentQuestionForDeletion,
   };
 };
 
@@ -25,24 +24,14 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function ViewSubject({
-  viewableSidebar,
-  viewablePE,
-  assessmentQuestionForDeletion,
-  loginUser,
-}) {
+function ViewSubject({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
   const [data, setData] = useState(dashboardData);
 
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
+  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
 
   const fetchData = async () => {
@@ -72,14 +61,6 @@ function ViewSubject({
   useEffect(() => {
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-  useEffect(() => {
-    if (assessmentQuestionForDeletion == null) {
-      fetchData();
-    }
-  }, [assessmentQuestionForDeletion]);
 
   return loading ? (
     <Loading />

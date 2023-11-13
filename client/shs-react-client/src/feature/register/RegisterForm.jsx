@@ -1,4 +1,4 @@
-import { dashboardRoute } from "../../route/routes";
+import { indexRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { action } from "../../redux/action";
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function RegisterForm({ loginUser, setNotif }) {
+function RegisterForm({ loginUser, setNotif, load }) {
   const navigate = useNavigate();
 
   // UML
@@ -37,6 +37,7 @@ function RegisterForm({ loginUser, setNotif }) {
   // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
+    load(true);
     const register = new Register();
 
     loginUser({ ...newUser });
@@ -47,9 +48,11 @@ function RegisterForm({ loginUser, setNotif }) {
         title: "Registration Failed",
         body: err.error,
       });
+      load(false);
+      loginUser(null);
       notifBtn.click();
     } else {
-      navigate(dashboardRoute.path);
+      navigate(indexRoute.path);
     }
   };
 
@@ -58,7 +61,7 @@ function RegisterForm({ loginUser, setNotif }) {
       {/*-- REGISTER FORM --*/}
       <form
         onSubmit={submit}
-        className="w-75 d-flex flex-column justify-content-center align-items-center p-5"
+        className="w-75 d-flex flex-column justify-content-center align-items-center"
       >
         <h5 className="poppins text-light text-uppercase mb-5">
           REGISTRATION FORM

@@ -47,7 +47,10 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
   return (
     <>
       {/*-- ANSWERED --*/}
-      <div className="card bg-dark position-relative col-4 p-2">
+      <div
+        className="card bg-dark position-relative col-4 p-2"
+        id={`question-card-${question._id}`}
+      >
         <div
           className="card-body position-relative"
           style={{
@@ -69,12 +72,14 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
             <i className="fa-solid fa-rectangle-xmark text-danger fs-3 position-absolute top-0 end-0 m-2"></i>
           </a>
           {question?.questionImagePath ? (
-            <img
-              className="mb-3"
-              src={Localhost.path() + question?.questionImagePath}
-              alt="answer key image"
-              style={{ maxWidth: "100%" }}
-            />
+            <section className="p-0 m-0">
+              <img
+                className="mb-3"
+                src={Localhost.path() + question?.questionImagePath}
+                alt="answer key image"
+                style={{ maxWidth: "100%" }}
+              />
+            </section>
           ) : (
             <></>
           )}
@@ -91,12 +96,14 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
                 className={`btn btn-dark text-start roboto w-100 mb-2 px-2 fs-6`}
               >
                 {answerKey?.imagePath ? (
-                  <img
-                    className="mb-3"
-                    src={Localhost.path() + answerKey?.imagePath}
-                    alt="answer key image"
-                    style={{ maxWidth: "100%" }}
-                  />
+                  <section className="p-0 m-0">
+                    <img
+                      className="mb-3"
+                      src={Localhost.path() + answerKey?.imagePath}
+                      alt="answer key image"
+                      style={{ maxWidth: "100%" }}
+                    />
+                  </section>
                 ) : (
                   <></>
                 )}
@@ -104,15 +111,6 @@ function ViewAssessment({ deleteAssessmentQuestion, question, quesNo }) {
               </button>
             );
           })}
-
-          {/*-- DELETE QUESTIONS --*/}
-          {/*
-          <button
-            className={`btn btn-danger roboto w-100 mb-2 px-4 fs-6 fw-semibold`}
-          >
-            DELETE QUESTION
-          </button>
-          */}
         </div>
       </div>
     </>

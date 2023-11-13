@@ -1,19 +1,25 @@
 import { Chart } from "react-google-charts";
 import { useEffect, useState } from "react";
 import { chartEvents } from "../../js/chart/chart-event";
+import { modalType } from "../modal/modalType";
+// import { draw3DSphere } from "./3DSphere";
 import BarChartSubject from "../../js/chart/BarChartSubject";
 import BarChartStrand from "../../js/chart/BarChartStrand";
+import PieChartSubject from "../../js/chart/PieChartSubject";
 
 function ResultHeader({ subjects, strands }) {
   // BAR CHART
   const [barChartSubject] = useState(new BarChartSubject());
   const [barChartStrand] = useState(new BarChartStrand());
+  const [pieChartSubject] = useState(new PieChartSubject());
 
   // TABLES
   const subjectHeader = ["Subject", "Distance", { role: "style" }];
   const strandHeader = ["Strand", "Score", { role: "style" }];
+  const pieHeader = ["Strand", "Points"];
   const [subjectTable, setSubjectTable] = useState([]);
   const [strandTable, setStrandTable] = useState([]);
+  const [pieTable, setPieTable] = useState([]);
 
   // INIT
   useEffect(() => {
@@ -36,9 +42,23 @@ function ResultHeader({ subjects, strands }) {
 
     setStrandTable(table);
     barChartStrand.table = table;
+
+    // PIE CHART
+    table = [pieHeader];
+
+    strands?.forEach((strand) => {
+      table.push([strand.name, strand.sum]);
+    });
+
+    setPieTable(table);
+    pieChartSubject.table = table;
   }, [subjects]);
 
-  useEffect(() => {}, [subjectTable, strandTable]);
+  useEffect(() => {
+    // draw3DSphere();
+  }, [subjectTable, strandTable, pieTable]);
+
+  // FUNCTION
 
   return (
     <>
@@ -54,10 +74,18 @@ function ResultHeader({ subjects, strands }) {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
+          <button
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target={"#" + modalType.RESULT}
+            className="btn btn-dark roboto px-4 fs-6 fw-semibold"
+          >
+            TOP 3 Recomended Strands
+          </button>
 
           {/*-- HEADER ASSESSMENT RESULT --*/}
-          <section className="row mt-5">
-            <section className="col-6">
+          <section className="row">
+            <section className="col-6 mt-5">
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Subject
               </h6>
@@ -66,7 +94,7 @@ function ResultHeader({ subjects, strands }) {
                   chartType="ColumnChart"
                   data={barChartSubject.data()}
                   options={barChartSubject.option()}
-                  graph_id="UNIQUEID123"
+                  graph_id="UNIQUEID1"
                   width={"100%"}
                   height={"400px"}
                   chartEvents={chartEvents(barChartSubject)}
@@ -76,7 +104,7 @@ function ResultHeader({ subjects, strands }) {
                 <></>
               )}
             </section>
-            <section className="col-6">
+            <section className="col-6 mt-5">
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Strand
               </h6>
@@ -85,7 +113,7 @@ function ResultHeader({ subjects, strands }) {
                   chartType="ColumnChart"
                   data={barChartStrand.data()}
                   options={barChartStrand.option()}
-                  graph_id="UNIQUEID456"
+                  graph_id="UNIQUEID2"
                   width={"100%"}
                   height={"400px"}
                   chartEvents={chartEvents(barChartStrand)}
@@ -95,6 +123,40 @@ function ResultHeader({ subjects, strands }) {
                 <></>
               )}
             </section>
+            <section className="col-12 mt-5 d-flex flex-column justify-content-center align-items-center">
+              <h6 className="roboto fw-semibold mb-3">
+                Strand Ranking points by %
+              </h6>
+              {pieTable.length > 1 ? (
+                <div className="w-100" style={{ height: "800px" }}>
+                  <Chart
+                    chartType="PieChart"
+                    data={pieChartSubject.data()}
+                    options={pieChartSubject.option()}
+                    graph_id="UNIQUEID3"
+                    width={"100%"}
+                    height={"800px"}
+                    chartEvents={chartEvents(pieChartSubject)}
+                    legend_toggle
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
+            </section>
+            {/* 
+            <section className="col-6 mt-5" id="3DWebGL-cont">
+              <h6 className="roboto fw-semibold mb-3">KNN by 3D Coordinates</h6>
+              <canvas
+                id="3DWebGL"
+                style={{
+                  width: "100%",
+                  height: "400px",
+                  backgroundColor: "black",
+                }}
+              ></canvas>
+            </section>
+            */}
           </section>
         </div>
       </header>

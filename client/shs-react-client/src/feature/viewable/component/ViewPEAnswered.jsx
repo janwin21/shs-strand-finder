@@ -16,7 +16,10 @@ function ViewPEAnswered({ deletePEQuestion, pe, peNo }) {
   return (
     <>
       {/*-- ANSWERED --*/}
-      <div className="card bg-dark position-relative col-3 p-2 g-3">
+      <div
+        className="card bg-dark position-relative col-3 p-2 g-3"
+        id={`pe-card-${pe._id}`}
+      >
         <div className="card-body position-relative">
           <h6 className="card-subtitle poppins mb-3 text-light">
             Question No. {peNo}

@@ -35,17 +35,20 @@ function ResultPE({ strands = [] }) {
     <>
       {/*-- PERSONAL ENGAGEMENT CONTAINER --*/}
       <section className="strand-type-container mt-5">
-        <h5 className="w-100 poppins border-bottom border-dark text-uppercase fw-semibold">
+        <h4 className="w-100 text-primary poppins border-bottom border-dark text-uppercase fw-semibold">
           PERSONAL ENGAGEMENTS
-        </h5>
+        </h4>
         <section className="row mt-3 g-2">
           {/*-- USE MODULUS FOR ORGANIZATION --*/}
           {strands?.map((strand, index) => (
             <>
               {/*-- COL-1 --*/}
-              <section key={strand._id} className="col-3">
+              <section
+                key={index}
+                className="col-3 justify-content-center align-items-center"
+              >
                 {/*-- PROBABILITY CARD  --*/}
-                <div className="card bg-light p-2 mt-2">
+                <div className="card bg-light h-100 p-2 mt-2">
                   {/*-- CHART DISPLAY --*/}
                   <Chart
                     chartType="PieChart"

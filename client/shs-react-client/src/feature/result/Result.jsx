@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { resultData } from "../../js/json-structure/result/";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
-import "../../js/result";
 import Loading from "../loading/Loading";
+import "../../js/result";
+import $ from "jquery";
 
 const mapStateToProps = (state) => {
   return {
@@ -34,12 +35,7 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
   const [data, setData] = useState(resultData);
 
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
+  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
 
   useEffect(() => {
@@ -52,7 +48,10 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
       if (dataD?.response?.data?.error) {
         navigate(indexRoute.path);
       } else {
-        loginUser(dataD.user);
+        loginUser({
+          ...dataD.user,
+          orderedFinalResult: dataD.orderedFinalResult,
+        });
         setData({
           ...data,
           user: dataD.user,
@@ -71,14 +70,15 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
 
         setSelectedStrand(dataD.selectedStrand);
         load(false);
+
+        $(() => {
+          $("#result-modal").click();
+        });
       }
     };
 
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
 
   return loading ? (
     <Loading />

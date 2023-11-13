@@ -46,6 +46,7 @@ import Subject from "./js/model/Subject.js";
 import SubjectType from "./js/model/SubjectType.js";
 import QuestionP from "./js/model/Question.js";
 import PEP from "./js/model/PEP.js";
+import ResultModal from "./feature/modal/ResultModal.jsx";
 
 const mapStateToProps = (state) => {
   return {
@@ -208,7 +209,7 @@ function App({
         body={
           strandTypeForDeletion
             ? `Do you want to delete ${strandTypeForDeletion.name} ? This will not be recover once deleted.`
-            : "For security, you should delete all the subject first before deleting the Strand Type."
+            : "For security, you should delete all the strands first before deleting the Strand Type."
         }
         yes="DELETE"
         no="CANCEL"
@@ -261,23 +262,34 @@ function App({
         id={modalType.SUBJECT_TYPE_DELETION}
         path={subjectRoute.path}
         title={`Delete Subject Type ${
-          subjectTypeForDeletion ? subjectTypeForDeletion.name : "UNKNOWN"
+          subjectTypeForDeletion ? subjectTypeForDeletion.name : "FAILED"
         }`}
-        body={`Do you want to delete ${
-          subjectTypeForDeletion ? subjectTypeForDeletion.name : "UNKNOWN"
-        }? This will not be recover once deleted.`}
+        body={
+          subjectTypeForDeletion
+            ? `Do you want to delete ${subjectTypeForDeletion.name} ? This will not be recover once deleted.`
+            : "For security, you should delete all the subjects first before deleting the Subject Type."
+        }
         yes="DELETE"
         no="CANCEL"
         cb={async () => {
+          if (!subjectTypeForDeletion) return;
+
           const result = await new SubjectType().delete(
             subjectTypeForDeletion.id
           );
           deleteSubjectType(null);
+
+          if (result?.acknowledged) {
+            $(() => {
+              $(`#subject-type-card-${subjectTypeForDeletion.id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
 
-      {/* STRAND DELETION */}
+      {/* SUBJECT DELETION */}
       <SimpleModal
         id={modalType.SUBJECT_DELETION}
         path={subjectRoute.path}
@@ -292,6 +304,13 @@ function App({
         cb={async () => {
           const result = await new Subject().delete(subjectForDeletion._id);
           deleteSubject(null);
+
+          if (result?.deletedSubject?.acknowledged) {
+            $(() => {
+              $(`#subject-card-${subjectForDeletion._id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
@@ -311,6 +330,13 @@ function App({
         cb={async () => {
           const result = await new PEP().delete(peQuestionForDeletion._id);
           deletePEQuestion(null);
+
+          if (result?.pe?.acknowledged) {
+            $(() => {
+              $(`#pe-card-${peQuestionForDeletion._id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
@@ -336,6 +362,13 @@ function App({
             assessmentQuestionForDeletion._id
           );
           deleteAssessmentQuestion(null);
+
+          if (result?.deletedQuestion?.acknowledged) {
+            $(() => {
+              $(`#question-card-${assessmentQuestionForDeletion._id}`).remove();
+            });
+          }
+
           console.log("DELETION: ", result);
         }}
       />
@@ -378,6 +411,18 @@ function App({
         ...
       </button>
       <WelcomeModal id={modalType.WELCOME} email={user?.email} />
+
+      {/* RESULT NOTIFICATION */}
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target={"#" + modalType.RESULT}
+        id="result-modal"
+        className="nav-link d-none"
+      >
+        ...
+      </button>
+      <ResultModal id={modalType.RESULT} user={user} />
     </Router>
   );
 }

@@ -10,6 +10,7 @@ const modalType = {
   QUESTION_NOT_SUBMIT_YET: "quesNotSubmitYet",
   NOTIFICATION: "notification",
   WELCOME: "welcome",
+  RESULT: "result",
 };
 
 export { modalType };

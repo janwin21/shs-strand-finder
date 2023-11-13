@@ -36,7 +36,7 @@ function SidebarPendingSubject({ prepareSubject, pendingSubject }) {
               </h6>
               <a className="nav-link d-inline" href="#">
                 <button
-                  className="btn btn-secondary roboto px-4 fs-6"
+                  className="btn btn-secondary poppins px-4 fs-6"
                   data-bs-toggle="modal"
                   data-bs-target={"#" + modalType.ASSESSMENT_PREPARATION}
                   onClick={(event) => {
@@ -44,7 +44,7 @@ function SidebarPendingSubject({ prepareSubject, pendingSubject }) {
                     prepareSubject(pendingSubject);
                   }}
                 >
-                  TAKE ASSESSMENT
+                  Take Assessment
                 </button>
               </a>
             </div>

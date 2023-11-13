@@ -144,6 +144,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
       setCurrentQuestion(data.questions[currentIndex + 1]);
       nextIndex(currentIndex + 1);
       setChoice(null);
+      setLeaveCount(0);
 
       if (currentIndex >= data.questions.length - 1) {
         navigate(dashboardRoute.path);

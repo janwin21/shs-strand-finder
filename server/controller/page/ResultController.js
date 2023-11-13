@@ -205,12 +205,26 @@ class ResultController {
       });
     });
 
+    // ADD PERCENTAGE
+    const maxRankingPoints = orderedFinalResult.reduce((accumulator, r) => {
+      return accumulator + r.sum;
+    }, 0);
+
+    const KNNResult = orderedFinalResult.map((ofr) => {
+      const percentage = (ofr.sum / maxRankingPoints) * 100;
+      return {
+        ...ofr,
+        maxRankingPoints,
+        percentage: percentage.toFixed(2),
+      };
+    });
+
     // RESPONSE
     res.json({
       user,
       count: mappedSubjects.length,
       orderedSubjects: results,
-      orderedFinalResult,
+      orderedFinalResult: KNNResult,
       subjectTypeResults: newSubjectTypes,
       selectedStrand: req.selectedStrand,
       preferredStrand: req.preferredStrand,

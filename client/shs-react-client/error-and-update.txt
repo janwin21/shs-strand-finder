@@ -4,6 +4,7 @@ Congratulations you have completed all the assessment etc..
          Top 1 
 Humss 20%     STEM 5%
 Top 2.         TOP 3
+= DONE
 
 =============================================================
 Pie Chart of all Subjects
@@ -12,13 +13,13 @@ Pie Chart of all Subjects
 Re-design Pie Chart
 
 =============================================================
-Re-design Questions
+Re-design Questions = DONE
 
 =============================================================
-Question Optimization
+Question Optimization = DONE
 
 =============================================================
-Redering Optimization
+Redering Optimization = ONGOING
 
 =============================================================
 Improve Authorization
@@ -27,7 +28,7 @@ Improve Authorization
 Web responsive
 
 =============================================================
-Improve Pop-ups and Modals
+Improve Pop-ups and Modals = ONGOING
 
 =============================================================
 Cleaning

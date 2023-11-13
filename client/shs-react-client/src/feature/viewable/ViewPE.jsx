@@ -15,7 +15,6 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    peQuestionForDeletion: state.store.peQuestionForDeletion,
   };
 };
 
@@ -25,12 +24,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function ViewPE({
-  viewableSidebar,
-  viewablePE,
-  peQuestionForDeletion,
-  loginUser,
-}) {
+function ViewPE({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
@@ -38,10 +32,9 @@ function ViewPE({
 
   // UML
   const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
+    userID: "",
+    id: "",
     imagePath: null,
-    accessToken: "access-token",
   });
   const [loading, load] = useState(true);
 
@@ -73,14 +66,6 @@ function ViewPE({
   useEffect(() => {
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-  useEffect(() => {
-    if (peQuestionForDeletion == null) {
-      fetchData();
-    }
-  }, [peQuestionForDeletion]);
 
   return loading ? (
     <Loading />

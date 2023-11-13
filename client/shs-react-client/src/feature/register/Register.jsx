@@ -1,12 +1,21 @@
 import RegisterForm from "./RegisterForm";
-import { useState } from "react";
+import Loading from "../loading/Loading";
+import { useState, useEffect } from "react";
 import { registerData } from "../../js/json-structure/register";
 
 function Register() {
   // FETCH
   const [data, fetchData] = useState(registerData);
+  const [loading, load] = useState(true);
 
-  return (
+  useEffect(() => {
+    load(true);
+    load(false);
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       {/*-- MAIN --*/}
       <main
@@ -30,7 +39,7 @@ function Register() {
         className="register position-absolute bg-dark end-0 d-flex justify-content-center align-items-center"
         style={{ height: "94vh" }}
       >
-        <RegisterForm />
+        <RegisterForm load={load} />
       </section>
 
       {/*-- DESIGN --*/}

@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function Form({ setNotif }) {
+function Form({ setNotif, load }) {
   const navigate = useNavigate();
 
   // UML
@@ -36,6 +36,7 @@ function Form({ setNotif }) {
   // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
+    load(true);
     const forgot = new Forgot();
     const error = await forgot.forgot(forgotUser);
 
@@ -44,6 +45,7 @@ function Form({ setNotif }) {
         title: "Reset Authentication Error",
         body: error?.response?.data?.error,
       });
+      load(false);
       notifBtn.click();
     } else {
       console.log(error);

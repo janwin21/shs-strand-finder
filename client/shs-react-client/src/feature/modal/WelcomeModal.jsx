@@ -146,7 +146,6 @@ function WelcomeModal({ id, email = "user@email.com" }) {
                   Lets start the Assessment!!!
                 </p>
               </section>
-              <p className="roboto fs-5"></p>
             </div>
             <div className="modal-footer w-100">
               <div className="row w-100 justify-content-center align-items-center">

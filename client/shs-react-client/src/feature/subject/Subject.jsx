@@ -17,8 +17,6 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    subjectTypeForDeletion: state.store.subjectTypeForDeletion,
-    subjectForDeletion: state.store.subjectForDeletion,
   };
 };
 
@@ -28,25 +26,15 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function Subject({
-  viewableSidebar,
-  viewablePE,
-  subjectTypeForDeletion,
-  subjectForDeletion,
-  loginUser,
-}) {
+function Subject({ viewableSidebar, viewablePE, loginUser }) {
   const navigate = useNavigate();
 
   // FETCH
   const [data, setData] = useState(subjectData);
 
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
+  const [selectedStrand, setSelectedStrand] = useState(null);
+  const [type, setType] = useState("subject-type");
   const [loading, load] = useState(true);
 
   const fetchData = async () => {
@@ -62,6 +50,7 @@ function Subject({
         ...data,
         user: dataD.user,
         subjectTypes: dataD.subjectTypes,
+        strands: dataD.strands,
         preferredStrand: dataD.preferredStrand,
         personalEngagements: dataD.personalEngagements,
         subjects: dataD.subjects,
@@ -77,19 +66,6 @@ function Subject({
     fetchData();
   }, []);
 
-  // UPDATE subject data
-  useEffect(() => {}, [data]);
-  useEffect(() => {
-    if (subjectTypeForDeletion == null) {
-      fetchData();
-    }
-  }, [subjectTypeForDeletion]);
-  useEffect(() => {
-    if (subjectForDeletion == null) {
-      fetchData();
-    }
-  }, [subjectForDeletion]);
-
   return loading ? (
     <Loading />
   ) : (
@@ -102,11 +78,13 @@ function Subject({
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <SubjectNoSidebar data={data} />
+          <SubjectNoSidebar data={data} type={type} setType={setType} />
         ) : (
           <SubjectWithSidebar
             viewablePE={viewablePE}
             data={data}
+            type={type}
+            setType={setType}
             selectedStrand={selectedStrand}
           />
         )}

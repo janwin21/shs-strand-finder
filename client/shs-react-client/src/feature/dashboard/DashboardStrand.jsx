@@ -58,7 +58,7 @@ function DashboardStrand({
           <></>
         )}
         <div className="bg-dark position-absolute p-2 bottom-0 w-100">
-          <h5 className="card-title roboto">{strand.name}</h5>
+          <h6 className="card-title poppins">{strand.name}</h6>
         </div>
       </div>
     </>

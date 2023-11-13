@@ -2,24 +2,31 @@ import SubjectHeader from "./SubjectHeader";
 import SubjectType from "./SubjectType";
 import PEResult from "../layout/PEResult";
 import DashboardSidebar from "../dashboard/DashboardSidebar";
+import SubjectStrand from "./SubjectStrand";
 
-function SubjectNoSidebar({ data }) {
+function SubjectNoSidebar({ data, type, setType }) {
   return (
     <>
       {/*-- NO SIDEBAR --*/}
       <div className="container">
         <div className="row">
           <section className="col-12 pb-4">
-            <SubjectHeader user={data?.user} />
-            {data?.subjectTypes.map((subjectType, i) => {
-              return (
-                <SubjectType
-                  key={i}
-                  user={data.user}
-                  subjectType={subjectType}
-                />
-              );
-            })}
+            <SubjectHeader user={data?.user} setType={setType} />
+            {type === "subject-type"
+              ? data?.subjectTypes.map((subjectType, i) => {
+                  return (
+                    <SubjectType
+                      key={i}
+                      user={data.user}
+                      subjectType={subjectType}
+                    />
+                  );
+                })
+              : data?.strands.map((strand, i) => {
+                  return (
+                    <SubjectStrand key={i} user={data.user} strand={strand} />
+                  );
+                })}
           </section>
         </div>
       </div>
@@ -27,7 +34,13 @@ function SubjectNoSidebar({ data }) {
   );
 }
 
-function SubjectWithSidebar({ viewablePE, data, selectedStrand }) {
+function SubjectWithSidebar({
+  viewablePE,
+  data,
+  type,
+  setType,
+  selectedStrand,
+}) {
   return (
     <>
       {/*-- W/ SIDEBAR --*/}
@@ -39,31 +52,22 @@ function SubjectWithSidebar({ viewablePE, data, selectedStrand }) {
         >
           {!viewablePE ? (
             <>
-              <SubjectHeader user={data?.user} />
-              {data?.user?.isAdmin == true ? (
-                <a
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    navigate(viewSubjectRoute.path);
-                  }}
-                  className="nav-link d-inline"
-                >
-                  <button className="btn btn-dark text-light roboto px-4 mt-3 fs-6 fw-semibold">
-                    VIEWABLE QUESTIONS
-                  </button>
-                </a>
-              ) : (
-                <></>
-              )}
-              {data.subjectTypes.map((subjectType, i) => {
-                return (
-                  <SubjectType
-                    key={i}
-                    user={data.user}
-                    subjectType={subjectType}
-                  />
-                );
-              })}
+              <SubjectHeader user={data?.user} setType={setType} />
+              {type === "subject-type"
+                ? data?.subjectTypes.map((subjectType, i) => {
+                    return (
+                      <SubjectType
+                        key={i}
+                        user={data.user}
+                        subjectType={subjectType}
+                      />
+                    );
+                  })
+                : data?.strands.map((strand, i) => {
+                    return (
+                      <SubjectStrand key={i} user={data.user} strand={strand} />
+                    );
+                  })}
             </>
           ) : (
             <>

@@ -4,10 +4,10 @@ import ViewAssessment from "./ViewAssessment";
 function ViewSubjectC({ subjects }) {
   return subjects?.map((subject) => {
     return (
-      <section key={subject._id}>
-        <h6 className="roboto border-bottom border-light text-light position-relative px-4 py-3">
+      <section className="mt-5" key={subject._id}>
+        <h5 className="poppins text-warning position-relative px-4 py-3">
           {subject.name}
-        </h6>
+        </h5>
         <section className="row">
           <section className="col-2">
             <img

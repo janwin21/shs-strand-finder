@@ -21,13 +21,13 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-function LoginForm({ loginUser, setNotif, welcome }) {
+function LoginForm({ loginUser, setNotif, welcome, load }) {
   const navigate = useNavigate();
 
   // UML
   const [validateUser, setValidateUser] = useState({
-    email: "user@email.com",
-    password: "password",
+    email: "",
+    password: "",
   });
   const [notifBtn, setNotifBtn] = useState(null);
 
@@ -40,11 +40,13 @@ function LoginForm({ loginUser, setNotif, welcome }) {
   // FUNCTION
   const submit = async (event) => {
     event.preventDefault();
+    load(true);
     const login = new Login();
     const err = await login.auth(validateUser);
 
     if (err?.error) {
       setNotif({ title: "Authentication Failed", body: err.error });
+      load(false);
       notifBtn.click();
     } else {
       loginUser(validateUser);

@@ -63,10 +63,10 @@ class LoginController {
             isAdmin: user.isAdmin,
           },
         },
-        process.env.SHS_JWT_SECRET,
-        {
+        process.env.SHS_JWT_SECRET
+        /*{
           expiresIn: "1h",
-        }
+        }*/
       );
 
       // Save the token to the session
