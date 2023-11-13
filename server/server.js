@@ -83,35 +83,37 @@ app.use("/uploads", (req, res, next) => {
 });
 
 // MAIN MIDDLEWARE
+/* /shs-strand-finder/api/V1.0.0 */
+const serverName = "/shs-strand-finder/api/V1.0.0";
 app.use("/shs-strand-finder/test", testRoute);
-app.use("/shs-strand-finder/api/V1.0.0/user", userRoute);
-app.use("/shs-strand-finder/api/V1.0.0/subjectType", subjectTypeRoute);
-app.use("/shs-strand-finder/api/V1.0.0/subject", subjectRoute);
-app.use("/shs-strand-finder/api/V1.0.0/strandType", strandTypeRoute);
-app.use("/shs-strand-finder/api/V1.0.0/strandSubject", strandSubjectRoute);
-app.use("/shs-strand-finder/api/V1.0.0/strand", strandRoute);
-app.use("/shs-strand-finder/api/V1.0.0/selectedStrand", selectedStrandRoute);
-app.use("/shs-strand-finder/api/V1.0.0/selectedPE", selectedPERoute);
-app.use("/shs-strand-finder/api/V1.0.0/question", questionRoute);
-app.use("/shs-strand-finder/api/V1.0.0/pe", peRoute);
-app.use("/shs-strand-finder/api/V1.0.0/blocklistToken", blocklistTokenRoute);
-app.use("/shs-strand-finder/api/V1.0.0/answer", answerRoute);
-app.use("/shs-strand-finder/api/V1.0.0/answerKey", answerKeyRoute);
-app.use("/shs-strand-finder/api/V1.0.0/admin", adminRoute);
-app.use("/shs-strand-finder/api/V1.0.0/view", viewableRoute);
+app.use(serverName + "/user", userRoute);
+app.use(serverName + "/subjectType", subjectTypeRoute);
+app.use(serverName + "/subject", subjectRoute);
+app.use(serverName + "/strandType", strandTypeRoute);
+app.use(serverName + "/strandSubject", strandSubjectRoute);
+app.use(serverName + "/strand", strandRoute);
+app.use(serverName + "/selectedStrand", selectedStrandRoute);
+app.use(serverName + "/selectedPE", selectedPERoute);
+app.use(serverName + "/question", questionRoute);
+app.use(serverName + "/pe", peRoute);
+app.use(serverName + "/blocklistToken", blocklistTokenRoute);
+app.use(serverName + "/answer", answerRoute);
+app.use(serverName + "/answerKey", answerKeyRoute);
+app.use(serverName + "/admin", adminRoute);
+app.use(serverName + "/view", viewableRoute);
 
 // MIDDLEWARE => PAGES
-app.use("/shs-strand-finder/api/V1.0.0/result", resultRoute);
-app.use("/shs-strand-finder/api/V1.0.0/dashboard", dashboardRoute);
-app.use("/shs-strand-finder/api/V1.0.0/subjectP", subjectPRoute);
-app.use("/shs-strand-finder/api/V1.0.0/register", registerRoute);
-app.use("/shs-strand-finder/api/V1.0.0/login", loginRoute);
-app.use("/shs-strand-finder/api/V1.0.0/forgot", forgotRoute);
-app.use("/shs-strand-finder/api/V1.0.0/reset", resetRoute);
+app.use(serverName + "/result", resultRoute);
+app.use(serverName + "/dashboard", dashboardRoute);
+app.use(serverName + "/subjectP", subjectPRoute);
+app.use(serverName + "/register", registerRoute);
+app.use(serverName + "/login", loginRoute);
+app.use(serverName + "/forgot", forgotRoute);
+app.use(serverName + "/reset", resetRoute);
 
 // AUTHENTICATION
 const loginController = new LoginController();
-const loginURL = "/shs-strand-finder/api/V1.0.0/login";
+const loginURL = serverName + "/login";
 
 passport.use(
   new LocalStrategy(
@@ -138,7 +140,7 @@ app.post(loginURL, async (req, res, next) => {
 });
 
 // LOGOUT
-app.get("/shs-strand-finder/api/V1.0.0/logout", (req, res) => {
+app.get(serverName + "/logout", (req, res) => {
   // Clear the user's session (log them out)
   req.logout((err) => {
     if (err) {
