@@ -18,13 +18,12 @@ function DashboardHeader({ user, finish }) {
         <div className="card-body p-5">
           <h2 className="card-title poppins">Welcome to SHS Strand Finder</h2>
           <p className="card-text my-4 roboto">
-            Hello, {user.email}! Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
+            Hello, {user.email}! SHS Strand Finder is a website use to aid your
+            SHS career by providing recomendaded strand that commonly take by a
+            SHS student. All you have to do is to answer two assessments:
+            Personal Engagement and Assessment on each subject. After answering
+            all the assessment, the result button will be display for you to see
+            all the results and a graph for data analysis.
           </p>
           <a
             onClick={(ev) => {

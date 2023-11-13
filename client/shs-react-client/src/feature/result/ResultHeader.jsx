@@ -67,12 +67,20 @@ function ResultHeader({ subjects, strands }) {
         <div className="card-body p-5">
           <h2 className="card-title poppins">Your Assessment Result</h2>
           <p className="card-text my-4 roboto">
-            Hello, email! Lorem ipsum dolor sit amet, consectetur adipisicing
-            elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Thank you for completing all the assessments. Your dedication to
+            this process is truly appreciated. We are excited to present your
+            comprehensive results, which encapsulate a detailed overview of your
+            academic journey. Within this report, you will find a graphical
+            representation of your performance across various subjects and
+            strands. This visualization aims to provide you with valuable
+            insights and analysis, helping you identify preferences and
+            strengths. It encompasses not only subjects but also the diverse
+            strands available for exploration. Feel free to delve into the data,
+            explore the connections, and discover the wealth of information at
+            your fingertips. We believe that understanding your results in this
+            holistic manner will empower you to make informed decisions about
+            your academic path. Once again, thank you for your participation,
+            and we wish you continued success on your educational journey.
           </p>
           <button
             type="button"

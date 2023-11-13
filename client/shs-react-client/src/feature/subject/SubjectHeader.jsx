@@ -9,13 +9,10 @@ function SubjectHeader({ user, setType }) {
         <div className="card-body p-5">
           <h2 className="card-title poppins">Subject Assessments</h2>
           <p className="card-text my-4 roboto">
-            Hello, {user.email}! Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
+            Hello, {user.email}! This is all the subjects that you should visit
+            to answer the assessments. Take note, leaving the system while
+            answering the assessment will give you a leave count, which could
+            affect your result after all of the assessments.
           </p>
           {user?.isAdmin == true ? (
             <Link
