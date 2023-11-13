@@ -20,7 +20,7 @@ function AccessTable({ mainUser, accessData, cb }) {
           <tbody>
             {accessData.users.map((user, i) => {
               return mainUser.id === user._id ? (
-                <></>
+                ""
               ) : (
                 <tr key={user._id}>
                   <th scope="row">{user._id}</th>

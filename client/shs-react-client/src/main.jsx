@@ -31,6 +31,7 @@ const renderApp = () => {
   );
 };
 
+/*
 if (process.env.NODE_ENV == "development") {
   renderApp();
 } else {
@@ -41,3 +42,10 @@ if (process.env.NODE_ENV == "development") {
     </Provider>
   );
 }
+*/
+
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
