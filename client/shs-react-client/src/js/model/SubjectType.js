@@ -2,8 +2,7 @@ import axios from "axios";
 
 class SubjectType {
   // API endpoint
-  static endPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/subjectType";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/subjectType";
 
   async create(data) {
     try {

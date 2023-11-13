@@ -2,9 +2,9 @@ import axios from "axios";
 
 class PEP {
   // API endpoint
-  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/pe";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/pe";
   static selectedPEendPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/selectedPE";
+    "https://shsstrandfinder-com.onrender.com/selectedPE";
 
   async assess(token) {
     try {

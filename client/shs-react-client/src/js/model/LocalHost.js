@@ -2,7 +2,8 @@ class Localhost {
   static key = "shs-strand-finder-";
 
   static path() {
-    return "http:\\\\localhost:3000\\";
+    // "http:\\\\localhost:3000\\"
+    return "https:\\\\shsstrandfinder-com.onrender.com\\";
   }
 
   static session(name, value) {

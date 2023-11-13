@@ -2,9 +2,8 @@ import axios from "axios";
 
 class Login {
   // API endpoint
-  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/login";
-  static logoutEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/logout";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/login";
+  static logoutEndPoint = "https://shsstrandfinder-com.onrender.com/logout";
 
   async auth(data) {
     try {

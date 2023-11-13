@@ -2,7 +2,7 @@ import axios from "axios";
 
 class AnswerP {
   // API endpoint
-  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/answer";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/answer";
 
   // create Answer
   async create(data) {

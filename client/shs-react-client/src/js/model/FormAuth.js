@@ -3,23 +3,21 @@ import axios from "axios";
 class FormAuth {
   // API endpoint
   static strandTypeEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/strandType/auth/user";
+    "https://shsstrandfinder-com.onrender.com/strandType/auth/user";
   static strandEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/strand/auth/user";
+    "https://shsstrandfinder-com.onrender.com/strand/auth/user";
   static subjectTypeEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/subjectType/auth/user";
+    "https://shsstrandfinder-com.onrender.com/subjectType/auth/user";
   static subjectEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/subject/auth/user";
-  static peEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/pe/auth/user";
+    "https://shsstrandfinder-com.onrender.com/subject/auth/user";
+  static peEndPoint = "https://shsstrandfinder-com.onrender.com/pe/auth/user";
   static questionEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/question/auth/user";
-  static adminEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/auth";
+    "https://shsstrandfinder-com.onrender.com/question/auth/user";
+  static adminEndPoint = "https://shsstrandfinder-com.onrender.com/admin/auth";
   static authAccessEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/auth/access";
+    "https://shsstrandfinder-com.onrender.com/admin/auth/access";
   static accessEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/admin/access";
+    "https://shsstrandfinder-com.onrender.com/admin/access";
 
   // STRAND TYPE
   async strandTypeAuth(token) {

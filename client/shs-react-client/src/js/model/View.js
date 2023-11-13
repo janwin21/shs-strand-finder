@@ -3,9 +3,9 @@ import axios from "axios";
 class ViewD {
   // API endpoint
   static peEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/view/personal-engagement";
+    "https://shsstrandfinder-com.onrender.com/view/personal-engagement";
   static subjectEndPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/view/subject";
+    "https://shsstrandfinder-com.onrender.com/view/subject";
 
   async viewPE(token) {
     try {

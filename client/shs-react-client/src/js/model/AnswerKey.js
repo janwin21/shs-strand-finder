@@ -2,8 +2,7 @@ import axios from "axios";
 
 class AnswerKeyP {
   // API endpoint
-  static endPoint =
-    "http://localhost:3000/shs-strand-finder/api/V1.0.0/answerKey";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/answerKey";
 
   // create Answer Key
   async create(data) {

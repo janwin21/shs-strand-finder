@@ -2,7 +2,7 @@ import axios from "axios";
 
 class ResetD {
   // API endpoint
-  static endPoint = "http://localhost:3000/shs-strand-finder/api/V1.0.0/reset";
+  static endPoint = "https://shsstrandfinder-com.onrender.com/reset";
 
   async auth(token) {
     try {
