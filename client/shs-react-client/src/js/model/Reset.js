@@ -1,8 +1,9 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class ResetD {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/reset";
+  static endPoint = Localhost.mainPath + "reset";
 
   async auth(token) {
     try {

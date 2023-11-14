@@ -1,8 +1,9 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class Register {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/register";
+  static endPoint = Localhost.mainPath + "register";
 
   async register(data) {
     try {

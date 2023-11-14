@@ -1,5 +1,6 @@
 class Localhost {
   static key = "shs-strand-finder-";
+  static mainPath = "https://shsstrandfinder-com.onrender.com/api/V1.0.0/";
 
   static path() {
     // "http:\\\\localhost:3000\\"

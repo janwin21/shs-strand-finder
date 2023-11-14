@@ -1,10 +1,10 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class PEP {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/pe";
-  static selectedPEendPoint =
-    "https://shsstrandfinder-com.onrender.com/selectedPE";
+  static endPoint = Localhost.mainPath + "pe";
+  static selectedPEendPoint = Localhost.mainPath + "selectedPE";
 
   async assess(token) {
     try {

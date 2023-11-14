@@ -1,8 +1,9 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class SubjectP {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/subjectP";
+  static endPoint = Localhost.mainPath + "subjectP";
 
   async read(token) {
     try {

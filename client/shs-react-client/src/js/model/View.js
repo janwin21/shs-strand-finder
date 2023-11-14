@@ -1,11 +1,10 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class ViewD {
   // API endpoint
-  static peEndPoint =
-    "https://shsstrandfinder-com.onrender.com/view/personal-engagement";
-  static subjectEndPoint =
-    "https://shsstrandfinder-com.onrender.com/view/subject";
+  static peEndPoint = Localhost.mainPath + "view/personal-engagement";
+  static subjectEndPoint = Localhost.mainPath + "view/subject";
 
   async viewPE(token) {
     try {

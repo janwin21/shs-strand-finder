@@ -1,9 +1,10 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class Login {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/login";
-  static logoutEndPoint = "https://shsstrandfinder-com.onrender.com/logout";
+  static endPoint = Localhost.mainPath + "login";
+  static logoutEndPoint = Localhost.mainPath + "logout";
 
   async auth(data) {
     try {

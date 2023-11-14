@@ -1,8 +1,9 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class Forgot {
   // API endpoint
-  static endPoint = "https://shsstrandfinder-com.onrender.com/forgot";
+  static endPoint = Localhost.mainPath + "forgot";
 
   async forgot(data) {
     try {

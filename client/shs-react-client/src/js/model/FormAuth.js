@@ -1,23 +1,17 @@
 import axios from "axios";
+import Localhost from "./LocalHost";
 
 class FormAuth {
   // API endpoint
-  static strandTypeEndPoint =
-    "https://shsstrandfinder-com.onrender.com/strandType/auth/user";
-  static strandEndPoint =
-    "https://shsstrandfinder-com.onrender.com/strand/auth/user";
-  static subjectTypeEndPoint =
-    "https://shsstrandfinder-com.onrender.com/subjectType/auth/user";
-  static subjectEndPoint =
-    "https://shsstrandfinder-com.onrender.com/subject/auth/user";
-  static peEndPoint = "https://shsstrandfinder-com.onrender.com/pe/auth/user";
-  static questionEndPoint =
-    "https://shsstrandfinder-com.onrender.com/question/auth/user";
-  static adminEndPoint = "https://shsstrandfinder-com.onrender.com/admin/auth";
-  static authAccessEndPoint =
-    "https://shsstrandfinder-com.onrender.com/admin/auth/access";
-  static accessEndPoint =
-    "https://shsstrandfinder-com.onrender.com/admin/access";
+  static strandTypeEndPoint = Localhost.mainPath + "strandType/auth/user";
+  static strandEndPoint = Localhost.mainPath + "strand/auth/user";
+  static subjectTypeEndPoint = Localhost.mainPath + "subjectType/auth/user";
+  static subjectEndPoint = Localhost.mainPath + "subject/auth/user";
+  static peEndPoint = Localhost.mainPath + "pe/auth/user";
+  static questionEndPoint = Localhost.mainPath + "question/auth/user";
+  static adminEndPoint = Localhost.mainPath + "admin/auth";
+  static authAccessEndPoint = Localhost.mainPath + "admin/auth/access";
+  static accessEndPoint = Localhost.mainPath + "admin/access";
 
   // STRAND TYPE
   async strandTypeAuth(token) {
