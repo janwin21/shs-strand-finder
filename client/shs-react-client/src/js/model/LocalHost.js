@@ -1,10 +1,24 @@
 class Localhost {
   static key = "shs-strand-finder-";
-  static mainPath = "https://shsstrandfinder-com.onrender.com/api/V1.0.0/";
+
+  // path
+  static prodPath = "https://shsstrandfinder-com.onrender.com/api/V1.0.0/";
+  static devPath = "http://localhost:3000/shs-strand-finder/api/V1.0.0/";
+
+  // image path
+  static imgProdPath = "http:\\\\localhost:3000\\";
+  static imgDevPath = "https:\\\\shsstrandfinder-com.onrender.com\\";
+
+  static mainPath() {
+    return process.env.NODE_ENV == "development"
+      ? Localhost.devPath
+      : Localhost.prodPath;
+  }
 
   static path() {
-    // "http:\\\\localhost:3000\\"
-    return "https:\\\\shsstrandfinder-com.onrender.com\\";
+    return process.env.NODE_ENV == "development"
+      ? Localhost.imgDevPath
+      : Localhost.imgProdPath;
   }
 
   static session(name, value) {

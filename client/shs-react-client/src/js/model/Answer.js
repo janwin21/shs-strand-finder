@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class AnswerP {
   // API endpoint
-  static endPoint = Localhost.mainPath + "answer";
+  static endPoint = Localhost.mainPath() + "answer";
 
   // create Answer
   async create(data) {

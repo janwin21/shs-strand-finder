@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class Forgot {
   // API endpoint
-  static endPoint = Localhost.mainPath + "forgot";
+  static endPoint = Localhost.mainPath() + "forgot";
 
   async forgot(data) {
     try {

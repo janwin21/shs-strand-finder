@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class DashboardD {
   // API endpoint
-  static endPoint = Localhost.mainPath + "dashboard";
+  static endPoint = Localhost.mainPath() + "dashboard";
 
   async read(token) {
     try {

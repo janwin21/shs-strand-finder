@@ -3,8 +3,8 @@ import Localhost from "./LocalHost";
 
 class PEP {
   // API endpoint
-  static endPoint = Localhost.mainPath + "pe";
-  static selectedPEendPoint = Localhost.mainPath + "selectedPE";
+  static endPoint = Localhost.mainPath() + "pe";
+  static selectedPEendPoint = Localhost.mainPath() + "selectedPE";
 
   async assess(token) {
     try {

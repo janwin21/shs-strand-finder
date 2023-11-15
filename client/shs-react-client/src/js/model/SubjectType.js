@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class SubjectType {
   // API endpoint
-  static endPoint = Localhost.mainPath + "subjectType";
+  static endPoint = Localhost.mainPath() + "subjectType";
 
   async create(data) {
     try {

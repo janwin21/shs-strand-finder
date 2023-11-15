@@ -83,7 +83,7 @@ app.use("/uploads", (req, res, next) => {
 });
 
 // MAIN MIDDLEWARE
-const serverName = "/api/V1.0.0";
+const serverName = "/shs-strand-finder/api/V1.0.0";
 app.use("/shs-strand-finder/test", testRoute);
 app.use(serverName + "/user", userRoute);
 app.use(serverName + "/subjectType", subjectTypeRoute);

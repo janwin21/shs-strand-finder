@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class StrandType {
   // API endpoint
-  static endPoint = Localhost.mainPath + "strandType";
+  static endPoint = Localhost.mainPath() + "strandType";
 
   async create(data) {
     try {

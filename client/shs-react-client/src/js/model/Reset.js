@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class ResetD {
   // API endpoint
-  static endPoint = Localhost.mainPath + "reset";
+  static endPoint = Localhost.mainPath() + "reset";
 
   async auth(token) {
     try {

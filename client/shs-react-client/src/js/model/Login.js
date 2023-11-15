@@ -3,8 +3,8 @@ import Localhost from "./LocalHost";
 
 class Login {
   // API endpoint
-  static endPoint = Localhost.mainPath + "login";
-  static logoutEndPoint = Localhost.mainPath + "logout";
+  static endPoint = Localhost.mainPath() + "login";
+  static logoutEndPoint = Localhost.mainPath() + "logout";
 
   async auth(data) {
     try {

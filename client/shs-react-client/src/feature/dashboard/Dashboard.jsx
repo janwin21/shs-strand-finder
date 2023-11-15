@@ -75,6 +75,7 @@ function Dashboard({
 
     const token = Localhost.sessionKey("user");
     const dataD = await new DashboardD().read(token);
+    console.log(dataD);
 
     if (dataD?.response?.data?.error) {
       navigate(indexRoute.path);

@@ -3,15 +3,15 @@ import Localhost from "./LocalHost";
 
 class FormAuth {
   // API endpoint
-  static strandTypeEndPoint = Localhost.mainPath + "strandType/auth/user";
-  static strandEndPoint = Localhost.mainPath + "strand/auth/user";
-  static subjectTypeEndPoint = Localhost.mainPath + "subjectType/auth/user";
-  static subjectEndPoint = Localhost.mainPath + "subject/auth/user";
-  static peEndPoint = Localhost.mainPath + "pe/auth/user";
-  static questionEndPoint = Localhost.mainPath + "question/auth/user";
-  static adminEndPoint = Localhost.mainPath + "admin/auth";
-  static authAccessEndPoint = Localhost.mainPath + "admin/auth/access";
-  static accessEndPoint = Localhost.mainPath + "admin/access";
+  static strandTypeEndPoint = Localhost.mainPath() + "strandType/auth/user";
+  static strandEndPoint = Localhost.mainPath() + "strand/auth/user";
+  static subjectTypeEndPoint = Localhost.mainPath() + "subjectType/auth/user";
+  static subjectEndPoint = Localhost.mainPath() + "subject/auth/user";
+  static peEndPoint = Localhost.mainPath() + "pe/auth/user";
+  static questionEndPoint = Localhost.mainPath() + "question/auth/user";
+  static adminEndPoint = Localhost.mainPath() + "admin/auth";
+  static authAccessEndPoint = Localhost.mainPath() + "admin/auth/access";
+  static accessEndPoint = Localhost.mainPath() + "admin/access";
 
   // STRAND TYPE
   async strandTypeAuth(token) {

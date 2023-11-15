@@ -3,8 +3,8 @@ import Localhost from "./LocalHost";
 
 class ViewD {
   // API endpoint
-  static peEndPoint = Localhost.mainPath + "view/personal-engagement";
-  static subjectEndPoint = Localhost.mainPath + "view/subject";
+  static peEndPoint = Localhost.mainPath() + "view/personal-engagement";
+  static subjectEndPoint = Localhost.mainPath() + "view/subject";
 
   async viewPE(token) {
     try {

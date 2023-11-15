@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class ResultD {
   // API endpoint
-  static endPoint = Localhost.mainPath + "result";
+  static endPoint = Localhost.mainPath() + "result";
 
   async read(token) {
     try {

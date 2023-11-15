@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class Register {
   // API endpoint
-  static endPoint = Localhost.mainPath + "register";
+  static endPoint = Localhost.mainPath() + "register";
 
   async register(data) {
     try {

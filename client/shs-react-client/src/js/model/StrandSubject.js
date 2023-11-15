@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class StrandSubject {
   // API endpoint
-  static endPoint = Localhost.mainPath + "strandSubject";
+  static endPoint = Localhost.mainPath() + "strandSubject";
 
   async create(subjectID, dataArr) {
     try {

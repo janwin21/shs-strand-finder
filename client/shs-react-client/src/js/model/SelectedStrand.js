@@ -3,7 +3,7 @@ import Localhost from "./LocalHost";
 
 class SelectedStrand {
   // API endpoint
-  static endPoint = Localhost.mainPath + "selectedStrand/user/";
+  static endPoint = Localhost.mainPath() + "selectedStrand/user/";
 
   async create(userID, strandID) {
     try {
