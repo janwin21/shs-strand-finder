@@ -13,6 +13,11 @@ class FormAuth {
   static authAccessEndPoint = Localhost.mainPath() + "admin/auth/access";
   static accessEndPoint = Localhost.mainPath() + "admin/access";
 
+  // FAST
+  static fastAccessEndPoint = Localhost.mainPath() + "fast/auth";
+  static fastFormEndPoint = Localhost.mainPath() + "fast/form";
+  static fastAdminEndPoint = Localhost.mainPath() + "fast/admin/auth";
+
   // STRAND TYPE
   async strandTypeAuth(token) {
     try {
@@ -147,6 +152,41 @@ class FormAuth {
       return response.data;
     } catch (error) {
       console.log("error: ", error);
+      return error.response.data;
+    }
+  }
+
+  // FAST
+  async fastAuth(token) {
+    try {
+      // Send a GET request in Fast Access
+      const response = await axios.get(FormAuth.fastAccessEndPoint, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the token as a bearer token
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  async fastForm() {
+    try {
+      // Send a GET request in Fast Form
+      const response = await axios.get(FormAuth.fastFormEndPoint);
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
+  }
+
+  async fastAdminAuth() {
+    try {
+      // Send a GET request in Fast Access
+      const response = await axios.get(FormAuth.fastAdminEndPoint);
+      return response.data;
+    } catch (error) {
       return error.response.data;
     }
   }

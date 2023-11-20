@@ -6,8 +6,8 @@ class Localhost {
   static devPath = "http://localhost:3000/shs-strand-finder/api/V1.0.0/";
 
   // image path
-  static imgProdPath = "http:\\\\localhost:3000\\";
-  static imgDevPath = "https:\\\\shsstrandfinder-com.onrender.com\\";
+  static imgProdPath = "https:\\\\shsstrandfinder-com.onrender.com\\";
+  static imgDevPath = "http:\\\\localhost:3000\\";
 
   static mainPath() {
     return process.env.NODE_ENV == "development"

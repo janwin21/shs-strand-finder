@@ -1,5 +1,12 @@
 body {
   overflow: hidden;
+
+  #root {
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+  }
+
   img {
     object-fit: cover;
   }

@@ -12,11 +12,15 @@ import { indexRoute, dashboardRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
 import $ from "jquery";
+import TimeWatch from "../../js/TimeWatch";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
+    selectedStrand: state.store.selectedStrand,
+    tutorialCount: state.store.tutorialCount,
   };
 };
 
@@ -28,34 +32,71 @@ const mapDispatchToProps = (dispatch) => {
         type: action.SET_NOTIF,
         notifMessage: message,
       }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
+    viewTutorial: (viewableTutorial) =>
+      dispatch({
+        type: action.VIEW_TUTORIAL,
+        viewableTutorial,
+      }),
   };
 };
 
-function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
+function _Assessment({
+  viewableSidebar,
+  viewablePE,
+  loginUser,
+  fastData,
+  selectedStrand,
+  tutorialCount,
+  setNotif,
+  fastAccess,
+  setSelectedStrand,
+  viewTutorial,
+}) {
   console.log("RENDER TRIGGER: _PE");
   const navigate = useNavigate();
 
-  // FETCH
-  const [pe, setPE] = useState({});
-
   // UML
-  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
   const [currentPE, setCurrentPE] = useState(null);
   const [currentIndex, nextIndex] = useState(0);
   const [choice, setChoice] = useState("");
+  const [pep] = useState(new PEP());
 
-  const fetchData = async () => {
-    load(true);
+  const popupNotif = () => {
+    setNotif({
+      title: "Assessment Finished",
+      body: "This assessment was already answered. You can now check your result at your sidebar. After receiving this notification, you will be redirect to your Dashboard.",
+    });
+    $("#notif-modal").click();
+  };
+
+  // FAST ACCESS
+  const fast = async () => {
     const token = Localhost.sessionKey("user");
-    const dataD = await new PEP().assess(token);
+    const fastDataD = await pep.fastAssess(token);
+    fastAccess({ ...fastData, filteredPes: fastDataD.filteredPes });
+
+    if (!fastDataD?.filteredPes) {
+      popupNotif();
+      return navigate(dashboardRoute.path);
+    }
+
+    setCurrentPE(fastDataD.filteredPes[currentIndex]);
+    setSelectedStrand(fastDataD.selectedStrand);
+    if (tutorialCount != 0) viewTutorial(true);
+  };
+
+  // INITIAL ACCESS
+  const init = async () => {
+    const token = Localhost.sessionKey("user");
+    const dataD = await pep.assess(token);
 
     if (dataD?.error) {
-      setNotif({
-        title: "Assessment Finished",
-        body: "This assessment was already answered. You can now check your result in Personal Engagement result at your sidebar. After receiving this notification, you will be redirect to your Dashboard.",
-      });
-      $("#notif-modal").click();
+      popupNotif();
       return navigate(dashboardRoute.path);
     }
 
@@ -68,32 +109,33 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
       navigate(indexRoute.path);
     } else {
       loginUser(dataD.user);
+      fastAccess(dataD);
       setCurrentPE(dataD.filteredPes[currentIndex]);
-      setPE({
-        ...dataD,
-        /*
-        user: dataD.user,
-        filteredPes: dataD.filteredPes,
-        preferredStrand: dataD.preferredStrand,
-        personalEngagements: dataD.personalEngagements,
-        subjects: dataD.subjects,
-        pendingSubjects: dataD.pendingSubjects,
-        strandTypes: dataD.strandTypes,
-        */
-      });
       setSelectedStrand(dataD.selectedStrand);
-      load(false);
     }
   };
 
+  const fetchData = async () => {
+    if (!Localhost.has("user")) {
+      navigate(indexRoute.path);
+      return;
+    }
+
+    load(true);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
+
   useEffect(() => {
+    TimeWatch.cancel();
     fetchData();
   }, []);
 
   // FUNCTION
   const answer = async () => {
     await new PEP().answer({
-      user: pe.user.id,
+      user: fastData.user.id,
       pe: currentPE._id,
       yes: choice === "a",
     });
@@ -102,7 +144,7 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
   const nextCall = async () => {
     if (choice.length != 0) {
       await answer();
-      setCurrentPE(pe?.filteredPes[currentIndex + 1]);
+      setCurrentPE(fastData?.filteredPes[currentIndex + 1]);
       nextIndex(currentIndex + 1);
       setChoice("");
     }
@@ -135,21 +177,25 @@ function _Assessment({ viewableSidebar, viewablePE, loginUser, setNotif }) {
             choice={choice}
             setChoice={setChoice}
             cb={() =>
-              currentIndex < pe.filteredPes.length - 1 ? nextCall() : submit()
+              currentIndex < fastData.filteredPes.length - 1
+                ? nextCall()
+                : submit()
             }
-            isLast={currentIndex < pe.filteredPes.length - 1}
+            isLast={currentIndex < fastData.filteredPes.length - 1}
           />
         ) : (
           <PEWithSidebar
             viewablePE={viewablePE}
-            pe={pe}
+            pe={fastData}
             currentPE={currentPE}
             choice={choice}
             setChoice={setChoice}
             cb={() =>
-              currentIndex < pe.filteredPes.length - 1 ? nextCall() : submit()
+              currentIndex < fastData.filteredPes.length - 1
+                ? nextCall()
+                : submit()
             }
-            isLast={currentIndex < pe.filteredPes.length - 1}
+            isLast={currentIndex < fastData.filteredPes.length - 1}
             selectedStrand={selectedStrand}
           />
         )}

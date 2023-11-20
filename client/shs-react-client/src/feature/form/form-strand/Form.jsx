@@ -42,11 +42,6 @@ function Form({ setNotif, strand, cb, strandTypes }) {
   useEffect(() => {
     $(() => {
       setNotifBtn($("#notif-modal"));
-    });
-  }, []);
-
-  useEffect(() => {
-    $(() => {
       setUploadBtn($("#uploadBtn"));
     });
   }, []);

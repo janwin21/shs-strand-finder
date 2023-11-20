@@ -7,23 +7,51 @@ import {
   resultRoute,
   viewPERoute,
 } from "../../route/routes";
+import { action } from "../../redux/action";
+import { connect } from "react-redux";
 
-function DashboardHeader({ user, finish }) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    viewTutorial: (viewableTutorial) =>
+      dispatch({
+        type: action.VIEW_TUTORIAL,
+        viewableTutorial,
+      }),
+  };
+};
+
+function DashboardHeader({ viewTutorial, user, finish }) {
   const navigate = useNavigate();
+
+  const showTutorial = (ev) => {
+    ev.preventDefault();
+    viewTutorial(true);
+  };
 
   return (
     <>
       {/*-- PANEL DISPLAY --*/}
       <header className="card mt-5">
         <div className="card-body p-5">
-          <h2 className="card-title poppins">Welcome to SHS Strand Finder</h2>
+          <h2 className="card-title poppins">
+            Welcome to SHS Strand Finder
+            <button
+              className="btn btn-info ms-3 rounded-circle d-inline"
+              onClick={showTutorial}
+            >
+              <i class="fa-solid fa-question"></i>
+            </button>
+          </h2>
           <p className="card-text my-4 roboto">
             Hello, {user.email}! SHS Strand Finder is a website use to aid your
             SHS career by providing recomendaded strand that commonly take by a
             SHS student. All you have to do is to answer two assessments:
             Personal Engagement and Assessment on each subject. After answering
             all the assessment, the result button will be display for you to see
-            all the results and a graph for data analysis.
+            all the results and a graph for data analysis.{" "}
+            <span className="text-primary">
+              Click the question icon above for more help!
+            </span>
           </p>
           <a
             onClick={(ev) => {
@@ -33,21 +61,21 @@ function DashboardHeader({ user, finish }) {
             }}
             className="nav-link d-inline"
           >
-            <button className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold">
+            <button
+              id="tutorial-btn-1"
+              className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold"
+            >
               PERSONAL ENGAGEMENTS
             </button>
           </a>
-          <a
-            onClick={(ev) => {
-              ev.preventDefault();
-              navigate(subjectRoute.path);
-            }}
-            className="nav-link d-inline"
-          >
-            <button className="btn btn-primary text-light roboto px-4 me-3 fs-6 fw-semibold">
+          <Link to={subjectRoute.path} className="nav-link d-inline">
+            <button
+              id="tutorial-btn-2"
+              className="btn btn-primary text-light roboto px-4 me-3 fs-6 fw-semibold"
+            >
               TAKE ASSESSMENT
             </button>
-          </a>
+          </Link>
           {finish ? (
             <Link to={resultRoute.path} className="nav-link d-inline">
               <button className="btn btn-success text-light roboto px-4 me-3 fs-6 fw-semibold">
@@ -63,4 +91,4 @@ function DashboardHeader({ user, finish }) {
   );
 }
 
-export default DashboardHeader;
+export default connect(null, mapDispatchToProps)(DashboardHeader);

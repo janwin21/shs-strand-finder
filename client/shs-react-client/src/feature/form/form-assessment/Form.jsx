@@ -12,6 +12,7 @@ import FormRadioBtn from "../component/FormRadioBtn";
 import question1 from "../../../asset/assessment/question1.jpg";
 import answer1 from "../../../asset/answer/answer1.jpg";
 import $ from "jquery";
+import TimeWatch from "../../../js/TimeWatch";
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -27,6 +28,7 @@ function Form({ setNotif, question, cb, subjects }) {
   const navigate = useNavigate();
 
   const [uploadBtn, setUploadBtn] = useState(null);
+  const [notifBtn, setNotifBtn] = useState(null);
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -57,12 +59,6 @@ function Form({ setNotif, question, cb, subjects }) {
   useEffect(() => {
     $(() => {
       setUploadBtn($("#uploadBtn"));
-    });
-  }, []);
-  const [notifBtn, setNotifBtn] = useState(null);
-
-  useEffect(() => {
-    $(() => {
       setNotifBtn($("#notif-modal"));
     });
   }, []);

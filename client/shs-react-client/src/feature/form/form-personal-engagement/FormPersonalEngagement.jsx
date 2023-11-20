@@ -1,86 +1,86 @@
-import FormHeader from "../component/FormHeader";
-import Form from "./Form";
-import DashboardSidebar from "../../dashboard/DashboardSidebar";
-import PEResult from "../../layout/PEResult";
+// import FormHeader from "../component/FormHeader";
+// import Form from "./Form";
+// import DashboardSidebar from "../../dashboard/DashboardSidebar";
+// import PEResult from "../../layout/PEResult";
+// import { formData } from "../../../js/json-structure/form";
 import Localhost from "../../../js/model/LocalHost";
 import FormAuth from "../../../js/model/FormAuth";
+import Loading from "../../loading/Loading";
+import Strand from "../../../js/model/Strand";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { formData } from "../../../js/json-structure/form";
 import { indexRoute } from "../../../route/routes";
 import { action } from "../../../redux/action";
-import Loading from "../../loading/Loading";
+import { FormPENoSidebar, FormPEWithSidebar } from "./FormPELayout";
+import TimeWatch from "../../../js/TimeWatch";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
+    selectedStrand: state.store.selectedStrand,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
-function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
+function FormPersonalEngagement({
+  viewableSidebar,
+  viewablePE,
+  fastData,
+  selectedStrand,
+  loginUser,
+  fastAccess,
+  setSelectedStrand,
+}) {
   const navigate = useNavigate();
-
-  // FETCH
-  const [data, fetchAccess] = useState(formData);
 
   // UML
   const [personalEngagement, setPersonalEngagement] = useState({});
-
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "",
-    id: "",
-    imagePath: null,
-    accessToken: "",
-  });
   const [loading, load] = useState(true);
 
-  useEffect(() => {
+  // FAST ACCESS
+  const fast = async () => {
+    const data = await new Strand().read();
+    fastAccess({ ...fastData, strands: data.strands });
+  };
+
+  // INIT ACCESS
+  const init = async () => {
+    if (!Localhost.has("user")) navigate(indexRoute.path);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new FormAuth().peAuth(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      fastAccess(dataD);
+      setSelectedStrand(dataD.selectedStrand);
+    }
+  };
+
+  const fetchData = async () => {
     load(true);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
 
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new FormAuth().peAuth(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        fetchAccess({
-          ...dataD,
-          /*
-          user: dataD.user,
-          strands: dataD.strands,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-          */
-        });
-
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-      }
-    };
-
+  useEffect(() => {
+    TimeWatch.cancel();
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-
-  // FUNCTION
-  const change = (obj) => {
-    setPersonalEngagement(obj);
-  };
 
   return loading ? (
     <Loading />
@@ -94,74 +94,19 @@ function FormPersonalEngagement({ viewableSidebar, viewablePE, loginUser }) {
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- W/O SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  <FormHeader
-                    title="Create New Personal Engagement Question"
-                    instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
-                  />
-                  <Form
-                    personalEngagement={personalEngagement}
-                    cb={change}
-                    strands={data?.strands}
-                  />
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <FormPENoSidebar
+            data={fastData}
+            personalEngagement={personalEngagement}
+            change={setPersonalEngagement}
+          />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    <FormHeader
-                      title="Create New Personal Engagement Question"
-                      instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
-                    />
-                    <Form
-                      personalEngagement={personalEngagement}
-                      cb={change}
-                      strands={data?.strands}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <FormPEWithSidebar
+            viewablePE={viewablePE}
+            data={fastData}
+            personalEngagement={personalEngagement}
+            change={setPersonalEngagement}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
     </>

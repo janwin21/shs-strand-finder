@@ -90,6 +90,7 @@ function Nav({
                 <>
                   <Link
                     to={dashboardRoute.path}
+                    id="tutorial-btn-3"
                     className="nav-link roboto text-uppercase text-light fw-semibold fs-6"
                   >
                     DASHBOARD

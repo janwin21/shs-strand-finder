@@ -6,6 +6,9 @@ class PEP {
   static endPoint = Localhost.mainPath() + "pe";
   static selectedPEendPoint = Localhost.mainPath() + "selectedPE";
 
+  // FAST
+  static fastEndPoint = Localhost.mainPath() + "fast/pe";
+
   async assess(token) {
     try {
       // Send a GET request to create the PE
@@ -53,6 +56,21 @@ class PEP {
       return response.data;
     } catch (error) {
       return error;
+    }
+  }
+
+  // Fast Assess
+  async fastAssess(token) {
+    try {
+      // Send a GET request to create the PE
+      const response = await axios.get(PEP.fastEndPoint + "/nav/assess", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the token as a bearer token
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error creating PE:", error.message);
     }
   }
 }

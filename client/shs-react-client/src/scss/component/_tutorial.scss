@@ -1,0 +1,63 @@
+@use "../costumize" as *;
+
+.tutorial {
+  background-color: rgba($dark, 0.6);
+
+  & .tutorial-1 {
+    height: 350px;
+  }
+
+  & .tutorial-2 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    height: auto;
+
+    .tutorial-design {
+      width: 550px;
+
+      img {
+        opacity: 0.9;
+      }
+
+      .bg-img {
+        &.design-1 {
+          background: linear-gradient(to left, $light, transparent);
+        }
+        &.design-2 {
+          background: linear-gradient(to right, $light, transparent);
+        }
+        z-index: 5000;
+      }
+    }
+  }
+
+  .instruction {
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 10%;
+      width: 0;
+      height: 0;
+      border-left: 0.75rem solid transparent;
+      border-right: 0.75rem solid transparent;
+      border-bottom: 30px solid $dark;
+    }
+    margin-top: 4.5rem;
+  }
+
+  .instruction-dashboard {
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 10%;
+      width: 0;
+      height: 0;
+      border-left: 0.75rem solid transparent;
+      border-right: 0.75rem solid transparent;
+      border-bottom: 30px solid $dark;
+    }
+    margin-top: 2.5rem;
+  }
+}

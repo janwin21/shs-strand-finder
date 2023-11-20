@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 class AuthMiddleware {
+  // AUTHORIZE
   async authorize(req, res, next) {
     const authorizationHeader = req.header("Authorization");
     // const sessionToken = req.session.token;

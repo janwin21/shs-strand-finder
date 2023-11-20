@@ -1,0 +1,82 @@
+@use "../costumize" as *;
+// No media query necessary for xs breakpoint as it's effectively `@media (max-width: 0) { ... }`
+// @include media-breakpoint-down(sm) { ... }
+// @include media-breakpoint-down(md) { ... }
+// @include media-breakpoint-down(lg) { ... }
+// @include media-breakpoint-down(xl) { ... }
+// @include media-breakpoint-down(xxl) { ... }
+
+@include media-breakpoint-down(sm) {
+  h1 {
+    font-size: 1em !important;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+}
+@include media-breakpoint-down(md) {
+  h1 {
+    font-size: 1.5em !important;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+}
+@include media-breakpoint-down(lg) {
+  h1 {
+    font-size: 2.5em !important;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+}
+@include media-breakpoint-down(xl) {
+  h1 {
+    font-size: 3em !important;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+}
+@include media-breakpoint-down(xxl) {
+  h1 {
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+}

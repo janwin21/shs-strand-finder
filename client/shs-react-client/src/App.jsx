@@ -41,6 +41,7 @@ import SimpleModal from "./feature/modal/SimpleModal";
 import AssessmentModal from "./feature/modal/AssessmentModal";
 import NotifModal from "./feature/modal/NotifModal";
 import WelcomeModal from "./feature/modal/WelcomeModal.jsx";
+import TutorialModal from "./feature/modal/TutorialModal.jsx";
 import Localhost from "./js/model/LocalHost";
 import Login from "./js/model/Login";
 import $ from "jquery";
@@ -53,6 +54,7 @@ import SubjectType from "./js/model/SubjectType.js";
 import QuestionP from "./js/model/Question.js";
 import PEP from "./js/model/PEP.js";
 import ResultModal from "./feature/modal/ResultModal.jsx";
+import TimeWatch from "./js/TimeWatch.js";
 
 const mapStateToProps = (state) => {
   return {
@@ -101,6 +103,8 @@ const mapDispatchToProps = (dispatch) => {
         peQuestionForDeletion: peQuestion,
       }),
     logoutUser: () => dispatch({ type: action.LOGOUT_USER }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
   };
 };
 
@@ -121,6 +125,7 @@ function App({
   notifMessage,
   user,
   logoutUser,
+  fastAccess,
 }) {
   return (
     <Router>
@@ -204,7 +209,9 @@ function App({
           const login = new Login();
           const data = await login.logout();
           if (data.success) {
+            TimeWatch.cancel();
             Localhost.deleteSession("user");
+            fastAccess(null);
           }
         }}
       />
@@ -433,6 +440,9 @@ function App({
         ...
       </button>
       <ResultModal id={modalType.RESULT} user={user} />
+
+      {/* TUTORIAL */}
+      <TutorialModal />
     </Router>
   );
 }

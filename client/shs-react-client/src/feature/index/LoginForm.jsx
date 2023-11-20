@@ -18,10 +18,12 @@ const mapDispatchToProps = (dispatch) => {
         notifMessage: message,
       }),
     welcome: (isWelcome) => dispatch({ type: action.SET_WELCOME, isWelcome }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
   };
 };
 
-function LoginForm({ loginUser, setNotif, welcome, load }) {
+function LoginForm({ loginUser, setNotif, welcome, fastAccess, load }) {
   const navigate = useNavigate();
 
   // UML
@@ -53,13 +55,14 @@ function LoginForm({ loginUser, setNotif, welcome, load }) {
       Localhost.session("user", err.token);
       welcome(true);
       navigate(dashboardRoute.path);
+      fastAccess(null);
     }
   };
 
   return (
     <>
       {/*-- LOGIN FORM --*/}
-      <form onSubmit={submit} className="w-75">
+      <form onSubmit={submit} className="form-login">
         {/*-- EMAIL ADDRESS --*/}
         <div className="mb-4 w-100">
           <label

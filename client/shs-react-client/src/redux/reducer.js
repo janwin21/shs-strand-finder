@@ -15,6 +15,10 @@ const reducer = (
     // PERSONAL ENGAGEMENT VIEWABLE SIDEBAR
     viewablePE,
 
+    // VIEWABLE TUTORIAL
+    viewableTutorial,
+    tutorialCount,
+
     // STRANDS
     strandTypeForDeletion,
     strandForDeletion,
@@ -36,6 +40,12 @@ const reducer = (
     // NOTIF
     notifMessage,
     isWelcome,
+
+    // SET USER DATA
+    fastData,
+
+    // SET SELECTED STRAND
+    selectedStrand,
   }
 ) => {
   switch (type) {
@@ -53,6 +63,12 @@ const reducer = (
     // PERSONAL ENGAGEMENT VIEWABLE SIDEBAR
     case action.VIEW_PE:
       return { ...state, viewablePE };
+
+    // VIEWABLE TUTORIAL
+    case action.VIEW_TUTORIAL:
+      return { ...state, viewableTutorial };
+    case action.SET_TUTORIAL_COUNT:
+      return { ...state, tutorialCount };
 
     // STRANDS
     case action.DELETE_STRAND_TYPE:
@@ -85,6 +101,14 @@ const reducer = (
       return { ...state, notifMessage };
     case action.SET_WELCOME:
       return { ...state, isWelcome };
+
+    // SET FAST DATA
+    case action.SET_FAST_DATA:
+      return { ...state, fastData };
+
+    // SET SELECTED STRAND
+    case action.SET_SELECTED_STRAND:
+      return { ...state, selectedStrand };
 
     // TEST
     case action.TEST:

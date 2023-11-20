@@ -1,80 +1,90 @@
-import AccessHeader from "./AccessHeader";
-import AccessTable from "./AccessTable";
-import DashboardSidebar from "../dashboard/DashboardSidebar";
-import PEResult from "../layout/PEResult";
+// import AccessHeader from "./AccessHeader";
+// import AccessTable from "./AccessTable";
+// import DashboardSidebar from "../dashboard/DashboardSidebar";
+// import PEResult from "../layout/PEResult";
+// import { formData } from "../../js/json-structure/form";
+// import { accessData } from "../../js/json-structure/access";
 import Localhost from "../../js/model/LocalHost";
 import FormAuth from "../../js/model/FormAuth";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { formData } from "../../js/json-structure/form";
-import { accessData } from "../../js/json-structure/access";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
+import { AccessNoSidebar, AccessWithSidebar } from "./AccessLayout";
+import TimeWatch from "../../js/TimeWatch";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
+    selectedStrand: state.store.selectedStrand,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
-function Access({ viewableSidebar, viewablePE, loginUser }) {
+function Access({
+  viewableSidebar,
+  viewablePE,
+  fastData,
+  selectedStrand,
+  loginUser,
+  fastAccess,
+  setSelectedStrand,
+}) {
   const navigate = useNavigate();
-
-  // FETCH
-  const [data, fetchAuth] = useState(formData);
-  const [access, fetchAccess] = useState(accessData);
 
   // UML
   const [loading, load] = useState(true);
-  const [selectedStrand, setSelectedStrand] = useState(null);
+  const [formAuth] = useState(new FormAuth());
 
-  const fetchData = async () => {
-    load(true);
+  // FAST ACCESS
+  const fast = async () => {
+    const fastDataD = await formAuth.fastAdminAuth();
+    fastAccess({ ...fastData, users: fastDataD.users });
+  };
 
+  // INITIAL ACCESS
+  const init = async () => {
+    if (!Localhost.has("user")) navigate(indexRoute.path);
     const token = Localhost.sessionKey("user");
-    const dataD = await new FormAuth().adminAuth(token);
+    const dataD = await formAuth.adminAuth(token);
 
     if (dataD?.response?.data?.error) {
       navigate(indexRoute.path);
     } else {
       loginUser(dataD.user);
-      fetchAccess({ ...accessData, users: dataD.users });
-      fetchAuth({
-        ...dataD,
-        /*
-        ...data,
-        user: dataD.user,
-        users: dataD.users,
-        preferredStrand: dataD.preferredStrand,
-        personalEngagements: dataD.personalEngagements,
-        subjects: dataD.subjects,
-        pendingSubjects: dataD.pendingSubjects,
-        strandTypes: dataD.strandTypes,
-        */
-      });
-
+      fastAccess(dataD);
       setSelectedStrand(dataD.selectedStrand);
-      load(false);
     }
   };
 
+  const fetchData = async () => {
+    load(true);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
+
   useEffect(() => {
+    TimeWatch.cancel();
     fetchData();
   }, []);
 
   // FUNCTION
   const allow = async (i) => {
-    const tempUser = access.users[i];
-    console.log(tempUser);
+    const tempUser = fastData.users[i];
     const dataD = await new FormAuth().setAccess(
       tempUser._id,
       !tempUser.isAdmin
@@ -83,8 +93,8 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
     if (dataD?.response?.data?.error) {
       console.log(dataD.response.data.error);
     } else {
-      access.users[i].isAdmin = !tempUser.isAdmin;
-      fetchAccess({ ...access });
+      fastData.users[i].isAdmin = !tempUser.isAdmin;
+      fastAccess({ ...fastData });
     }
   };
 
@@ -100,58 +110,14 @@ function Access({ viewableSidebar, viewablePE, loginUser }) {
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  <AccessHeader email={data?.user?.email} />
-                  <AccessTable
-                    mainUser={data?.user}
-                    accessData={access}
-                    cb={(i) => allow(i)}
-                  />
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <AccessNoSidebar data={fastData} allow={allow} />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    <AccessHeader email={data?.user?.email} />
-                    <AccessTable
-                      mainUser={data?.user}
-                      accessData={access}
-                      cb={(i) => allow(i)}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <AccessWithSidebar
+            viewablePE={viewablePE}
+            data={fastData}
+            allow={allow}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
     </>

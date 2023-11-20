@@ -40,6 +40,15 @@ const resetRoute = require("./router/page/resetRoute");
 const adminRoute = require("./router/page/adminRoute");
 const viewableRoute = require("./router/viewRoute");
 
+// FAST ROUTE
+const fastRoute = require("./router/fastVersion1.0/fastRoute");
+const fastPERoute = require("./router/fastVersion1.0/peRoute");
+const fastViewableRoute = require("./router/fastVersion1.0/viewRoute");
+const fastAdminRoute = require("./router/fastVersion1.0/page/adminRoute");
+const fastDashboardRoute = require("./router/fastVersion1.0/page/dashboardRoute");
+const fastResultRoute = require("./router/fastVersion1.0/page/resultRoute");
+const fastSubjectRoute = require("./router/fastVersion1.0/page/subjectRoute");
+
 // IMPORT DB TEST
 const User = require("./model/users");
 
@@ -109,6 +118,15 @@ app.use(serverName + "/register", registerRoute);
 app.use(serverName + "/login", loginRoute);
 app.use(serverName + "/forgot", forgotRoute);
 app.use(serverName + "/reset", resetRoute);
+
+// FAST MIDDLEWARE
+app.use(serverName + "/fast", fastRoute);
+app.use(serverName + "/fast/pe", fastPERoute);
+app.use(serverName + "/fast/view", fastViewableRoute);
+app.use(serverName + "/fast/admin", fastAdminRoute);
+app.use(serverName + "/fast/dashboard", fastDashboardRoute);
+app.use(serverName + "/fast/result", fastResultRoute);
+app.use(serverName + "/fast/subject", fastSubjectRoute);
 
 // AUTHENTICATION
 const loginController = new LoginController();

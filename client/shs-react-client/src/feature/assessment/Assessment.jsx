@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     currentQuestion: state.store.currentQuestion,
-    subjectForPreparation: state.store.subjectForPreparation,
+    selectedStrand: state.store.selectedStrand,
   };
 };
 
@@ -22,14 +22,17 @@ const mapDispatchToProps = (dispatch) => {
         type: action.SET_CURRENT_QUESTION,
         currentQuestion: answer,
       }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
 function Assessment({
   viewableSidebar,
   currentQuestion,
-  subjectForPreparation,
+  selectedStrand,
   setCurrentQuestion,
+  setSelectedStrand,
 }) {
   // FETCH
   const [data, fetchData] = useState(assessmentData);

@@ -1,81 +1,83 @@
-import Form from "./Form";
-import Image from "./Image";
-import DashboardSidebar from "../dashboard/DashboardSidebar";
-import PEResult from "../layout/PEResult";
-import ResetD from "../../js/model/Reset";
+// import Form from "./Form";
+// import Image from "./Image";
+// import DashboardSidebar from "../dashboard/DashboardSidebar";
+// import PEResult from "../layout/PEResult";
+// import FormAuth from "../../js/model/FormAuth";
+// import { formData } from "../../js/json-structure/form";
 import Localhost from "../../js/model/LocalHost";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { formData } from "../../js/json-structure/form";
 import { indexRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
+import ResetD from "../../js/model/Reset";
+import { ResetNoSidebar, ResetWithSidebar } from "./ResetLayout";
+import TimeWatch from "../../js/TimeWatch";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
+    selectedStrand: state.store.selectedStrand,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
-function Reset({ viewableSidebar, viewablePE, loginUser }) {
+function Reset({
+  viewableSidebar,
+  viewablePE,
+  fastData,
+  selectedStrand,
+  loginUser,
+  fastAccess,
+  setSelectedStrand,
+}) {
   const navigate = useNavigate();
 
-  // FETCH
-  const [data, fetchAccess] = useState(formData);
-
   // UML
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "user123",
-    id: "strand123",
-    imagePath: null,
-    accessToken: "access-token",
-  });
   const [loading, load] = useState(true);
 
-  const [logoutUser, setLogoutUser] = useState({
-    accessToken: "access-token",
-  });
+  // FAST ACCESS
+  const fast = async () => {};
+
+  // INITIAL ACCESS
+  const init = async () => {
+    if (!Localhost.has("user")) navigate(indexRoute.path);
+
+    const token = Localhost.sessionKey("user");
+    const dataD = await new ResetD().auth(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      fastAccess(dataD);
+      setSelectedStrand(dataD.selectedStrand);
+    }
+  };
+
+  const fetchData = async () => {
+    load(true);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
 
   useEffect(() => {
-    load(true);
-
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new ResetD().auth(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        fetchAccess({
-          ...dataD,
-          /*
-          user: dataD.user,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-          */
-        });
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-      }
-    };
-
+    TimeWatch.cancel();
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
 
   return loading ? (
     <Loading />
@@ -91,52 +93,13 @@ function Reset({ viewableSidebar, viewablePE, loginUser }) {
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="row w-100">
-              <section className="col-8">
-                <Form />
-              </section>
-              <Image />
-            </div>
-          </>
+          <ResetNoSidebar />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div
-              className={`row align-items-center w-100 m-0 ${
-                viewablePE ? "bg-dark" : ""
-              } h-100`}
-            >
-              <section
-                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-                  !viewablePE
-                    ? "auto-overflow pb-4 px-5 d-flex flex-column justify-content-center"
-                    : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    <Form />
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <ResetWithSidebar
+            viewablePE={viewablePE}
+            data={fastData}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
 

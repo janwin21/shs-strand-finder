@@ -1,35 +1,49 @@
-import FormHeader from "../component/FormHeader";
-import Form from "./Form";
-import DashboardSidebar from "../../dashboard/DashboardSidebar";
-import PEResult from "../../layout/PEResult";
+// import FormHeader from "../component/FormHeader";
+// import Form from "./Form";
+// import DashboardSidebar from "../../dashboard/DashboardSidebar";
+// import PEResult from "../../layout/PEResult";
+// import { formData } from "../../../js/json-structure/form";
 import Localhost from "../../../js/model/LocalHost";
 import FormAuth from "../../../js/model/FormAuth";
+import Loading from "../../loading/Loading";
+import StrandType from "../../../js/model/StrandType";
+import TimeWatch from "../../../js/TimeWatch";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { formData } from "../../../js/json-structure/form";
 import { indexRoute } from "../../../route/routes";
 import { action } from "../../../redux/action";
-import Loading from "../../loading/Loading";
+import { FormStrandNoSidebar, FormStrandWithSidebar } from "./FormStrandLayout";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
+    selectedStrand: state.store.selectedStrand,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
-function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
+function FormStrand({
+  viewableSidebar,
+  viewablePE,
+  fastData,
+  selectedStrand,
+  loginUser,
+  fastAccess,
+  setSelectedStrand,
+}) {
   const navigate = useNavigate();
-
-  // FETCH
-  const [data, fetchAccess] = useState(formData);
 
   // UML
   const [strand, setStrand] = useState({
@@ -41,52 +55,38 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
   });
   const [loading, load] = useState(true);
 
-  const [selectedStrand, setSelectedStrand] = useState({
-    userID: "",
-    id: "",
-    imagePath: null,
-    accessToken: "",
-  });
+  // FAST ACCESS
+  const fast = async () => {
+    const data = await new StrandType().read();
+    fastAccess({ ...fastData, strandTypes: data.strandTypes });
+  };
+
+  // INITIAL ACCESS
+  const init = async () => {
+    if (!Localhost.has("user")) navigate(indexRoute.path);
+    const token = Localhost.sessionKey("user");
+    const dataD = await new FormAuth().strandAuth(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser(dataD.user);
+      fastAccess(dataD);
+      setSelectedStrand(dataD.selectedStrand);
+    }
+  };
+
+  const fetchData = async () => {
+    load(true);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
 
   useEffect(() => {
-    load(true);
-
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new FormAuth().strandAuth(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser(dataD.user);
-        fetchAccess({
-          ...dataD,
-          /*
-          user: dataD.user,
-          strandTypes: dataD.strandTypes,
-          preferredStrand: dataD.preferredStrand,
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-          */
-        });
-
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-      }
-    };
-
+    TimeWatch.cancel();
     fetchData();
   }, []);
-
-  // UPDATE dashboard data
-  useEffect(() => {}, [data]);
-
-  // FUNCTION
-  const change = (obj) => {
-    setStrand(obj);
-  };
 
   return loading ? (
     <Loading />
@@ -100,74 +100,19 @@ function FormStrand({ viewableSidebar, viewablePE, loginUser }) {
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- W/O SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  <FormHeader
-                    title="Create New Strand"
-                    instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
-                  />
-                  <Form
-                    strand={strand}
-                    cb={change}
-                    strandTypes={data?.strandTypes}
-                  />
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <FormStrandNoSidebar
+            data={fastData}
+            strand={strand}
+            change={setStrand}
+          />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    <FormHeader
-                      title="Create New Strand"
-                      instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
-                    />
-                    <Form
-                      strand={strand}
-                      cb={change}
-                      strandTypes={data?.strandTypes}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data.preferredStrand}
-                      personalEngagements={data.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <DashboardSidebar
-                user={data.user}
-                selectedStrand={selectedStrand}
-                subjects={data.subjects}
-                pendingSubjects={data.pendingSubjects}
-              />
-            </div>
-          </>
+          <FormStrandWithSidebar
+            viewablePE={viewablePE}
+            data={fastData}
+            strand={strand}
+            change={setStrand}
+            selectedStrand={selectedStrand}
+          />
         )}
       </main>
     </>

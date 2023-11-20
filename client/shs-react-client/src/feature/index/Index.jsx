@@ -8,6 +8,7 @@ import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import Loading from "../loading/Loading";
 import FormAuth from "../../js/model/FormAuth";
+import TimeWatch from "../../js/TimeWatch";
 
 function Index() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function Index() {
   };
 
   useEffect(() => {
+    TimeWatch.cancel();
     fetchData();
   }, []);
 
@@ -41,11 +43,12 @@ function Index() {
         style={{ height: "94vh" }}
       >
         <div className="row w-100">
-          <section className="col-8">
+          <section className="col-12 col-md-8">
             <h1 className="title-size poppins">SHS Strand Finder</h1>
-            <p className="roboto w-50 my-5">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p className="alt-title roboto w-md-100 my-5">
+              A Web-Based Assessment Application Integrating Collaborative
+              Filtering for Strand Recommendations of Manuel A. Roxas High
+              School
             </p>
             <LoginForm load={load} />
           </section>

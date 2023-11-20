@@ -26,12 +26,33 @@ function AssessmentNoSidebar({
             {choice ? (
               <>
                 {/*-- NEXT --*/}
-                <button
-                  className="btn btn-dark float-end roboto px-4"
-                  onClick={submit}
-                >
-                  {currentIndex < data.questions.length - 1 ? "NEXT" : "SUBMIT"}
-                </button>
+                {currentIndex < data.questions.length - 1 ? (
+                  <button
+                    className="btn btn-dark float-end roboto px-4"
+                    onClick={submit}
+                  >
+                    NEXT
+                  </button>
+                ) : (
+                  <>
+                    {data?.pendingSubjects.length != 0 ? (
+                      <button
+                        className="btn btn-primary float-end text-light roboto px-4"
+                        onClick={(ev) => submit(ev, true)}
+                      >
+                        SUBMIT & TAKE NEXT ASSESSMENT
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                    <button
+                      className="btn btn-dark float-end me-2 roboto px-4"
+                      onClick={submit}
+                    >
+                      SUBMIT
+                    </button>
+                  </>
+                )}
               </>
             ) : (
               <></>
@@ -78,14 +99,33 @@ function AssessmentWithSidebar({
                     {choice ? (
                       <>
                         {/*-- NEXT --*/}
-                        <button
-                          className="btn btn-dark float-end roboto px-4"
-                          onClick={submit}
-                        >
-                          {currentIndex < data.questions.length - 1
-                            ? "NEXT"
-                            : "SUBMIT"}
-                        </button>
+                        {currentIndex < data.questions.length - 1 ? (
+                          <button
+                            className="btn btn-dark float-end roboto px-4"
+                            onClick={submit}
+                          >
+                            NEXT
+                          </button>
+                        ) : (
+                          <>
+                            {data?.pendingSubjects.length != 0 ? (
+                              <button
+                                className="btn btn-primary float-end text-light roboto px-4"
+                                onClick={(ev) => submit(ev, true)}
+                              >
+                                SUBMIT & TAKE NEXT ASSESSMENT
+                              </button>
+                            ) : (
+                              <></>
+                            )}
+                            <button
+                              className="btn btn-dark float-end me-2 roboto px-4"
+                              onClick={submit}
+                            >
+                              SUBMIT
+                            </button>
+                          </>
+                        )}
                       </>
                     ) : (
                       <></>

@@ -14,71 +14,88 @@ import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
 import "../../js/result";
 import $ from "jquery";
+import { ResultNoSidebar, ResultWithSidebar } from "./ResultLayout";
+import TimeWatch from "../../js/TimeWatch";
 
 const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
+    fastData: state.store.fastData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
+    fastAccess: (fastData) =>
+      dispatch({ type: action.SET_FAST_DATA, fastData }),
+    setSelectedStrand: (selectedStrand) =>
+      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
   };
 };
 
-function Result({ viewableSidebar, viewablePE, loginUser }) {
+function Result({
+  viewableSidebar,
+  viewablePE,
+  fastData,
+  loginUser,
+  fastAccess,
+  setSelectedStrand,
+}) {
   const navigate = useNavigate();
 
-  // FETCH
-  const [data, setData] = useState(resultData);
-
   // UML
-  const [selectedStrand, setSelectedStrand] = useState(null);
   const [loading, load] = useState(true);
+  const [resultD] = useState(new ResultD());
+
+  // FAST ACCESS
+  const fast = async () => {
+    const token = Localhost.sessionKey("user");
+    const fastDataD = await resultD.fastRead(token);
+    fastAccess({
+      ...fastData,
+      count: fastDataD.count,
+      orderedSubjects: fastDataD.orderedSubjects,
+      orderedFinalResult: fastDataD.orderedFinalResult,
+      subjectTypeResults: fastDataD.subjectTypeResults,
+      predictedStrand: fastDataD.strandTypes,
+      peStrandResults: fastDataD.peStrandResults,
+    });
+    loginUser({ orderedFinalResult: fastDataD.orderedFinalResult });
+  };
+
+  // INITIAL ACCESS
+  const init = async () => {
+    const token = Localhost.sessionKey("user");
+    const dataD = await resultD.read(token);
+
+    if (dataD?.response?.data?.error) {
+      navigate(indexRoute.path);
+    } else {
+      loginUser({
+        ...dataD.user,
+        orderedFinalResult: dataD.orderedFinalResult,
+      });
+      fastAccess(dataD);
+      setSelectedStrand(dataD.selectedStrand);
+
+      $(() => {
+        $("#result-modal").click();
+      });
+    }
+  };
+
+  const fetchData = async () => {
+    load(true);
+    if (!Localhost.has("user")) navigate(indexRoute.path);
+    if (fastData) await fast();
+    else await init();
+    load(false);
+  };
 
   useEffect(() => {
-    load(true);
-
-    const fetchData = async () => {
-      const token = Localhost.sessionKey("user");
-      const dataD = await new ResultD().read(token);
-
-      if (dataD?.response?.data?.error) {
-        navigate(indexRoute.path);
-      } else {
-        loginUser({
-          ...dataD.user,
-          orderedFinalResult: dataD.orderedFinalResult,
-        });
-        setData({
-          ...dataD,
-          /*
-          user: dataD.user,
-          count: dataD.count,
-          orderedSubjects: dataD.orderedSubjects,
-          orderedFinalResult: dataD.orderedFinalResult,
-          peStrandResults: dataD.peStrandResults,
-          subjectTypeResults: dataD.subjectTypeResults,
-          preferredStrand: dataD.preferredStrand,
-          predictedStrand: dataD.predictedStrand, // PREDICTED STRAND
-          personalEngagements: dataD.personalEngagements,
-          subjects: dataD.subjects,
-          pendingSubjects: dataD.pendingSubjects,
-          strandTypes: dataD.strandTypes,
-          */
-        });
-
-        setSelectedStrand(dataD.selectedStrand);
-        load(false);
-
-        $(() => {
-          $("#result-modal").click();
-        });
-      }
-    };
-
+    TimeWatch.cancel();
     fetchData();
   }, []);
 
@@ -94,65 +111,9 @@ function Result({ viewableSidebar, viewablePE, loginUser }) {
         style={{ height: "94vh" }}
       >
         {!viewableSidebar ? (
-          <>
-            {/*-- NO SIDEBAR --*/}
-            <div className="container">
-              <div className="row">
-                <section className="col-12 pb-4">
-                  {data ? (
-                    <ResultHeader
-                      subjects={data.orderedSubjects}
-                      strands={data.orderedFinalResult}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                  <ResultAssessment subjectTypes={data?.subjectTypeResults} />
-                  <ResultPE strands={data?.peStrandResults} />
-                </section>
-                {/*-- <section className="col-4 d-flex justify-content-end bg-danger">D</section> --*/}
-              </div>
-            </div>
-          </>
+          <ResultNoSidebar data={fastData} />
         ) : (
-          <>
-            {/*-- W/ SIDEBAR --*/}
-            <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
-              <section
-                className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-                  !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
-                }`}
-              >
-                {!viewablePE ? (
-                  <>
-                    {data ? (
-                      <ResultHeader
-                        subjects={data.orderedSubjects}
-                        strands={data.orderedFinalResult}
-                      />
-                    ) : (
-                      <></>
-                    )}
-                    <ResultAssessment subjectTypes={data?.subjectTypeResults} />
-                    <ResultPE strands={data?.peStrandResults} />
-                  </>
-                ) : (
-                  <>
-                    <PEResult
-                      preferredStrand={data?.preferredStrand}
-                      personalEngagements={data?.personalEngagements}
-                    />
-                    ;
-                  </>
-                )}
-              </section>
-              <ResultSidebar
-                user={data?.user}
-                subjects={data?.subjects}
-                predictedStrand={data?.predictedStrand}
-              />
-            </div>
-          </>
+          <ResultWithSidebar viewablePE={viewablePE} data={fastData} />
         )}
       </main>
     </>

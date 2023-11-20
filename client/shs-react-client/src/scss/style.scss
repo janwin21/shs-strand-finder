@@ -8,6 +8,10 @@
 @use "./component/font";
 @use "./component/input";
 @use "./component/nav";
+@use "./component/tutorial";
 
 // import pages
 @use "./page/login";
+
+// import responsive
+@use "./responsive/fonts";

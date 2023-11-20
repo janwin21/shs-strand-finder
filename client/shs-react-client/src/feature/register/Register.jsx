@@ -6,6 +6,7 @@ import { dashboardRoute } from "../../route/routes";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FormAuth from "../../js/model/FormAuth";
+import TimeWatch from "../../js/TimeWatch";
 
 function Register() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Register() {
   };
 
   useEffect(() => {
+    TimeWatch.cancel();
     fetchData();
   }, []);
 

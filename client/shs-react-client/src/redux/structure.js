@@ -2,8 +2,10 @@ const dataStructure = {
   user: null,
   test: true,
   loading: true,
-  viewableSidebar: true,
+  viewableSidebar: false,
   viewablePE: false,
+  viewableTutorial: false,
+  tutorialCount: 0,
   strandTypeForDeletion: null,
   strandForDeletion: null,
   subjectTypeForDeletion: null,
@@ -17,6 +19,8 @@ const dataStructure = {
     body: "This is the message!",
   },
   isWelcome: false,
+  fastData: null,
+  selectedStrand: null,
 };
 
 export { dataStructure };
