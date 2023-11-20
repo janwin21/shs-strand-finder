@@ -44,7 +44,7 @@ function Index() {
       >
         <div className="row w-100">
           <section className="col-12 col-md-8">
-            <h1 className="title-size poppins">SHS Strand Finder</h1>
+            <p className="title-size poppins">SHS Strand Finder</p>
             <p className="alt-title roboto w-md-100 my-5">
               A Web-Based Assessment Application Integrating Collaborative
               Filtering for Strand Recommendations of Manuel A. Roxas High

@@ -2,7 +2,7 @@ const dataStructure = {
   user: null,
   test: true,
   loading: true,
-  viewableSidebar: false,
+  viewableSidebar: true,
   viewablePE: false,
   viewableTutorial: false,
   tutorialCount: 0,

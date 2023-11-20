@@ -11997,8 +11997,32 @@ body .auto-overflow {
 }
 
 .title-size {
-  font-size: 4em;
+  font-weight: 600;
+  text-align: center;
   text-shadow: 2px 2px 8px rgba(33, 37, 41, 0.5);
+}
+@media (min-width: 576px) {
+  .title-size {
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+}
+@media (min-width: 768px) {
+  .title-size {
+    font-size: 2em;
+    font-weight: 500;
+  }
+}
+@media (min-width: 992px) {
+  .title-size {
+    font-size: 3.5em;
+    text-align: left;
+  }
+}
+@media (min-width: 1200px) {
+  .title-size {
+    font-size: 4em;
+  }
 }
 
 .title-header {
@@ -12108,11 +12132,13 @@ nav::after {
   height: 300px;
 }
 .login .alt-title {
-  width: 50%;
+  width: 100%;
+  text-align: center;
 }
-@media (max-width: 991.98px) {
+@media (min-width: 992px) {
   .login .alt-title {
-    width: 100%;
+    width: 50%;
+    text-align: left;
   }
 }
 .login .form-login {
@@ -12132,7 +12158,7 @@ nav::after {
 
 @media (max-width: 575.98px) {
   h1 {
-    font-size: 1em !important;
+    font-size: 1.25em !important;
   }
 }
 @media (max-width: 767.98px) {

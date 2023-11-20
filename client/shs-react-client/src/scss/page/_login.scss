@@ -19,10 +19,12 @@
   }
 
   .alt-title {
-    width: 50%;
+    width: 100%;
+    text-align: center;
 
-    @include media-breakpoint-down(lg) {
-      width: 100%;
+    @include media-breakpoint-up(lg) {
+      width: 50%;
+      text-align: left;
     }
   }
 
