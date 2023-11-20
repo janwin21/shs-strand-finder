@@ -12091,10 +12091,11 @@ nav::after {
   border-bottom: 30px solid #212529;
 }
 
-.login {
+.index {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
 .login-img-1 {
   width: 300px;
   height: 450px;

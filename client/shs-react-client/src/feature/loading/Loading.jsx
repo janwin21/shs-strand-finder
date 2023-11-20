@@ -1,7 +1,10 @@
 function Loading() {
   return (
     <>
-      <section className="position-absolute top-50 start-50 translate-middle text-center">
+      <section
+        className="index login container d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "94vh" }}
+      >
         <section>
           <i className="fa-solid fa-spinner fs-1 text-primary"></i>
         </section>

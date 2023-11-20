@@ -206,11 +206,11 @@ function App({
         no="CANCEL"
         cb={async () => {
           logoutUser();
+          Localhost.deleteSession("user");
           const login = new Login();
           const data = await login.logout();
           if (data.success) {
             TimeWatch.cancel();
-            Localhost.deleteSession("user");
             fastAccess(null);
           }
         }}
