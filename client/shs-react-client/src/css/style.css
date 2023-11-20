@@ -11863,7 +11863,7 @@ body {
 body #root {
   width: 100%;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 body img {
   object-fit: cover;
