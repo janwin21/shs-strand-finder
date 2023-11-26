@@ -36,6 +36,16 @@ class ResultD {
       return error;
     }
   }
+
+  async fastFindResult(userID) {
+    try {
+      // Send a GET request to Find Specific Result
+      const response = await axios.get(ResultD.fastEndPoint + "/" + userID);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default ResultD;

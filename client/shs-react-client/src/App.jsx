@@ -14,6 +14,7 @@ import {
   assessmentRoute,
   _assessmentRoute,
   _personalEngagementRoute,
+  resultAdminRoute,
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,
@@ -150,6 +151,10 @@ function App({
         <Route
           path={_assessmentRoute.path}
           element={_assessmentRoute.element}
+        />
+        <Route
+          path={resultAdminRoute.path}
+          element={resultAdminRoute.element}
         />
         <Route
           path={assessmentBurgerRoute.path}

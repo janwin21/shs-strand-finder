@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+import { resultAdminRoute } from "../../route/routes";
+
 function AccessTable({ mainUser, accessData, cb }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {/*-- FORM CONTAINER --*/}
@@ -19,7 +24,7 @@ function AccessTable({ mainUser, accessData, cb }) {
           </thead>
           <tbody>
             {accessData.users.map((user, i) => {
-              return mainUser.id === user._id ? (
+              return mainUser.id === user?._id ? (
                 ""
               ) : (
                 <tr key={user._id}>
@@ -42,6 +47,14 @@ function AccessTable({ mainUser, accessData, cb }) {
                         NOT ALLOW
                       </button>
                     )}
+                    <button
+                      onClick={() =>
+                        navigate(resultAdminRoute.replace("userID", user?._id))
+                      }
+                      className="btn btn-success roboto px-4 ms-2 my-0 fs-6"
+                    >
+                      RESULT
+                    </button>
                   </td>
                 </tr>
               );

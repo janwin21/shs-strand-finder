@@ -12,4 +12,25 @@ nav {
     border-right: 1px solid $dark;
     z-index: -500;
   }
+
+  @include media-breakpoint-down(lg) {
+    .navbar-brand {
+      display: none !important;
+    }
+
+    .nav-responsive {
+      width: 100% !important;
+
+      .navbar-nav {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+      }
+
+      .nav-link-responsive {
+        margin-right: 10px;
+      }
+    }
+  }
 }

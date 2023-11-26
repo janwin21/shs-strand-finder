@@ -13,6 +13,7 @@ import AssessmentBurger from "../feature/assessment/AssessmentBurger";
 import Subject from "../feature/subject/Subject";
 import Access from "../feature/access/Access";
 import Result from "../feature/result/Result";
+import ResultAdmin from "../feature/result-admin/ResultAdmin";
 import Forgot from "../feature/forgot/Forgot";
 import Reset from "../feature/reset/Reset";
 import Error from "../feature/error/Error";
@@ -47,6 +48,9 @@ const _personalEngagementRoute = new RouteLink(
 const assessmentRoute = new RouteLink("/assessment", <Assessment />);
 const _assessmentRoute = new RouteLink("/_assessment", <_Assessment />).with(
   "subjectID"
+);
+const resultAdminRoute = new RouteLink("/result/admin", <ResultAdmin />).with(
+  "userID"
 );
 const assessmentBurgerRoute = new RouteLink(
   "/assessment-burger",
@@ -92,6 +96,7 @@ export {
   assessmentRoute,
   _assessmentRoute,
   _personalEngagementRoute,
+  resultAdminRoute,
   assessmentBurgerRoute,
   subjectRoute,
   accessRoute,

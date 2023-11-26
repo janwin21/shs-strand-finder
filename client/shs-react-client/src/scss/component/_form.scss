@@ -1,0 +1,17 @@
+@use "../costumize" as *;
+
+.form-label {
+  @include media-breakpoint-down(md) {
+    font-size: 1em !important;
+    font-weight: 500;
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  @include media-breakpoint-down(md) {
+    font-size: 1em;
+    height: 2.5rem !important;
+  }
+}

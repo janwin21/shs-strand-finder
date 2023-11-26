@@ -11997,19 +11997,19 @@ body .auto-overflow {
 }
 
 .title-size {
-  font-weight: 600;
+  font-size: 2em;
   text-align: center;
   text-shadow: 2px 2px 8px rgba(33, 37, 41, 0.5);
 }
 @media (min-width: 576px) {
   .title-size {
-    font-size: 1.5em;
+    font-size: 1.75em;
     font-weight: 500;
   }
 }
 @media (min-width: 768px) {
   .title-size {
-    font-size: 2em;
+    font-size: 3em;
     font-weight: 500;
   }
 }
@@ -12022,6 +12022,7 @@ body .auto-overflow {
 @media (min-width: 1200px) {
   .title-size {
     font-size: 4em;
+    font-weight: 600;
   }
 }
 
@@ -12058,6 +12059,23 @@ nav::after {
   border-top: 1px solid #212529;
   border-right: 1px solid #212529;
   z-index: -500;
+}
+@media (max-width: 991.98px) {
+  nav .navbar-brand {
+    display: none !important;
+  }
+  nav .nav-responsive {
+    width: 100% !important;
+  }
+  nav .nav-responsive .navbar-nav {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+  }
+  nav .nav-responsive .nav-link-responsive {
+    margin-right: 10px;
+  }
 }
 
 .tutorial {
@@ -12115,11 +12133,32 @@ nav::after {
   border-bottom: 30px solid #212529;
 }
 
+@media (max-width: 767.98px) {
+  .form-label {
+    font-size: 1em !important;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 767.98px) {
+  input[type=text],
+  input[type=email],
+  input[type=password] {
+    font-size: 1em;
+    height: 2.5rem !important;
+  }
+}
+
 .index {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
 
+@media (max-width: 767.98px) {
+  .login {
+    overflow: auto !important;
+  }
+}
 .login-img-1 {
   width: 300px;
   height: 450px;
@@ -12154,6 +12193,11 @@ nav::after {
   top: 6vh;
   width: 35vw;
   background-color: red;
+}
+@media (max-width: 767.98px) {
+  .register {
+    width: 100%;
+  }
 }
 
 @media (max-width: 575.98px) {

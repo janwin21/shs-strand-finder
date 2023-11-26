@@ -17,5 +17,6 @@ fastResultRoute.get(
   authMiddleware.authorize,
   resultController.resultByUserId
 );
+fastResultRoute.get("/:userID", resultController.findUserResult);
 
 module.exports = fastResultRoute;

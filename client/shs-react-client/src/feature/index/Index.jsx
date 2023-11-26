@@ -39,10 +39,10 @@ function Index() {
     <>
       {/*-- MAIN --*/}
       <main
-        className="index login container d-lg-flex align-items-center"
+        className="index login container d-lg-flex justify-content-center align-items-center"
         style={{ height: "94vh" }}
       >
-        <div className="row w-100">
+        <div className="row w-100 h-100 m-0 justify-content-center align-items-center">
           <section className="col-12 col-md-8">
             <p className="title-size poppins">SHS Strand Finder</p>
             <p className="alt-title roboto w-md-100 my-5">

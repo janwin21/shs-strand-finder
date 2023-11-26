@@ -51,19 +51,8 @@ function Nav({
           >
             SHS Strand Finder
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
           <div
-            className="collapse navbar-collapse d-lg-flex justify-content-end"
+            className="nav-responsive d-lg-flex justify-content-end"
             id="navbarNavAltMarkup"
           >
             <div className="navbar-nav d-lg-flex align-items-center">
@@ -72,7 +61,7 @@ function Nav({
                   <Link
                     to={indexRoute.path}
                     onClick={() => setTest(false)}
-                    className="nav-link roboto text-uppercase text-light fw-semibold fs-6"
+                    className="nav-link-responsive nav-link roboto text-uppercase text-light fw-semibold fs-6"
                   >
                     LOGIN
                   </Link>
@@ -91,7 +80,7 @@ function Nav({
                   <Link
                     to={dashboardRoute.path}
                     id="tutorial-btn-3"
-                    className="nav-link roboto text-uppercase text-light fw-semibold fs-6"
+                    className="nav-link-responsive nav-link roboto text-uppercase text-light fw-semibold fs-6"
                   >
                     DASHBOARD
                   </Link>

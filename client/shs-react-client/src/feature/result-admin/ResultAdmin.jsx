@@ -4,12 +4,12 @@
 // import ResultSidebar from "./ResultSidebar";
 // import PEResult from "../layout/PEResult";
 // import { resultData } from "../../js/json-structure/result/";
+// import Localhost from "../../js/model/LocalHost";
 import ResultD from "../../js/model/Result";
-import Localhost from "../../js/model/LocalHost";
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { indexRoute } from "../../route/routes";
+import { useNavigate, useParams } from "react-router-dom";
+import { accessRoute, indexRoute, resultAdminRoute } from "../../route/routes";
 import { action } from "../../redux/action";
 import Loading from "../loading/Loading";
 import "../../js/result";
@@ -21,64 +21,53 @@ const mapStateToProps = (state) => {
   return {
     viewableSidebar: state.store.viewableSidebar,
     viewablePE: state.store.viewablePE,
-    fastData: state.store.fastData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (user) => dispatch({ type: action.LOGIN_USER, user }),
-    fastAccess: (fastData) =>
-      dispatch({ type: action.SET_FAST_DATA, fastData }),
-    setSelectedStrand: (selectedStrand) =>
-      dispatch({ type: action.SET_SELECTED_STRAND, selectedStrand }),
+    setNotif: (message) =>
+      dispatch({
+        type: action.SET_NOTIF,
+        notifMessage: message,
+      }),
   };
 };
 
-function Result({
-  viewableSidebar,
-  viewablePE,
-  fastData,
-  loginUser,
-  fastAccess,
-  setSelectedStrand,
-}) {
+function ResultAdmin({ viewableSidebar, viewablePE, loginUser, setNotif }) {
   const navigate = useNavigate();
+  const { userID } = useParams();
+  const [fastData, fastAccess] = useState(null);
 
   // UML
   const [loading, load] = useState(true);
   const [resultD] = useState(new ResultD());
 
-  // FAST ACCESS
-  const fast = async () => {
-    const token = Localhost.sessionKey("user");
-    const fastDataD = await resultD.fastRead(token);
-    fastAccess({
-      ...fastData,
-      count: fastDataD.count,
-      orderedSubjects: fastDataD.orderedSubjects,
-      orderedFinalResult: fastDataD.orderedFinalResult,
-      subjectTypeResults: fastDataD.subjectTypeResults,
-      predictedStrand: fastDataD.strandTypes,
-      peStrandResults: fastDataD.peStrandResults,
+  const popupNotif = () => {
+    setNotif({
+      title: "Unfinished Assessment",
+      body: "The selected user is still not finish from his / her assessment.",
     });
-    loginUser({ orderedFinalResult: fastDataD.orderedFinalResult });
+    $("#notif-modal").click();
   };
+
+  // FAST ACCESS
+  const fast = async () => {};
 
   // INITIAL ACCESS
   const init = async () => {
-    const token = Localhost.sessionKey("user");
-    const dataD = await resultD.read(token);
+    const dataD = await resultD.fastFindResult(userID);
 
     if (dataD?.response?.data?.error) {
-      navigate(indexRoute.path);
+      popupNotif();
+      navigate(accessRoute.path);
     } else {
       loginUser({
         ...dataD.user,
         orderedFinalResult: dataD.orderedFinalResult,
       });
       fastAccess(dataD);
-      setSelectedStrand(dataD.selectedStrand);
 
       $(() => {
         $("#result-modal").click();
@@ -88,9 +77,7 @@ function Result({
 
   const fetchData = async () => {
     load(true);
-    if (!Localhost.has("user")) navigate(indexRoute.path);
-    if (fastData) await fast();
-    else await init();
+    await init();
     load(false);
   };
 
@@ -120,4 +107,4 @@ function Result({
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Result);
+export default connect(mapStateToProps, mapDispatchToProps)(ResultAdmin);

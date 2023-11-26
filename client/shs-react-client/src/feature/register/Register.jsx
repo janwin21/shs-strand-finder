@@ -40,15 +40,16 @@ function Register() {
         className="login container d-lg-flex align-items-center"
         style={{ height: "94vh" }}
       >
-        <div className="row w-100">
-          <section className="col-8">
+        <div className="row w-100 h-100 justify-content-center align-items-center">
+          <section className="col-8 col-md-6">
             <h1 className="title-size poppins">SHS Strand Finder</h1>
-            <p className="roboto w-50 my-5">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p className="roboto w-md-100 my-5">
+              A Web-Based Assessment Application Integrating Collaborative
+              Filtering for Strand Recommendations of Manuel A. Roxas High
+              School
             </p>
           </section>
-          <section className="col-4 d-flex justify-content-end pe-0"></section>
+          <section className="col-4 col-md-6 d-flex justify-content-end pe-0"></section>
         </div>
       </main>
 
