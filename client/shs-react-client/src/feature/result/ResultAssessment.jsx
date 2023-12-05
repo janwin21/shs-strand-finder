@@ -41,7 +41,7 @@ function ResultAssessment({ subjectTypes = [] }) {
         {/*-- COL --*/}
         <section
           key={st._id}
-          className="col-3 pt-3 g-2 justify-content-center align-items-center"
+          className="col-6 col-md-12 col-lg-4 pt-3 g-2 justify-content-center align-items-center"
         >
           <h5 className="w-100 text-center poppins text-uppercase fw-semibold">
             {st.name}

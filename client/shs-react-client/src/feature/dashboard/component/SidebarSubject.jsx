@@ -12,7 +12,7 @@ function SidebarSubject({ subject }) {
           <div className="col-md-4">
             <img
               src={Localhost.path() + subject.imagePath}
-              className="img-fluid rounded-0"
+              className="sidebar-subject-img img-fluid rounded-0"
               alt="subject image"
             />
           </div>

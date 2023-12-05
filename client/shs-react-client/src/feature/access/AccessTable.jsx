@@ -23,7 +23,7 @@ function AccessTable({ mainUser, accessData, cb }) {
             </tr>
           </thead>
           <tbody>
-            {accessData.users.map((user, i) => {
+            {accessData?.users?.map((user, i) => {
               return mainUser.id === user?._id ? (
                 ""
               ) : (
@@ -35,14 +35,14 @@ function AccessTable({ mainUser, accessData, cb }) {
                     {user.isAdmin ? (
                       <button
                         onClick={() => cb(i)}
-                        className="btn btn-dark roboto px-4 m-0 fs-6"
+                        className="responsive-btn btn btn-dark roboto px-4 m-0 fs-6"
                       >
                         ALLOW
                       </button>
                     ) : (
                       <button
                         onClick={() => cb(i)}
-                        className="btn btn-danger roboto px-4 m-0 fs-6"
+                        className="responsive-btn btn btn-danger roboto px-4 m-0 fs-6"
                       >
                         NOT ALLOW
                       </button>
@@ -51,7 +51,7 @@ function AccessTable({ mainUser, accessData, cb }) {
                       onClick={() =>
                         navigate(resultAdminRoute.replace("userID", user?._id))
                       }
-                      className="btn btn-success roboto px-4 ms-2 my-0 fs-6"
+                      className="responsive-btn btn btn-success roboto px-4 ms-2 my-0 fs-6"
                     >
                       RESULT
                     </button>

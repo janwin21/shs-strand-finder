@@ -6,7 +6,7 @@ function SubjectHeader({ user, setType }) {
     <>
       {/*-- PANEL DISPLAY --*/}
       <header className="card mt-5">
-        <div className="card-body p-5">
+        <div className="card-body p-3 p-md-4 p-lg-5">
           <h2 className="card-title poppins">Subject Assessments</h2>
           <p className="card-text my-4 roboto">
             Hello, {user.email}! This is all the subjects that you should visit
@@ -30,7 +30,7 @@ function SubjectHeader({ user, setType }) {
                 }}
                 className="nav-link d-inline"
               >
-                <button className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold">
+                <button className="responsive-btn btn btn-dark roboto px-4 me-3 fs-6 fw-semibold">
                   BY SUBJECT TYPE
                 </button>
               </a>
@@ -41,7 +41,7 @@ function SubjectHeader({ user, setType }) {
                 }}
                 className="nav-link d-inline"
               >
-                <button className="btn btn-dark text-light roboto px-4 me-3 fs-6 fw-semibold">
+                <button className="responsive-btn btn btn-dark text-light roboto px-4 me-3 fs-6 fw-semibold">
                   BY STRAND
                 </button>
               </a>

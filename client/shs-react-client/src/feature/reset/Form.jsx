@@ -54,10 +54,9 @@ function Form({ setNotif }) {
 
   return (
     <>
-      <h1 className="header-size poppins">Reset your Password</h1>
-      <p className="roboto w-50 my-5">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+      <p className="title-size header-size poppins">Reset your Password</p>
+      <p className="alt-title roboto w-50 my-5">
+        Reset your password by filling all the requirements below.
       </p>
 
       {/*-- RESET PASSWORD FORM --*/}

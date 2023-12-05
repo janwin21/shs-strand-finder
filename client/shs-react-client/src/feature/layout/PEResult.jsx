@@ -39,7 +39,7 @@ function PEResult({ viewPE, preferredStrand = null, personalEngagements }) {
           {/*-- PREFERRED PERSONAL ENGAGEMENT CARD --*/}
           <div className="card w-100 bg-dark rounded-0 border-bottom border-light border-top-0 border-start-0 border-end-0 p-5">
             <div className="row g-0">
-              <div className="col-md-2">
+              <div className="col-md-12 col-lg-3">
                 <img
                   src={
                     preferredStrand
@@ -47,11 +47,11 @@ function PEResult({ viewPE, preferredStrand = null, personalEngagements }) {
                       : strandNone
                   }
                   className="img-fluid rounded"
-                  style={{ minHeight: "300px" }}
+                  style={{ minHeight: "300px", maxWidth: "200px" }}
                   alt="pending strand image"
                 />
               </div>
-              <div className="col-md-10">
+              <div className="col-md-12 col-lg-9">
                 <div className="card-body">
                   <h5 className="card-title poppins text-light text-uppercase">
                     {preferredStrand

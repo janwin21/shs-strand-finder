@@ -44,7 +44,7 @@ function FormPEWithSidebar({
       <div className={`row ${viewablePE ? "bg-dark" : ""} h-100`}>
         <section
           className={`col-12 col-md-6 col-lg-9 h-100 position-relative ${
-            !viewablePE ? "auto-overflow pb-4 px-5" : "p-0"
+            !viewablePE ? "auto-overflow pb-4 pb-4 px-3 px-md-4 px-lg-5" : "p-0"
           }`}
         >
           {!viewablePE ? (

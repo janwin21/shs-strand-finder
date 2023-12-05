@@ -64,7 +64,7 @@ function ResultHeader({ subjects, strands }) {
     <>
       {/*-- PANEL DISPLAY --*/}
       <header className="card mt-5">
-        <div className="card-body p-5">
+        <div className="card-body p-3 p-md-4 p-lg-5">
           <h2 className="card-title poppins">Your Assessment Result</h2>
           <p className="card-text my-4 roboto">
             Thank you for completing all the assessments. Your dedication to
@@ -93,7 +93,7 @@ function ResultHeader({ subjects, strands }) {
 
           {/*-- HEADER ASSESSMENT RESULT --*/}
           <section className="row">
-            <section className="col-6 mt-5">
+            <section className="col-12 col-lg-6 mt-5">
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Subject
               </h6>
@@ -112,7 +112,7 @@ function ResultHeader({ subjects, strands }) {
                 <></>
               )}
             </section>
-            <section className="col-6 mt-5">
+            <section className="col-12 col-lg-6 mt-5">
               <h6 className="roboto fw-semibold mb-3">
                 Ranking Points by Strand
               </h6>

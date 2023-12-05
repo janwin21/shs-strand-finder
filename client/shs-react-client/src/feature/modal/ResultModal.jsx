@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Localhost from "../../js/model/LocalHost";
 import welcomeImg1 from "../../asset/welcome/welcome1.jpg";
 import resultImg from "../../asset/result/result.jpg";
 import $ from "jquery";
@@ -119,7 +120,7 @@ function ResultModal({ id, user }) {
                     </span>
                     <img
                       className="shadow rounded"
-                      src={welcomeImg1}
+                      src={top1 ? Localhost.path() + top1.imagePath : ""}
                       alt="welcome img"
                       style={{ width: "200px", height: "300px" }}
                     />
@@ -158,7 +159,7 @@ function ResultModal({ id, user }) {
                       </span>
                       <img
                         className="w-100 h-100 shadow rounded"
-                        src={welcomeImg1}
+                        src={top2 ? Localhost.path() + top2.imagePath : ""}
                         alt="welcome img"
                       />
                       <span
@@ -192,7 +193,7 @@ function ResultModal({ id, user }) {
                       </span>
                       <img
                         className="w-100 h-100 shadow rounded"
-                        src={welcomeImg1}
+                        src={top3 ? Localhost.path() + top3.imagePath : ""}
                         alt="welcome img"
                       />
                       <span

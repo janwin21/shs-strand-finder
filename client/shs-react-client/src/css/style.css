@@ -11871,6 +11871,23 @@ body img {
 body .auto-overflow {
   overflow-y: auto;
 }
+@media (max-width: 991.98px) {
+  body .responsive-btn {
+    width: 100% !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+}
+@media (max-width: 1199.98px) {
+  body .responsive-btn {
+    margin-bottom: 8px !important;
+  }
+}
+@media (max-width: 767.98px) {
+  body .sidebar-subject-img {
+    width: 150px;
+  }
+}
 
 .grd-pri-sec {
   background-image: linear-gradient(to right, rgb(247, 107, 28), rgb(250, 217, 97));

@@ -1,3 +1,5 @@
+@use "../costumize" as *;
+
 body {
   overflow: hidden;
 
@@ -13,5 +15,23 @@ body {
 
   .auto-overflow {
     overflow-y: auto;
+  }
+
+  .responsive-btn {
+    @include media-breakpoint-down(lg) {
+      width: 100% !important;
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+    }
+
+    @include media-breakpoint-down(xl) {
+      margin-bottom: 8px !important;
+    }
+  }
+
+  .sidebar-subject-img {
+    @include media-breakpoint-down(md) {
+      width: 150px;
+    }
   }
 }

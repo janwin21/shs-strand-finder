@@ -32,7 +32,7 @@ function DashboardHeader({ viewTutorial, user, finish }) {
     <>
       {/*-- PANEL DISPLAY --*/}
       <header className="card mt-5">
-        <div className="card-body p-5">
+        <div className="card-body p-3 p-md-4 p-lg-5">
           <h2 className="card-title poppins">
             Welcome to SHS Strand Finder
             <button
@@ -63,7 +63,7 @@ function DashboardHeader({ viewTutorial, user, finish }) {
           >
             <button
               id="tutorial-btn-1"
-              className="btn btn-dark roboto px-4 me-3 fs-6 fw-semibold"
+              className="responsive-btn btn btn-dark roboto px-4 me-3 fs-6 fw-semibold"
             >
               PERSONAL ENGAGEMENTS
             </button>
@@ -71,14 +71,14 @@ function DashboardHeader({ viewTutorial, user, finish }) {
           <Link to={subjectRoute.path} className="nav-link d-inline">
             <button
               id="tutorial-btn-2"
-              className="btn btn-primary text-light roboto px-4 me-3 fs-6 fw-semibold"
+              className="responsive-btn btn btn-primary text-light roboto px-4 me-3 fs-6 fw-semibold"
             >
               TAKE ASSESSMENT
             </button>
           </Link>
           {finish ? (
             <Link to={resultRoute.path} className="nav-link d-inline">
-              <button className="btn btn-success text-light roboto px-4 me-3 fs-6 fw-semibold">
+              <button className="responsive-btn btn btn-success text-light roboto px-4 me-3 fs-6 fw-semibold">
                 SEE RESULTS
               </button>
             </Link>

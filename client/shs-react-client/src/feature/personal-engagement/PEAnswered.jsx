@@ -3,7 +3,7 @@ function PEAnswered({ questionNo, submitCb }) {
     <>
       {/*-- ANSWERED --*/}
       <div
-        className="card grd-pri-sec_ position-relative col-3 p-2 g-3"
+        className="card grd-pri-sec_ position-relative col-2 col-md-4 col-lg-3 p-2 g-3"
         id={`question${questionNo}`}
         style={{ height: "500px" }}
       >

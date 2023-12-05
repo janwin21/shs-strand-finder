@@ -23,7 +23,7 @@ function DashboardStrand({
   strandCb = null,
 }) {
   return (
-    <section className="col-6 col-lg-3 m-0 p-2">
+    <section className="col-sm-6 col-md-12 col-lg-4 m-0 p-2">
       {/*-- STRAND CONTAINER --*/}
       <div
         onClick={() => {

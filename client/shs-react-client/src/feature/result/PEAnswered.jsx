@@ -16,7 +16,7 @@ function PEAnswered({ pe, peNo }) {
   return (
     <>
       {/*-- ANSWERED --*/}
-      <div className="card bg-dark position-relative col-3 p-2 g-3">
+      <div className="card bg-dark position-relative col-6 col-md-12 col-lg-3 p-2 g-3">
         <div className="card-body position-relative">
           <h6 className="card-subtitle poppins mb-3 text-light">
             Question No. {peNo}

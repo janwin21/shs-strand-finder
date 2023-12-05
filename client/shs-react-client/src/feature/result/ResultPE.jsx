@@ -45,7 +45,7 @@ function ResultPE({ strands = [] }) {
               {/*-- COL-1 --*/}
               <section
                 key={index}
-                className="col-3 justify-content-center align-items-center"
+                className="col-6 col-md-12 col-lg-4 justify-content-center align-items-center"
               >
                 {/*-- PROBABILITY CARD  --*/}
                 <div className="card bg-light h-100 p-2 mt-2">
