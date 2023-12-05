@@ -129,7 +129,7 @@ function App({
   fastAccess,
 }) {
   return (
-    <Router>
+    <Router basename={indexRoute.path}>
       <Nav />
       <Routes>
         <Route exact path={indexRoute.path} element={indexRoute.element} />
