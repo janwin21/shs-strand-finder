@@ -58,14 +58,18 @@ function SubjectWithSidebar({
                     return (
                       <SubjectType
                         key={i}
-                        user={data.user}
+                        user={data?.user}
                         subjectType={subjectType}
                       />
                     );
                   })
                 : data?.strands.map((strand, i) => {
                     return (
-                      <SubjectStrand key={i} user={data.user} strand={strand} />
+                      <SubjectStrand
+                        key={i}
+                        user={data?.user}
+                        strand={strand}
+                      />
                     );
                   })}
             </>

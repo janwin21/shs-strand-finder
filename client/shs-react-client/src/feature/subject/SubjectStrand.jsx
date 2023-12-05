@@ -8,7 +8,7 @@ function SubjectStrand({ user, strand }) {
       {/*-- SUBJECT TYPE CONTAINER --*/}
       <section className="subject-type-container mt-5">
         <h4 className="w-100 text-primary poppins border-bottom border-dark text-uppercase fw-semibold">
-          {strand.name}
+          {strand?.name}
         </h4>
         <section className="row">
           {strand?.subjects?.map((subject, i) => {

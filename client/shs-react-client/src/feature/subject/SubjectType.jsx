@@ -20,7 +20,7 @@ function SubjectType({ deleteSubjectType, user, subjectType }) {
       {/*-- SUBJECT TYPE CONTAINER --*/}
       <section
         className="subject-type-container position-relative mt-5"
-        id={`subject-type-card-${subjectType.id}`}
+        id={`subject-type-card-${subjectType?.id}`}
       >
         <a
           onClick={(event) => {
@@ -28,7 +28,7 @@ function SubjectType({ deleteSubjectType, user, subjectType }) {
 
             $(() => {
               const strandChildren = $(
-                `#subject-type-card-${subjectType.id}`
+                `#subject-type-card-${subjectType?.id}`
               ).find(".subject-card-child");
 
               const strandSize = strandChildren.length;
@@ -54,7 +54,7 @@ function SubjectType({ deleteSubjectType, user, subjectType }) {
           {subjectType.name}
         </h4>
         <section className="row">
-          {subjectType.subjects.map((subject, i) => {
+          {subjectType?.subjects?.map((subject, i) => {
             return <SubjectC key={i} user={user} subject={subject} />;
           })}
         </section>
