@@ -41,6 +41,7 @@ class DonutChartPersonal {
       height: "100%",
       pieHole: 0.4,
       legend: { position: "none" },
+      colors: ["rgb(4, 214, 60)", "rgb(245, 159, 159)"],
     };
   }
 }

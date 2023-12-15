@@ -12,12 +12,7 @@ function FormStrandNoSidebar({ data, strand, change }) {
           <section className="col-12 pb-4">
             <FormHeader
               title="Create New Strand"
-              instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
+              instruction={`Hello, ${data?.user?.email}! We wanted to inform you that you now have the authority to create and manage data within this system. Additionally, you have the ability to assign privileges to other students, empowering them to become administrators as well.`}
             />
             <Form strand={strand} cb={change} strandTypes={data?.strandTypes} />
           </section>
@@ -47,12 +42,7 @@ function FormStrandWithSidebar({
             <>
               <FormHeader
                 title="Create New Strand"
-                instruction={`Hello, ${data?.user?.email}! Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
+                instruction={`Hello, ${data?.user?.email}! We wanted to inform you that you now have the authority to create and manage data within this system. Additionally, you have the ability to assign privileges to other students, empowering them to become administrators as well.`}
               />
               <Form
                 strand={strand}

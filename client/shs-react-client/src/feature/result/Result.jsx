@@ -59,7 +59,7 @@ function Result({
       orderedSubjects: fastDataD.orderedSubjects,
       orderedFinalResult: fastDataD.orderedFinalResult,
       subjectTypeResults: fastDataD.subjectTypeResults,
-      predictedStrand: fastDataD.strandTypes,
+      predictedStrand: fastDataD.predictedStrand,
       peStrandResults: fastDataD.peStrandResults,
     });
     loginUser({ orderedFinalResult: fastDataD.orderedFinalResult });
