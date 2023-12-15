@@ -10,8 +10,8 @@ class RadarChart {
         {
           label: "Strand Statistic Result",
           data: [...dataset],
-          backgroundColor: "rgba(4, 214, 60, 0.5)", // fill color
-          borderColor: "rgba(4, 214, 60)", // border color
+          backgroundColor: "rgba(82, 215, 38, 0.5)", // fill color
+          borderColor: "rgba(82, 215, 38)", // border color
           borderWidth: 2,
         },
       ],
