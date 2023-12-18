@@ -10,7 +10,12 @@ import React from "react";
 import { Radar } from "react-chartjs-2";
 import RadarChart from "../../js/chart/RadarChart";
 
-function ResultHeader({ subjects, strands }) {
+function ResultHeader({
+  subjects,
+  strands,
+  subjectTypeResults,
+  setSubjectTypeResults,
+}) {
   // BAR CHART
   const [barChartSubject] = useState(new BarChartSubject());
   const [barChartStrand] = useState(new BarChartStrand());
@@ -86,7 +91,7 @@ function ResultHeader({ subjects, strands }) {
     arr?.forEach((el, i) => {
       if (i < rowNum) {
         if (isColorEditable) table.push([el[key1], el[key2], colorCode[i]]);
-        else table.push([el[key1], el[key2]]);
+        else table.push([el[key1], el[key2], el["_id"]]);
       }
     });
 
@@ -317,7 +322,17 @@ function ResultHeader({ subjects, strands }) {
             {pieTable.length != 0 ? (
               <Radar
                 data={radarChart.data(pieTable)}
-                options={radarChart.option()}
+                options={{
+                  ...radarChart.option(),
+                  onClick: (ev, elements) =>
+                    radarChart.onClickListener(
+                      ev,
+                      elements,
+                      pieTable,
+                      subjectTypeResults,
+                      setSubjectTypeResults
+                    ),
+                }}
               />
             ) : (
               <></>

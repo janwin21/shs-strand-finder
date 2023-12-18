@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 class RadarChart {
   data(table) {
     const newTable = table.slice(1);
@@ -27,6 +29,34 @@ class RadarChart {
         },
       },
     };
+  }
+
+  onClickListener(
+    ev,
+    elements,
+    table,
+    subjectTypeResults,
+    setSubjectTypeResults
+  ) {
+    if (elements.length > 0) {
+      const clickedElement = elements[0];
+      const newTable = table.slice(1);
+      const summation = newTable.reduce((sum, [, value]) => sum + value, 0);
+      const [title, knnScore, strandID] = newTable[clickedElement.index];
+      const percentage = (knnScore / summation) * 100 + "%";
+      setSubjectTypeResults(
+        subjectTypeResults
+          .map((STR) => {
+            const mappedSubjects = STR.subjects.filter((subject) => {
+              return subject.strands.includes(strandID);
+            });
+            console.log(mappedSubjects);
+            return { ...STR, subjects: mappedSubjects };
+          })
+          .filter((STR) => STR.subjects.length > 0)
+      );
+      console.log("CALL RADAR CHART!", percentage, title, knnScore, strandID);
+    }
   }
 }
 

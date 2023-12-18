@@ -205,9 +205,14 @@ class ResultController {
       const subjectType = subjectTypes.filter(
         (st) => st._id.toString() === subjectTypeID
       );
+
+      const newMappedData = values.map((v) =>
+        findNewStrandSubjects(newStrandSubjects, v)
+      );
+
       newSubjectTypes.push({
         ...subjectType[0].toObject(),
-        subjects: values,
+        subjects: newMappedData,
       });
     });
 
@@ -490,9 +495,14 @@ class ResultController {
       const subjectType = subjectTypes.filter(
         (st) => st._id.toString() === subjectTypeID
       );
+
+      const newMappedData = values.map((v) =>
+        findNewStrandSubjects(newStrandSubjects, v)
+      );
+
       newSubjectTypes.push({
         ...subjectType[0].toObject(),
-        subjects: values,
+        subjects: newMappedData,
       });
     });
 
@@ -694,6 +704,20 @@ const getMappedSubject = async (userID) => {
 
     return mappedSubjects;
   }
+};
+
+const findNewStrandSubjects = (sbs, subject) => {
+  const result = { subjectID: subject._id, strands: [] };
+
+  sbs.forEach((strandData) => {
+    const { strandID, subjects } = strandData;
+
+    if (subjects.includes(subject._id.toString())) {
+      result.strands.push(strandID);
+    }
+  });
+
+  return { ...subject, strands: result.strands };
 };
 
 module.exports = ResultController;

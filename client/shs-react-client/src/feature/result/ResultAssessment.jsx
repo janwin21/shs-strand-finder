@@ -39,47 +39,25 @@ function ResultAssessment({ subjectTypes = [] }) {
   const displayAssessmentChart = () => {
     let positionCounter = 0;
 
-    const outputSt = subjectTypes.map((st, index) => (
+    const outputSt = subjectTypes?.map((st, index) => (
       <>
         {/*-- COL --*/}
         <section
           key={st._id}
           className="col-6 col-md-12 col-lg-4 pt-3 g-2 justify-content-center align-items-center"
         >
-          <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id={"flush-headingOne" + index}>
-                <button
-                  class="accordion-button collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target={"#flush-collapseOne" + index}
-                  aria-expanded="true"
-                  aria-controls={"flush-collapseOne" + index}
-                >
-                  <h5 className="text-center poppins text-uppercase fw-semibold">
-                    {st.name}
-                  </h5>
-                </button>
-              </h2>
-              <div
-                id={"flush-collapseOne" + index}
-                class="accordion-collapse collapse show"
-                aria-labelledby={"flush-headingOne" + index}
-                data-bs-parent="#accordionFlushExample"
-              >
-                <div class="accordion-body p-0">
-                  {st.subjects.map((s) => (
-                    <ResultCard
-                      key={s._id}
-                      subject={s}
-                      donutChart={donutChartAssessments[positionCounter++]}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <h5 className="text-center poppins text-uppercase fw-semibold">
+            {st.name}
+          </h5>
+
+          {/*-- SUBJECT TYPE SECTIONS --*/}
+          {st.subjects.map((s) => (
+            <ResultCard
+              key={s._id}
+              subject={s}
+              donutChart={donutChartAssessments[positionCounter++]}
+            />
+          ))}
         </section>
       </>
     ));

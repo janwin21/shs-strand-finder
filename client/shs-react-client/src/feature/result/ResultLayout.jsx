@@ -3,8 +3,25 @@ import ResultAssessment from "./ResultAssessment";
 import ResultPE from "./ResultPE";
 import PEResult from "../layout/PEResult";
 import ResultSidebar from "./ResultSidebar";
+import { useEffect, useState } from "react";
 
 function ResultNoSidebar({ data }) {
+  const [subjectTypeResultsD, setSubjectTypeResultsD] = useState(
+    data?.subjectTypeResults
+  );
+  const [subjectTypeResults, setSubjectTypeResults] = useState(
+    data?.subjectTypeResults
+  );
+
+  useEffect(() => {
+    setSubjectTypeResultsD(data?.subjectTypeResults);
+    setSubjectTypeResults(data?.subjectTypeResults);
+  }, []);
+
+  useEffect(() => {
+    console.log(subjectTypeResults);
+  }, [subjectTypeResults]);
+
   return (
     <>
       {/*-- NO SIDEBAR --*/}
@@ -15,11 +32,13 @@ function ResultNoSidebar({ data }) {
               <ResultHeader
                 subjects={data.orderedSubjects}
                 strands={data.orderedFinalResult}
+                subjectTypeResults={subjectTypeResultsD}
+                setSubjectTypeResults={setSubjectTypeResults}
               />
             ) : (
               <></>
             )}
-            <ResultAssessment subjectTypes={data?.subjectTypeResults} />
+            <ResultAssessment subjectTypes={subjectTypeResults} />
             <ResultPE strands={data?.peStrandResults} />
           </section>
         </div>
@@ -29,6 +48,22 @@ function ResultNoSidebar({ data }) {
 }
 
 function ResultWithSidebar({ viewablePE, data }) {
+  const [subjectTypeResultsD, setSubjectTypeResultsD] = useState(
+    data?.subjectTypeResults
+  );
+  const [subjectTypeResults, setSubjectTypeResults] = useState(
+    data?.subjectTypeResults
+  );
+
+  useEffect(() => {
+    setSubjectTypeResultsD(data?.subjectTypeResults);
+    setSubjectTypeResults(data?.subjectTypeResults);
+  }, []);
+
+  useEffect(() => {
+    console.log(subjectTypeResults);
+  }, [subjectTypeResults]);
+
   return (
     <>
       {/*-- W/ SIDEBAR --*/}
@@ -44,11 +79,13 @@ function ResultWithSidebar({ viewablePE, data }) {
                 <ResultHeader
                   subjects={data.orderedSubjects}
                   strands={data.orderedFinalResult}
+                  subjectTypeResults={subjectTypeResultsD}
+                  setSubjectTypeResults={setSubjectTypeResults}
                 />
               ) : (
                 <></>
               )}
-              <ResultAssessment subjectTypes={data?.subjectTypeResults} />
+              <ResultAssessment subjectTypes={subjectTypeResults} />
               <ResultPE strands={data?.peStrandResults} />
             </>
           ) : (
